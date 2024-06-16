@@ -5,7 +5,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
 
-const AdminDashboard = () => {
+const SellerDashboard = () => {
   const state = {
     series: [
       {
@@ -17,7 +17,7 @@ const AdminDashboard = () => {
         data: [2, 5, 7, 8, 10, 15, 20, 25, 30, 35, 40, 45],
       },
       {
-        name: "Sellers",
+        name: "Sales",
         data: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240],
       },
     ],
@@ -125,11 +125,11 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">1000</h2>
-            <span className="font-medium text-md">Sellers</span>
+            <span className="font-medium text-md">Orders</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center items-center text-xl">
-            <FaUsers className="text-[#fae8e8] shadow-lg" />
+            <FaCartShopping className="text-[#fae8e8] shadow-lg" />
           </div>
         </div>
         {/* Items */}
@@ -137,7 +137,7 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
             <h2 className="text-3xl font-bold">20</h2>
-            <span className="font-medium text-md">Orders</span>
+            <span className="font-medium text-md">Pending Orders</span>
           </div>
 
           <div className="w-[40px] h-[47px] rounded-full bg-[#0200f8] flex justify-center items-center text-xl">
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
             {/* Header Message Seller */}
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
-                Recent Seller Message
+                Recent Customer Message
               </h2>
               <Link className="font-semibold text-sm text-[#d0d2d6]">
                 View All
@@ -326,4 +326,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default SellerDashboard;
