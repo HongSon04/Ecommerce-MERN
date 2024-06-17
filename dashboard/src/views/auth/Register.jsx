@@ -1,8 +1,24 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
+import {
+  clearMessage,
+  seller_register,
+} from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
+
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({ name: "", email: "", password: "" });
+
+  const { loader, successMessage, errorMessage } = useSelector(
+    (state) => state.auth
+  );
 
   const inputHandle = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -10,15 +26,26 @@ const Register = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(seller_register(state));
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      navigate("/");
+    }
+    dispatch(clearMessage());
+  }, [errorMessage, successMessage, dispatch, navigate]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#cdcae9] flex justify-center items-center">
       <div className="w-[350px] text-[#ffffff] p-2">
         <div className="bg-[#6f68d1] p-4 rounded-md text-center">
-          <h2 className="text-xl mb-3 font-bold ">Welcome To Ecommerce</h2>
-          <p className="text-sm mb-3 font-medium">
+          <h2 className="mb-3 text-xl font-bold ">Welcome To Ecommerce</h2>
+          <p className="mb-3 text-sm font-medium">
             Please Register Your Account
           </p>
 
@@ -29,7 +56,7 @@ const Register = () => {
               <input
                 onChange={inputHandle}
                 value={state.name}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md"
+                className="px-3 py-2 bg-transparent border rounded-md outline-none border-slate-700"
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -43,7 +70,7 @@ const Register = () => {
               <input
                 onChange={inputHandle}
                 value={state.email}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md"
+                className="px-3 py-2 bg-transparent border rounded-md outline-none border-slate-700"
                 type="email"
                 name="email"
                 placeholder="Email"
@@ -57,7 +84,7 @@ const Register = () => {
               <input
                 onChange={inputHandle}
                 value={state.password}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md"
+                className="px-3 py-2 bg-transparent border rounded-md outline-none border-slate-700"
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -68,7 +95,7 @@ const Register = () => {
             {/* CheckBox Terms */}
             <div className="flex items-center w-full gap-3 mb-3">
               <input
-                className="w-4 h-4 text-blue-600 overflow-hidden bg-gray-200 rounded border-gray-300 focus:ring-blue-500"
+                className="w-4 h-4 overflow-hidden text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500"
                 type="checkbox"
                 name="checkbox"
                 id="checkbox"
@@ -78,10 +105,17 @@ const Register = () => {
               </label>
             </div>
             {/* Button */}
-            <button className="bg-slate-800 w-full hover:shadow-blue-300 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-              Sign Up
+            <button
+              disabled={loader}
+              className="w-full py-2 mb-3 text-white rounded-md bg-slate-800 hover:shadow-blue-300 hover:shadow-lg px-7"
+            >
+              {loader ? (
+                <PropagateLoader cssOverride={overrideStyle} color="#ffffff" />
+              ) : (
+                "Login"
+              )}
             </button>
-            <div className="flex items-center mb-3 gap-3 justify-center">
+            <div className="flex items-center justify-center gap-3 mb-3">
               <p>
                 Already Have an account ?{" "}
                 <Link className="font-bold" to="/login">
@@ -90,7 +124,7 @@ const Register = () => {
               </p>
             </div>
             {/* Divider */}
-            <div className="w-full flex justify-center items-center mb-3">
+            <div className="flex items-center justify-center w-full mb-3">
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
               <div className="w-[10%] flex justify-center items-center">
                 <span className="pb-1">Or</span>
@@ -98,7 +132,7 @@ const Register = () => {
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
             </div>
             {/* Social Login */}
-            <div className="flex justify-center items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <div className="w-[135px] h-[35px] flex rounded-md bg-orange-700 shadow-lg hover:shadow-orange-700 justify-center cursor-pointer items-center overflow-hidden">
                 <span>
                   <FaGoogle />

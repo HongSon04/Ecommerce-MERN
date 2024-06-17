@@ -1,9 +1,15 @@
-import { AiOutlineDashboard, AiOutlineShoppingCart } from "react-icons/ai";
-import { BiCategory } from "react-icons/bi";
-import { FaUsers, FaUserTimes } from "react-icons/fa";
-import { MdPayment } from "react-icons/md";
+import {
+  AiFillProduct,
+  AiOutlineDashboard,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+import { BiCategory, BiSolidDiscount } from "react-icons/bi";
+import { FaBoxTissue, FaUsers, FaUserTimes } from "react-icons/fa";
+import { MdDiscount, MdPayment, MdPayments } from "react-icons/md";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { IoIosChatbubbles } from "react-icons/io";
+import { RiBillFill, RiProfileFill } from "react-icons/ri";
+import { BsFillChatLeftTextFill, BsFillChatLeftDotsFill } from "react-icons/bs";
 
 export const allNav = [
   {
@@ -72,56 +78,56 @@ export const allNav = [
   {
     id: 10,
     title: "Add Product",
-    icon: <IoIosChatbubbles />,
+    icon: <FaBoxTissue />,
     role: "seller",
     path: "/seller/dashboard/add-product",
   },
   {
     id: 11,
     title: "All Product",
-    icon: <IoIosChatbubbles />,
+    icon: <AiFillProduct />,
     role: "seller",
     path: "/seller/dashboard/all-product",
   },
   {
     id: 12,
     title: "Discount Product",
-    icon: <IoIosChatbubbles />,
+    icon: <BiSolidDiscount />,
     role: "seller",
     path: "/seller/dashboard/discount-product",
   },
   {
     id: 13,
     title: "Orders",
-    icon: <IoIosChatbubbles />,
+    icon: <RiBillFill />,
     role: "seller",
     path: "/seller/dashboard/orders",
   },
   {
     id: 14,
     title: "Payments",
-    icon: <IoIosChatbubbles />,
+    icon: <MdPayments />,
     role: "seller",
     path: "/seller/dashboard/payments",
   },
   {
     id: 15,
     title: "Chat Customer",
-    icon: <IoIosChatbubbles />,
+    icon: <BsFillChatLeftTextFill />,
     role: "seller",
     path: "/seller/dashboard/chat-customer",
   },
   {
     id: 16,
     title: "Chat Support",
-    icon: <IoIosChatbubbles />,
+    icon: <BsFillChatLeftDotsFill />,
     role: "seller",
     path: "/seller/dashboard/chat-support",
   },
   {
     id: 17,
     title: "Profile",
-    icon: <AiOutlineDashboard />,
+    icon: <RiProfileFill />,
     role: "seller",
     path: "/seller/dashboard/profile",
   },

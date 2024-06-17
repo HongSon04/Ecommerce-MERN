@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 
 const EditProduct = () => {
+  const [cateShow, setCateShow] = useState(false);
+  const [category, setCategory] = useState("");
+  const [allCategory, setAllCategory] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const loader = false;
   const { productId } = useParams();
 
@@ -23,10 +27,16 @@ const EditProduct = () => {
     });
   };
 
-  const [cateShow, setCateShow] = useState(false);
-  const [category, setCategory] = useState("");
-  const [allCategory, setAllCategory] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  useEffect(() => {
+    setState({
+      name: "Product Name",
+      description: "Product Description",
+      discount: "Product Discount",
+      price: "Product Price",
+      brand: "Product Brand",
+      stock: "Product Stock",
+    });
+  }, []);
 
   return (
     <div className="px-2 pt-5 lg:px-7">
@@ -34,7 +44,7 @@ const EditProduct = () => {
         <div className="flex items-center justify-between pb-4">
           <h1 className="text-[#d0d2d6] text-xl font-semibold">Edit Product</h1>
           <Link
-            to="/seller/dashboard/products"
+            to="/seller/dashboard/all-product"
             className="py-2 my-2 text-white bg-blue-500 rounded-sm hover:shadow-blue-500/50 hover:shadow-lg px-7"
           >
             All Product

@@ -78,13 +78,14 @@ const AddProduct = () => {
   // console.log(images)
   // console.log(imageShow)
   const changeImage = (img, index) => {
+    console.log(img, index);
     if (img) {
-      let tempUrl = imageShow;
       let tempImages = images;
+      let tempUrl = imageShow;
       tempImages[index] = img;
       tempUrl[index] = { url: URL.createObjectURL(img) };
-      setImageShow([...tempUrl]);
       setImages([...tempImages]);
+      setImageShow([...tempUrl]);
     }
   };
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { adminLogin, clearMessage } from "../../store/Reducers/authReducer";
 import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
 import toast from "react-hot-toast";
 
 const AdminLogin = () => {
@@ -22,13 +23,6 @@ const AdminLogin = () => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(adminLogin(state));
-  };
-
-  const overwriteStyle = {
-    display: "flex",
-    margin: "0 auto",
-    justifyContent: "center",
-    height: "24px",
   };
 
   useEffect(() => {
@@ -91,7 +85,7 @@ const AdminLogin = () => {
               className="w-full py-2 mb-3 text-white rounded-md bg-slate-800 hover:shadow-blue-300 hover:shadow-lg px-7"
             >
               {loader ? (
-                <PropagateLoader cssOverride={overwriteStyle} color="#ffffff" />
+                <PropagateLoader cssOverride={overrideStyle} color="#ffffff" />
               ) : (
                 "Log In"
               )}

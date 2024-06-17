@@ -4,15 +4,17 @@ import { getNav } from "../navigation/index";
 import { BiLogOutCircle } from "react-icons/bi";
 // import { logout } from "../store/Reducers/authReducer";
 import logo from "../logo.svg";
+import { useDispatch, useSelector } from "react-redux";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
+
+  const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
   useEffect(() => {
-    const navs = getNav("seller");
+    const navs = getNav(role);
     setAllNav(navs);
-  }, []);
-  // console.log(allNav)
+  }, [role]);
 
   return (
     <div>

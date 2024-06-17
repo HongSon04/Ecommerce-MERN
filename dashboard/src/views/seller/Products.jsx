@@ -116,7 +116,7 @@ const Products = () => {
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <div className="flex items-center justify-start gap-4">
-                      <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
+                      <Link to='/seller/dashboard/edit-product/32' className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
                         {" "}
                         <FaEdit />{" "}
                       </Link>
