@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Search from "../components/Search";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
@@ -37,58 +37,54 @@ const Orders = () => {
                   Order Status
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Date
-                </th>
-                <th scope="col" className="px-4 py-3">
                   Action
                 </th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  #d._id
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  $d.price
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  d.payment_status
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  d.delivery_status
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  d.date
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <div className="flex items-center justify-start gap-4">
-                    <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                      {" "}
-                      <FaEye />{" "}
-                    </Link>
-                  </div>
-                </td>
-              </tr>
+              {[1, 2, 3, 4, 5].map((d, i) => (
+                <tr key={i}>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    #5455
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    $455
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    pending{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    pending
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <div className="flex items-center justify-start gap-4">
+                      <Link
+                        to={`/seller/dashboard/order-details/34`}
+                        className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                      >
+                        {" "}
+                        <FaEye />{" "}
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

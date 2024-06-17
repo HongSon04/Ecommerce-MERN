@@ -3,13 +3,11 @@ import Search from "../components/Search";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { LuImageMinus } from "react-icons/lu";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-
   return (
     <div className="px-2 pt-5 lg:px-7">
       <h1 className="text-[#000000] font-semibold text-lg mb-3">
@@ -58,84 +56,82 @@ const Products = () => {
             </thead>
 
             <tbody>
-              <tr>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  123
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <img className="w-[45px] h-[45px]" alt="" />
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  name
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  category
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  brand
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  price
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <span>No Discount</span>
-                  <span>%discount</span>
-                </td>
+              {[1, 2, 3, 4, 5].map((d, i) => (
+                <tr key={i}>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    {d}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <img
+                      className="w-[45px] h-[45px]"
+                      src={`http://localhost:3000/images/category/${d}.jpg`}
+                      alt=""
+                    />
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Men Full Sleeve
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Tshirt
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Veirdo{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    $232
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    10%
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    20
+                  </td>
 
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  stock
-                </td>
-
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <div className="flex items-center justify-start gap-4">
-                    <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
-                      {" "}
-                      <FaEdit />{" "}
-                    </Link>
-
-                    <Link className="p-[6px] bg-sky-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
-                      {" "}
-                      <LuImageMinus />{" "}
-                    </Link>
-
-                    <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                      {" "}
-                      <FaEye />{" "}
-                    </Link>
-                    <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
-                      {" "}
-                      <FaTrash />{" "}
-                    </Link>
-                  </div>
-                </td>
-              </tr>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <div className="flex items-center justify-start gap-4">
+                      <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
+                        {" "}
+                        <FaEdit />{" "}
+                      </Link>
+                      <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
+                        {" "}
+                        <FaEye />{" "}
+                      </Link>
+                      <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
+                        {" "}
+                        <FaTrash />{" "}
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -153,5 +149,4 @@ const Products = () => {
     </div>
   );
 };
-
 export default Products;

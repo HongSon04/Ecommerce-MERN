@@ -9,55 +9,79 @@ const DiscountProduct = lazy(() =>
   import("../../views/seller/DiscountProducts")
 );
 const Orders = lazy(() => import("../../views/seller/Orders"));
+const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
 const Payments = lazy(() => import("../../views/seller/Payments"));
 const SellerToCustomer = lazy(() =>
   import("../../views/seller/SellerToCustomer")
 );
 const SellerToAdmin = lazy(() => import("../../views/seller/SellerToAdmin"));
+const Profile = lazy(() => import("../../views/seller/Profile"));
+
 export const sellerRoutes = [
   {
     path: "/",
     element: <Home />,
-    ability: ["seller", "admin"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard",
     element: <SellerDashboard />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/add-product",
     element: <AddProduct />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/all-product",
     element: <Products />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/discount-product",
     element: <DiscountProduct />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/orders",
     element: <Orders />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "/seller/dashboard/order-details/:orderId",
+    element: <OrderDetails />,
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/payments",
     element: <Payments />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/chat-customer",
     element: <SellerToCustomer />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
   },
   {
     path: "/seller/dashboard/chat-support",
     element: <SellerToAdmin />,
-    ability: ["seller"],
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "/seller/dashboard/profile",
+    element: <Profile />,
+    role: "seller",
+    status: "active",
   },
 ];

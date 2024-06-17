@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import Search from "../components/Search";
 import { Link } from "react-router-dom";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import Pagination from "../Pagination";
-
+import { FaEye } from "react-icons/fa";
 const Sellers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
+  const [show, setShow] = useState(false);
 
   return (
     <div className="px-2 pt-5 lg:px-7">
@@ -23,14 +22,11 @@ const Sellers = () => {
             <option value="20">20</option>
           </select>
           <input
-            onChange={(e) => setSearchValue(e.target.value)}
-            value={searchValue}
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
             type="text"
             placeholder="search"
           />
         </div>
-
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
@@ -54,7 +50,7 @@ const Sellers = () => {
                   Email
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Status
+                  Devision
                 </th>
                 <th scope="col" className="px-4 py-3">
                   District
@@ -64,88 +60,89 @@ const Sellers = () => {
                 </th>
               </tr>
             </thead>
-
             <tbody>
-              <tr>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  21312
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <img className="w-[45px] h-[45px]" src={""} alt="" />
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  asfvasdva
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  hun
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <span>Momo</span>{" "}
-                </td>
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  beo@gmail.com
-                </td>
+              {[1, 2, 3, 4, 5].map((d, i) => (
+                <tr key={i}>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    {d}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <img
+                      className="w-[45px] h-[45px]"
+                      src={`http://localhost:3000/images/category/${d}.jpg`}
+                      alt=""
+                    />
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Kazi Ariyan{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Easy Shop
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <span>Pending</span>{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    ariyan@gmail.com{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Dhaka{" "}
+                  </td>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    Paltan{" "}
+                  </td>
 
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  Complete
-                </td>
-
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  VietNam
-                </td>
-
-                <td
-                  scope="row"
-                  className="px-4 py-1 font-medium whitespace-nowrap"
-                >
-                  <div className="flex items-center justify-start gap-4">
-                    <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                      {" "}
-                      <FaEye />{" "}
-                    </Link>
-                  </div>
-                </td>
-              </tr>
+                  <td
+                    scope="row"
+                    className="px-4 py-1 font-medium whitespace-nowrap"
+                  >
+                    <div className="flex items-center justify-start gap-4">
+                      <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
+                        {" "}
+                        <FaEye />{" "}
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-
         <div className="flex justify-end w-full mt-4 bottom-4 right-4">
           <Pagination
             pageNumber={currentPage}
             setPageNumber={setCurrentPage}
             totalItem={50}
             parPage={parPage}
-            showItem={4}
+            showItem={3}
           />
         </div>
       </div>
     </div>
   );
 };
-
 export default Sellers;

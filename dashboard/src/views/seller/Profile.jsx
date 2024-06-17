@@ -1,60 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaImages } from "react-icons/fa6";
 import { FadeLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { PropagateLoader } from "react-spinners";
-import { overrideStyle } from "../../utils/utils";
-
 const Profile = () => {
-  const loader = false;
-  const [state, setState] = useState({
-    division: "",
-    district: "",
-    shopName: "",
-    sub_district: "",
-  });
-
+  const image = true;
+  const loader = true;
+  const status = "active";
+  const userInfo = true;
   return (
     <div className="px-2 py-5 lg:px-7">
       <div className="flex flex-wrap w-full">
         <div className="w-full md:w-6/12">
           <div className="w-full p-4 bg-[#6a5fdf] rounded-md text-[#d0d2d6]">
             <div className="flex items-center justify-center py-3">
-              {/* Image UsER */}
-              <label
-                htmlFor="img"
-                className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden"
-              >
-                <img alt="" />
-                {loader && (
-                  <div className="absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full bg-slate-600 opacity-70">
-                    <span>
-                      <FadeLoader />
-                    </span>
-                  </div>
-                )}
-              </label>
-              {/* No Image User */}
-              <label
-                className="flex justify-center items-center flex-col h-[150px] w-[200px] cursor-pointer border border-dashed hover:border-red-500 border-[#d0d2d6] relative"
-                htmlFor="img"
-              >
-                <span>
-                  <FaImages />{" "}
-                </span>
-                <span>Select Image</span>
-                {loader && (
-                  <div className="absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full bg-slate-600 opacity-70">
-                    <span>
-                      <FadeLoader />
-                    </span>
-                  </div>
-                )}
-              </label>
+              {image ? (
+                <label
+                  htmlFor="img"
+                  className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden"
+                >
+                  <img src="http://localhost:3000/images/demo.jpg" alt="" />
+                  {!loader && (
+                    <div className="absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full bg-slate-600 opacity-70">
+                      <span>
+                        <FadeLoader />
+                      </span>
+                    </div>
+                  )}
+                </label>
+              ) : (
+                <label
+                  className="flex justify-center items-center flex-col h-[150px] w-[200px] cursor-pointer border border-dashed hover:border-red-500 border-[#d0d2d6] relative"
+                  htmlFor="img"
+                >
+                  <span>
+                    <FaImages />{" "}
+                  </span>
+                  <span>Select Image</span>
+                  {loader && (
+                    <div className="absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full bg-slate-600 opacity-70">
+                      <span>
+                        <FadeLoader />
+                      </span>
+                    </div>
+                  )}
+                </label>
+              )}
               <input type="file" className="hidden" id="img" />
             </div>
-
             <div className="px-0 py-2 md:px-5">
               <div className="relative flex flex-col justify-between gap-2 p-4 text-sm rounded-md bg-slate-800">
                 <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
@@ -62,114 +54,108 @@ const Profile = () => {
                 </span>
                 <div className="flex gap-2">
                   <span>Name : </span>
-                  <span>userInfo.name</span>
+                  <span>Ariyan Khan</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Email : </span>
-                  <span>userInfo.email</span>
+                  <span>ariyan@gmail.com</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Role : </span>
-                  <span>userInfo.role</span>
+                  <span>Seller</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Status : </span>
-                  <span>userInfo.status</span>
+                  <span>Active</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Payment Account : </span>
                   <p>
-                    <span className="bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                      userInfo.payment
-                    </span>
-                    <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                      Click Active
-                    </span>
+                    {status === "active" ? (
+                      <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
+                        Pending
+                      </span>
+                    ) : (
+                      <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
+                        Click Active
+                      </span>
+                    )}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="px-0 py-2 md:px-5">
-              {/* Add Profile */}
-              <form>
-                <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="Shop">Shop Name</label>
-                  <input
-                    className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
-                    type="text"
-                    name="shopName"
-                    id="Shop"
-                    placeholder="Shop Name"
-                  />
-                </div>
+              {!userInfo ? (
+                <form>
+                  <div className="flex flex-col w-full gap-1 mb-2">
+                    <label htmlFor="Shop">Shop Name</label>
+                    <input
+                      className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
+                      type="text"
+                      name="shopName"
+                      id="Shop"
+                      placeholder="Shop Name"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-1 mb-2">
+                    <label htmlFor="division">Division Name</label>
+                    <input
+                      className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
+                      type="text"
+                      name="division"
+                      id="division"
+                      placeholder="division Name"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-1 mb-2">
+                    <label htmlFor="district">District Name</label>
+                    <input
+                      className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
+                      type="text"
+                      name="district"
+                      id="district"
+                      placeholder="District Name"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-1 mb-2">
+                    <label htmlFor="subdis">Sub District Name</label>
+                    <input
+                      className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
+                      type="text"
+                      name="subdis"
+                      id="subdis"
+                      placeholder="Sub District Name"
+                    />
+                  </div>
 
-                <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="division">Division Name</label>
-                  <input
-                    className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
-                    type="text"
-                    name="division"
-                    id="division"
-                    placeholder="division Name"
-                  />
+                  <button className="py-2 my-2 text-white bg-red-500 rounded-md hover:shadow-red-500/40 hover:shadow-md px-7">
+                    Save Changes
+                  </button>
+                </form>
+              ) : (
+                <div className="relative flex flex-col justify-between gap-2 p-4 text-sm rounded-md bg-slate-800">
+                  <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                    <FaRegEdit />{" "}
+                  </span>
+                  <div className="flex gap-2">
+                    <span>Shop Name : </span>
+                    <span>Easy Shop</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span>Divission : </span>
+                    <span>Dhaka</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span>District : </span>
+                    <span>Rajbari</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span>Sub District : </span>
+                    <span>Vola</span>
+                  </div>
                 </div>
-
-                <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="district">District Name</label>
-                  <input
-                    className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
-                    type="text"
-                    name="district"
-                    id="district"
-                    placeholder="District Name"
-                  />
-                </div>
-
-                <div className="flex flex-col w-full gap-1 mb-2">
-                  <label htmlFor="sub">Sub District Name</label>
-                  <input
-                    className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
-                    type="text"
-                    name="sub_district"
-                    id="sub"
-                    placeholder="Sub District Name"
-                  />
-                </div>
-
-                <button
-                  disabled={loader ? true : false}
-                  className="bg-red-500 w-[200px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
-                >
-                  {loader ? (
-                    <PropagateLoader color="#fff" cssOverride={overrideStyle} />
-                  ) : (
-                    "Save Changes"
-                  )}
-                </button>
-              </form>
-              {/* ShopInfo */}
-              <div className="relative flex flex-col justify-between gap-2 p-4 text-sm rounded-md bg-slate-800">
-                <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
-                  <FaRegEdit />{" "}
-                </span>
-                <div className="flex gap-2">
-                  <span>Shop Name : </span>
-                  <span>userInfo.shopInfo?.shopName</span>
-                </div>
-                <div className="flex gap-2">
-                  <span>Divission : </span>
-                  <span>userInfo.shopInfo?.division</span>
-                </div>
-                <div className="flex gap-2">
-                  <span>District : </span>
-                  <span>userInfo.shopInfo?.district</span>
-                </div>
-                <div className="flex gap-2">
-                  <span>Sub District : </span>
-                  <span>userInfo.shopInfo?.sub_district</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -225,5 +211,4 @@ const Profile = () => {
     </div>
   );
 };
-
 export default Profile;
