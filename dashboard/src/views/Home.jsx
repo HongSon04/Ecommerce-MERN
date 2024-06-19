@@ -11,7 +11,6 @@ const Home = () => {
   } else {
     return <Navigate to="/login" replace />;
   }
-  return <div>Home page</div>;
 };
 
 export default Home;
