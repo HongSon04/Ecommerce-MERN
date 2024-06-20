@@ -29,6 +29,7 @@ const Pagination = ({
     for (let i = startPage; i < endPage; i++) {
       btns.push(
         <li
+          key={i}
           onClick={() => setPageNumber(i)}
           className={` ${
             pageNumber === i
@@ -54,14 +55,14 @@ const Pagination = ({
         </li>
       )}
       {createBtn()}
-      {pageNumber < totalPage && 
+      {pageNumber < totalPage && (
         <li
           onClick={() => setPageNumber(pageNumber + 1)}
           className="w-[33px] h-[33px] rounded-full flex justify-center items-center bg-slate-300 text-[#000000] cursor-pointer"
         >
           <MdOutlineKeyboardDoubleArrowRight />
         </li>
-      }
+      )}
     </ul>
   );
 };

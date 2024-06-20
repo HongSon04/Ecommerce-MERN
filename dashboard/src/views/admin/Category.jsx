@@ -5,12 +5,41 @@ import { FaE } from "react-icons/fa6";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FaImage } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
+import { categoryAdd } from "../../store/Reducers/categoryReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const Category = () => {
+  const dispatch = useDispatch();
+  const { loader } = useSelector((state) => state.category);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const [show, setShow] = useState(false);
+  const [imageShow, setImageShow] = useState("");
+
+  const [state, setState] = useState({
+    name: "",
+    image: "",
+  });
+
+  const imageHandle = (e) => {
+    let files = e.target.files;
+    if (files.length > 0) {
+      setImageShow(URL.createObjectURL(files[0]));
+      setState({
+        ...state,
+        image: files[0],
+      });
+    }
+  };
+
+  const addCategory = (e) => {
+    e.preventDefault();
+    dispatch(categoryAdd(state));
+  };
 
   return (
     <div className="px-2 pt-5 lg:px-7">
@@ -134,10 +163,14 @@ const Category = () => {
                   <IoMdCloseCircle />
                 </div>
               </div>
-              <form>
+              <form onSubmit={addCategory}>
                 <div className="flex flex-col w-full gap-1 mb-3">
                   <label htmlFor="name"> Category Name</label>
                   <input
+                    onChange={(e) =>
+                      setState({ ...state, name: e.target.value })
+                    }
+                    value={state.name}
                     className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]"
                     type="text"
                     id="name"
@@ -151,20 +184,39 @@ const Category = () => {
                     className="flex justify-center items-center flex-col h-[238px] cursor-pointer border border-dashed hover:border-red-500 w-full border-[#d0d2d6]"
                     htmlFor="image"
                   >
-                    <span>
-                      <FaImage />{" "}
-                    </span>
-                    <span>Select Image</span>
+                    {imageShow ? (
+                      <img className="w-full h-full" src={imageShow} alt="" />
+                    ) : (
+                      <>
+                        {" "}
+                        <span>
+                          <FaImage />{" "}
+                        </span>
+                        <span>Select Image</span>
+                      </>
+                    )}
                   </label>
                   <input
+                    onChange={imageHandle}
                     className="hidden"
                     type="file"
                     name="image"
                     id="image"
                   />
-                  <div>
-                    <button className="w-full py-2 my-2 text-white bg-red-500 rounded-md hover:shadow-red-500/40 hover:shadow-md px-7">
-                      Add Category
+                  <div className="mt-4">
+                    {/* Button */}
+                    <button
+                      disabled={loader}
+                      className="w-full py-2 mb-3 text-white rounded-md bg-slate-800 hover:shadow-blue-300 hover:shadow-lg px-7"
+                    >
+                      {loader ? (
+                        <PropagateLoader
+                          cssOverride={overrideStyle}
+                          color="#ffffff"
+                        />
+                      ) : (
+                        "Add Category"
+                      )}
                     </button>
                   </div>
                 </div>

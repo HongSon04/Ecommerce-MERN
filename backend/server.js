@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api", require("./routes/authRoutes"));
+app.use("/api", require("./routes/dashboard/categoryRoutes"));
 
 // ? Port
 const port = process.env.PORT || 5000;
