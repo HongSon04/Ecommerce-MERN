@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { adminLogin, clearMessage } from "../../store/Reducers/authReducer";
+import { adminLogin, clearMessage } from "../../store/Reducers/AuthReducer";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import toast from "react-hot-toast";

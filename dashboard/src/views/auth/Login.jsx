@@ -5,7 +5,7 @@ import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { clearMessage, seller_login } from "../../store/Reducers/authReducer";
+import { clearMessage, seller_login } from "../../store/Reducers/AuthReducer";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

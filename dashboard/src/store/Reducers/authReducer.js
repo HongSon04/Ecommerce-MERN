@@ -76,7 +76,7 @@ export const get_user_info = createAsyncThunk(
   }
 );
 
-export const authReducer = createSlice({
+export const AuthReducer = createSlice({
   name: "auth",
   initialState: {
     successMessage: "",
@@ -140,5 +140,5 @@ export const authReducer = createSlice({
   },
 });
 
-export const { clearMessage } = authReducer.actions;
-export default authReducer.reducer;
+export const { clearMessage } = AuthReducer.actions;
+export default AuthReducer.reducer;

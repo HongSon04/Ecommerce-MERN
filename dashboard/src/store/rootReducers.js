@@ -1,9 +1,11 @@
-import authReducer from "./Reducers/authReducer";
-import categoryReducer from "./Reducers/categoryReducer";
+import AuthReducer from "./Reducers/AuthReducer";
+import CategoryReducer from "./Reducers/CategoryReducer";
+import ProductReducer from "./Reducers/ProductReducer";
 
 const rootReducer = {
-  auth: authReducer,
-  category: categoryReducer,
+  auth: AuthReducer,
+  category: CategoryReducer,
+  product: ProductReducer,
 };
 
 export default rootReducer;

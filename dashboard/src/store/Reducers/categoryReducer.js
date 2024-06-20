@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
+// ? Get all categories
 export const categoryAdd = createAsyncThunk(
   "category/categoryAdd",
   async ({ name, image }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const formData = new FormData();
       formData.append("name", name);
-        formData.append("image", image);
-        console.log(formData);
+      formData.append("image", image);
       const { data } = await api.post("/category-add", formData, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -20,13 +19,39 @@ export const categoryAdd = createAsyncThunk(
   }
 );
 
-export const categoryReducer = createSlice({
+// ! End of categoryAdd
+
+// ? Get all categories
+export const getCategory = createAsyncThunk(
+  "category/category-get",
+  async (
+    { parPage, currentPage, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/category-get?page=${currentPage}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// ! End of getCategory
+
+export const CategoryReducer = createSlice({
   name: "category",
   initialState: {
     successMessage: "",
     errorMessage: "",
     loader: false,
-    categorys: [],
+    categories: [],
+    totalCategory: 0,
   },
   reducers: {
     clearMessage: (state) => {
@@ -46,9 +71,15 @@ export const categoryReducer = createSlice({
       .addCase(categoryAdd.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.successMessage = payload.message;
+        state.categories = [...state.categories, payload.category];
+      })
+      .addCase(getCategory.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.categories = payload.categories;
+        state.totalCategory = payload.totalCategories;
       });
   },
 });
 
-export const { clearMessage } = categoryReducer.actions;
-export default categoryReducer.reducer;
+export const { clearMessage } = CategoryReducer.actions;
+export default CategoryReducer.reducer;

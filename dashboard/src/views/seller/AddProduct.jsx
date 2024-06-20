@@ -1,35 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "../../store/Reducers/CategoryReducer";
+import { AddProduct as add_product } from "../../store/Reducers/ProductReducer";
 
 const AddProduct = () => {
-  const categorys = [
-    {
-      id: 1,
-      name: "Sports",
-    },
-    {
-      id: 2,
-      name: "Tshirt",
-    },
-    {
-      id: 3,
-      name: "Mobile",
-    },
-    {
-      id: 4,
-      name: "Computer",
-    },
-    {
-      id: 5,
-      name: "Watch",
-    },
-    {
-      id: 6,
-      name: "Pant",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.category);
+
   const [state, setState] = useState({
     name: "",
     description: "",
@@ -38,17 +18,21 @@ const AddProduct = () => {
     brand: "",
     stock: "",
   });
+  const [cateShow, setCateShow] = useState(false);
+  const [category, setCategory] = useState("");
+  const [allCategory, setAllCategory] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [images, setImages] = useState([]);
+  const [imageShow, setImageShow] = useState([]);
+
+  // ? Handle Input Change
   const inputHandle = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
   };
-  const [cateShow, setCateShow] = useState(false);
-  const [category, setCategory] = useState("");
-  const [allCategory, setAllCategory] = useState(categorys);
-  const [searchValue, setSearchValue] = useState("");
-
+  // ? Handle Category Search
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -58,11 +42,10 @@ const AddProduct = () => {
       );
       setAllCategory(srcValue);
     } else {
-      setAllCategory(categorys);
+      setAllCategory(categories);
     }
   };
-  const [images, setImages] = useState([]);
-  const [imageShow, setImageShow] = useState([]);
+  // ? Handle Image
   const imageHandle = (e) => {
     const files = e.target.files;
     const length = files.length;
@@ -75,8 +58,7 @@ const AddProduct = () => {
       setImageShow([...imageShow, ...imageUrl]);
     }
   };
-  // console.log(images)
-  // console.log(imageShow)
+  // ? Change Image
   const changeImage = (img, index) => {
     console.log(img, index);
     if (img) {
@@ -88,13 +70,44 @@ const AddProduct = () => {
       setImageShow([...tempUrl]);
     }
   };
-
+  // ? Remove Image
   const removeImage = (i) => {
     const filterImage = images.filter((img, index) => index !== i);
     const filterImageUrl = imageShow.filter((img, index) => index !== i);
 
     setImages(filterImage);
     setImageShow(filterImageUrl);
+  };
+  // ? Get Category
+  useEffect(() => {
+    dispatch(
+      getCategory({
+        page: "",
+        searchValue: "",
+        parPage: "",
+      })
+    );
+  }, [dispatch]);
+  // ? Set All Category
+  useEffect(() => {
+    setAllCategory(categories);
+  }, [categories]);
+  // ? Add Product
+  const addProduct = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("description", state.description);
+    formData.append("discount", state.discount);
+    formData.append("price", state.price);
+    formData.append("brand", state.brand);
+    formData.append("stock", state.stock);
+    formData.append("category", category);
+    formData.append("shopName", "EasyShop");
+    images.forEach((img) => {
+      formData.append("images", img);
+    });
+    dispatch(add_product(formData));
   };
 
   return (
@@ -110,7 +123,7 @@ const AddProduct = () => {
           </Link>
         </div>
         <div>
-          <form>
+          <form onSubmit={addProduct}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product Name</label>
@@ -175,7 +188,7 @@ const AddProduct = () => {
                           setCateShow(false);
                           setCategory(c.name);
                           setSearchValue("");
-                          setAllCategory(categorys);
+                          setAllCategory(categories);
                         }}
                       >
                         {c.name}{" "}

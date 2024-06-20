@@ -4,7 +4,61 @@ const cloudinary = require("cloudinary").v2;
 const CategoryModel = require("../../models/CategoryModel");
 
 class CategoryController {
-  getCategory = async (req, res) => {};
+  // ? Get Category
+  getCategory = async (req, res) => {
+    let { page, parPage, searchValue } = req.query;
+
+    searchValue = searchValue.toLowerCase();
+    try {
+      let skipPage = "";
+      if (page && parPage) {
+        skipPage = parseInt(parPage) * (parseInt(page) - 1);
+      }
+      if (searchValue && page && parPage) {
+        const categories = await CategoryModel.find({
+          $text: { $search: searchValue },
+        })
+          .skip(skipPage)
+          .limit(parseInt(parPage))
+          .sort({ createdAt: -1 });
+
+        const totalCategories = await CategoryModel.find({
+          $text: { $search: searchValue },
+        }).countDocuments();
+        responseReturn(res, 200, {
+          categories,
+          totalCategories,
+          message: "Categories Fetched Successfully",
+        });
+      } else if (searchValue === "" && page && parPage) {
+        const categories = await CategoryModel.find({})
+          .skip(skipPage)
+          .limit(parseInt(parPage))
+          .sort({ createdAt: -1 });
+
+        const totalCategories = await CategoryModel.find({}).countDocuments();
+        responseReturn(res, 200, {
+          categories,
+          totalCategories,
+          message: "Categories Fetched Successfully",
+        });
+      } else {
+        const categories = await CategoryModel.find({}).sort({ createdAt: -1 });
+
+        const totalCategories = await CategoryModel.find({}).countDocuments();
+        responseReturn(res, 200, {
+          categories,
+          totalCategories,
+          message: "Categories Fetched Successfully",
+        });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: "Internal Server Error" });
+    }
+  };
+
+  // ! End of getCategory
+  // ? Add Category
   addCategory = async (req, res) => {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
@@ -13,8 +67,6 @@ class CategoryController {
       } else {
         let { name } = fields;
         let { image } = files;
-        // name = name.trim();
-        // const slug = name.split(" ").join("-");
 
         cloudinary.config({
           cloud_name: process.env.CLOUD_DINARY_NAME,
@@ -30,8 +82,9 @@ class CategoryController {
           if (result) {
             const category = await CategoryModel.create({
               name,
-              image: result.url,
+              image: result.secure_url || result.url || "",
             });
+
             responseReturn(res, 200, {
               category,
               message: "Category Added Successfully",
@@ -45,6 +98,8 @@ class CategoryController {
       }
     });
   };
+
+  // ! End of addCategory
 }
 
 module.exports = new CategoryController();

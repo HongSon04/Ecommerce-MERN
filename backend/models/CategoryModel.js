@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
-const slug = require("slug");
-
+const mongoose = require("mongoose");
+const slug = require("mongoose-slug-updater");
+mongoose.plugin(slug);
 const CategorySchema = new Schema(
   {
     name: {
@@ -14,7 +15,6 @@ const CategorySchema = new Schema(
     slug: {
       type: String,
       slug: "name",
-      unique: true,
     },
   },
   {

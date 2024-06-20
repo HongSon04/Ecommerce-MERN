@@ -7,7 +7,7 @@ import { overrideStyle } from "../../utils/utils";
 import {
   clearMessage,
   seller_register,
-} from "../../store/Reducers/authReducer";
+} from "../../store/Reducers/AuthReducer";
 import toast from "react-hot-toast";
 
 const Register = () => {
