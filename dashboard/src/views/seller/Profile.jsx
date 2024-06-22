@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaImages } from "react-icons/fa6";
 import { FadeLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
 import toast from "react-hot-toast";
 import {
   clearMessage,
+  ProfileInfoAdd,
   ProfileUploadImage,
 } from "../../store/Reducers/AuthReducer";
 const Profile = () => {
@@ -14,12 +17,28 @@ const Profile = () => {
     (state) => state.auth
   );
 
+  const [state, setState] = useState({
+    division: "",
+    district: "",
+    shopName: "",
+    sub_district: "",
+  });
+
   const addImage = (e) => {
     if (e.target.files.length > 0) {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
       dispatch(ProfileUploadImage(formData));
     }
+  };
+
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const addProfile = (e) => {
+    e.preventDefault();
+    dispatch(ProfileInfoAdd(state));
   };
 
   useEffect(() => {
@@ -118,14 +137,16 @@ const Profile = () => {
 
             <div className="px-0 py-2 md:px-5">
               {!userInfo?.shopInfo ? (
-                <form>
+                <form onSubmit={addProfile}>
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="Shop">Shop Name</label>
+                    <label htmlFor="shopName">Shop Name</label>
                     <input
                       className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                       type="text"
                       name="shopName"
-                      id="Shop"
+                      onChange={inputHandle}
+                      value={state.shopName}
+                      id="shopName"
                       placeholder="Shop Name"
                     />
                   </div>
@@ -135,6 +156,8 @@ const Profile = () => {
                       className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                       type="text"
                       name="division"
+                      onChange={inputHandle}
+                      value={state.division}
                       id="division"
                       placeholder="Division Name"
                     />
@@ -145,24 +168,40 @@ const Profile = () => {
                       className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                       type="text"
                       name="district"
+                      onChange={inputHandle}
+                      value={state.district}
                       id="district"
                       placeholder="District Name"
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1 mb-2">
-                    <label htmlFor="subdis">Sub District Name</label>
+                    <label htmlFor="sub_district">Sub District Name</label>
                     <input
                       className="px-4 py-2 focus:border-indigo-200 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                       type="text"
-                      name="subdis"
-                      id="subdis"
+                      name="sub_district"
+                      onChange={inputHandle}
+                      value={state.sub_district}
+                      id="sub_district"
                       placeholder="Sub District Name"
                     />
                   </div>
 
-                  <button className="py-2 my-2 text-white bg-red-500 rounded-md hover:shadow-red-500/40 hover:shadow-md px-7">
-                    Save Changes
-                  </button>
+                  <div className="flex">
+                    <button
+                      disabled={loader ? true : false}
+                      className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                    >
+                      {loader ? (
+                        <PropagateLoader
+                          color="#fff"
+                          cssOverride={overrideStyle}
+                        />
+                      ) : (
+                        "Save Changes"
+                      )}
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <div className="relative flex flex-col justify-between gap-2 p-4 text-sm rounded-md bg-slate-800">
@@ -171,19 +210,19 @@ const Profile = () => {
                   </span>
                   <div className="flex gap-2">
                     <span>Shop Name : </span>
-                    <span>Easy Shop</span>
+                    <span>{userInfo?.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>Divission : </span>
-                    <span>Dhaka</span>
+                    <span>{userInfo?.shopInfo?.divission}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>District : </span>
-                    <span>Rajbari</span>
+                    <span>{userInfo?.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
                     <span>Sub District : </span>
-                    <span>Vola</span>
+                    <span>{userInfo?.shopInfo?.sub_district}</span>
                   </div>
                 </div>
               )}
@@ -231,9 +270,21 @@ const Profile = () => {
                   />
                 </div>
 
-                <button className="py-2 my-2 text-white bg-red-500 rounded-md hover:shadow-red-500/40 hover:shadow-md px-7">
-                  Save Changes
-                </button>
+                <div className="flex">
+                  <button
+                    disabled={loader ? true : false}
+                    className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                  >
+                    {loader ? (
+                      <PropagateLoader
+                        color="#fff"
+                        cssOverride={overrideStyle}
+                      />
+                    ) : (
+                      "Save Changes"
+                    )}
+                  </button>
+                </div>
               </form>
             </div>
           </div>

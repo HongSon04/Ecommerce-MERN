@@ -1,16 +1,21 @@
 const AuthController = require("../controllers/AuthController");
 const { AuthMiddleware } = require("../middlewares/AuthMiddleware");
 
-const router = require("express").Router();
+const AuthRouter = require("express").Router();
 
-router.post("/admin/login", AuthController.AdminLogin);
-router.get("/get-user", AuthMiddleware, AuthController.getUser);
-router.post("/seller-register", AuthController.SellerRegister);
-router.post("/seller-login", AuthController.SellerLogin);
-router.post(
+AuthRouter.post("/admin/login", AuthController.AdminLogin);
+AuthRouter.get("/get-user", AuthMiddleware, AuthController.getUser);
+AuthRouter.post("/seller-register", AuthController.SellerRegister);
+AuthRouter.post("/seller-login", AuthController.SellerLogin);
+AuthRouter.post(
   "/profile-image-upload",
   AuthMiddleware,
   AuthController.ProfileImageUpload
 );
+AuthRouter.post(
+  "/profile-info-add",
+  AuthMiddleware,
+  AuthController.ProfileInfoAdd
+);
 
-module.exports = router;
+module.exports = AuthRouter;

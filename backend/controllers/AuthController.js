@@ -156,6 +156,28 @@ class AuthController {
       }
     });
   };
+  // ? Profile Info Add
+  ProfileInfoAdd = async (req, res) => {
+    const { id } = req;
+    const { division, district, shopName, sub_district } = req.body;
+    try {
+      await SellerModel.findByIdAndUpdate(id, {
+        shopInfo: {
+          division,
+          district,
+          shopName,
+          sub_district,
+        },
+      });
+      const userInfo = await SellerModel.findById(id).select("-password");
+      responseReturn(res, 200, {
+        userInfo,
+        message: "Profile Info Added Successfully",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { error: "Internal Server Error" });
+    }
+  };
 }
 
 module.exports = new AuthController();

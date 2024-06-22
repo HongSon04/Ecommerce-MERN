@@ -64,13 +64,11 @@ const Sellers = () => {
               {[1, 2, 3, 4, 5].map((d, i) => (
                 <tr key={i}>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {d}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <img
@@ -80,44 +78,37 @@ const Sellers = () => {
                     />
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Kazi Ariyan{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Easy Shop
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <span>Pending</span>{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     ariyan@gmail.com{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Dhaka{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Paltan{" "}
                   </td>
 
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <div className="flex items-center justify-start gap-4">

@@ -286,31 +286,26 @@ const AdminDashboard = () => {
               {[1, 2, 3, 4, 5].map((item, id) => (
                 <tr key={id}>
                   <td
-                    scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"
                   >
                     #343434
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"
                   >
                     $454
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"
                   >
                     Pending
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"
                   >
                     Pending
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-3 font-medium whitespace-nowrap"
                   >
                     <Link>View</Link>

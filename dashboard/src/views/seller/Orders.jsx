@@ -46,31 +46,26 @@ const Orders = () => {
               {[1, 2, 3, 4, 5].map((d, i) => (
                 <tr key={i}>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     #5455
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     $455
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     pending{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     pending
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <div className="flex items-center justify-start gap-4">

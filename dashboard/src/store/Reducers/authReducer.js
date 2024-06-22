@@ -76,6 +76,20 @@ export const ProfileUploadImage = createAsyncThunk(
   }
 );
 
+export const ProfileInfoAdd = createAsyncThunk(
+  "auth/profile_info_add",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/profile-info-add", info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const get_user_info = createAsyncThunk(
   "auth/get_user_info",
   async (_, { rejectWithValue, fulfillWithValue }) => {
@@ -159,6 +173,18 @@ export const AuthReducer = createSlice({
         state.loader = true;
       })
       .addCase(ProfileUploadImage.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+        state.userInfo = payload.userInfo;
+      })
+      .addCase(ProfileInfoAdd.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(ProfileInfoAdd.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(ProfileInfoAdd.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.successMessage = payload.message;
         state.userInfo = payload.userInfo;

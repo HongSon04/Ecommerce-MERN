@@ -73,13 +73,11 @@ const Products = () => {
               {products.map((product, i) => (
                 <tr key={i}>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {i + 1}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <img
@@ -89,31 +87,26 @@ const Products = () => {
                     />
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {product?.name?.slice(0, 20)}...
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {product?.category}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {product?.brand}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     ${product?.price}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {product?.discount === 0
@@ -121,14 +114,12 @@ const Products = () => {
                       : product?.discount}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {product?.stock}
                   </td>
 
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <div className="flex items-center justify-start gap-4">

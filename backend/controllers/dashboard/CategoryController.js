@@ -8,7 +8,6 @@ class CategoryController {
   getCategory = async (req, res) => {
     let { page, parPage, searchValue } = req.query;
 
-    searchValue = searchValue.toLowerCase();
     try {
       let skipPage = "";
       if (page && parPage) {
@@ -82,9 +81,8 @@ class CategoryController {
           if (result) {
             const category = await CategoryModel.create({
               name,
-              image: result.secure_url || result.url || "",
+              image: result.secure_url,
             });
-
             responseReturn(res, 200, {
               category,
               message: "Category Added Successfully",
@@ -93,7 +91,7 @@ class CategoryController {
             responseReturn(res, 500, { error: "Internal Server Error" });
           }
         } catch (error) {
-          responseReturn(res, 500, { error: "Internal Server Error" });
+          responseReturn(res, 500, { error: error.message });
         }
       }
     });

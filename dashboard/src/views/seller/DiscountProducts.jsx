@@ -60,13 +60,11 @@ const DiscountProducts = () => {
               {[1, 2, 3, 4, 5].map((d, i) => (
                 <tr key={i}>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     {d}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <img
@@ -76,44 +74,37 @@ const DiscountProducts = () => {
                     />
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Men Full Sleeve
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Tshirt
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     Veirdo{" "}
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     $232
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     10%
                   </td>
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     20
                   </td>
 
                   <td
-                    scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
                     <div className="flex items-center justify-start gap-4">

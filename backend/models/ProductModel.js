@@ -15,6 +15,7 @@ const ProductSchema = new Schema(
     slug: {
       type: String,
       slug: "name",
+      unique: true,
     },
     category: {
       type: String,
