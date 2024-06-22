@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import { IoMdImages } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategory } from "../../store/Reducers/CategoryReducer";
+import {
+  clearMessage,
+  getCategory,
+} from "../../store/Reducers/CategoryReducer";
 import { AddProduct as add_product } from "../../store/Reducers/ProductReducer";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
+  const { loader, successMessage, errorMessage } = useSelector(
+    (state) => state.product
+  );
 
   const [state, setState] = useState({
     name: "",
@@ -78,20 +87,6 @@ const AddProduct = () => {
     setImages(filterImage);
     setImageShow(filterImageUrl);
   };
-  // ? Get Category
-  useEffect(() => {
-    dispatch(
-      getCategory({
-        page: "",
-        searchValue: "",
-        parPage: "",
-      })
-    );
-  }, [dispatch]);
-  // ? Set All Category
-  useEffect(() => {
-    setAllCategory(categories);
-  }, [categories]);
   // ? Add Product
   const addProduct = (e) => {
     e.preventDefault();
@@ -109,6 +104,41 @@ const AddProduct = () => {
     });
     dispatch(add_product(formData));
   };
+  // ? Get Category
+  useEffect(() => {
+    dispatch(
+      getCategory({
+        page: "",
+        searchValue: "",
+        parPage: "",
+      })
+    );
+  }, [dispatch]);
+  // ? Set All Category
+  useEffect(() => {
+    setAllCategory(categories);
+  }, [categories]);
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+    setState({
+      name: "",
+      description: "",
+      discount: "",
+      price: "",
+      brand: "",
+      stock: "",
+    });
+    setImageShow([]);
+    setImages([]);
+    setCategory("");
+
+    dispatch(clearMessage());
+  }, [errorMessage, successMessage, dispatch]);
 
   return (
     <div className="px-2 pt-5 lg:px-7">
@@ -181,6 +211,7 @@ const AddProduct = () => {
                   <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scrool">
                     {allCategory.map((c, i) => (
                       <span
+                        key={i}
                         className={`px-4 py-2 hover:bg-indigo-500 hover:text-white hover:shadow-lg w-full cursor-pointer ${
                           category === c.name && "bg-indigo-500"
                         }`}
@@ -203,7 +234,7 @@ const AddProduct = () => {
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
                   value={state.stock}
-                  type="text"
+                  type="number"
                   name="stock"
                   id="stock"
                   placeholder="Stock"
@@ -253,7 +284,7 @@ const AddProduct = () => {
             </div>
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
               {imageShow.map((img, i) => (
-                <div className="h-[180px] relative">
+                <div className="h-[180px] relative" key={i}>
                   <label htmlFor={i}>
                     <img
                       className="w-full h-full rounded-sm"
@@ -295,8 +326,15 @@ const AddProduct = () => {
             </div>
 
             <div className="flex">
-              <button className="py-2 my-2 text-white bg-red-500 rounded-md hover:shadow-red-500/40 hover:shadow-md px-7">
-                Add Product
+              <button
+                disabled={loader ? true : false}
+                className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+              >
+                {loader ? (
+                  <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+                ) : (
+                  "Add Product"
+                )}
               </button>
             </div>
           </form>

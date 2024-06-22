@@ -1,8 +1,11 @@
-const AdminModel = require("../models/AdminModel");
-const { responseReturn } = require("../utils/response");
+const cloudinary = require("cloudinary").v2;
+const formidable = require("formidable");
 const bcrypt = require("bcryptjs");
 const { createToken } = require("../utils/createToken");
+const { responseReturn } = require("../utils/response");
+const AdminModel = require("../models/AdminModel");
 const SellerModel = require("../models/SellerModel");
+
 const SellerCustomerModel = require("../models/chat/SellerCustomerModel");
 
 class AuthController {
@@ -36,21 +39,19 @@ class AuthController {
     try {
       // ? Admin
       if (role === "admin") {
-        const user = await AdminModel.findById(id);
+        const user = await AdminModel.findById(id).select("-password");
         if (user) {
           responseReturn(res, 200, { userInfo: user });
         } else {
           responseReturn(res, 400, { error: "User not found" });
         }
-      } else if (role === "seller") {
-        const seller = await SellerModel.findById(id);
+      } else {
+        const seller = await SellerModel.findById(id).select("-password");
         if (seller) {
           responseReturn(res, 200, { userInfo: seller });
         } else {
           responseReturn(res, 400, { error: "User not found" });
         }
-      } else {
-        responseReturn(res, 400, { error: "User not found" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: "Internal Server Error" });
@@ -121,6 +122,39 @@ class AuthController {
     } catch (error) {
       responseReturn(res, 500, { error: "Internal Server Error" });
     }
+  };
+  // ? Profile Image Upload
+  ProfileImageUpload = async (req, res) => {
+    const { id } = req;
+    const form = formidable({ multiples: true });
+    form.parse(req, async (err, _, files) => {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_DINARY_NAME,
+        api_key: process.env.CLOUD_DINARY_API_KEY,
+        api_secret: process.env.CLOUD_DINARY_API_SECRET,
+        secure: true,
+      });
+      const { image } = files;
+      try {
+        const result = await cloudinary.uploader.upload(image.filepath, {
+          folder: "profile",
+        });
+        if (result) {
+          await SellerModel.findByIdAndUpdate(id, {
+            image: result.secure_url,
+          });
+          const userInfo = await SellerModel.findById(id).select("-password");
+          responseReturn(res, 200, {
+            userInfo,
+            message: "Image Uploaded Successfully",
+          });
+        } else {
+          responseReturn(res, 400, { error: "Failed to upload image" });
+        }
+      } catch (error) {
+        responseReturn(res, 500, { error: "Internal Server Error" });
+      }
+    });
   };
 }
 

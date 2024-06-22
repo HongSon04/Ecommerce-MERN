@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaE } from "react-icons/fa6";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -17,7 +17,6 @@ import toast from "react-hot-toast";
 import Search from "../components/Search";
 
 const Category = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loader, errorMessage, successMessage, categories, totalCategory } =
     useSelector((state) => state.category);
@@ -65,7 +64,7 @@ const Category = () => {
     setImageShow("");
 
     dispatch(clearMessage());
-  }, [errorMessage, successMessage, dispatch, navigate]);
+  }, [errorMessage, successMessage, dispatch]);
 
   useEffect(() => {
     const obj = {

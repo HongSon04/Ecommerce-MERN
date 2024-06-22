@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { GetProducts } from "../../store/Reducers/ProductReducer";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
+
+  const dispatch = useDispatch();
+  const { products, totalProduct } = useSelector((state) => state.product);
+  useEffect(() => {
+    const obj = {
+      parPage: parseInt(parPage),
+      currentPage: parseInt(currentPage),
+      searchValue: searchValue,
+    };
+    dispatch(GetProducts(obj));
+  }, [searchValue, currentPage, parPage]);
+
   return (
     <div className="px-2 pt-5 lg:px-7">
       <h1 className="text-[#000000] font-semibold text-lg mb-3">
@@ -56,13 +70,13 @@ const Products = () => {
             </thead>
 
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {products.map((product, i) => (
                 <tr key={i}>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    {d}
+                    {i + 1}
                   </td>
                   <td
                     scope="row"
@@ -70,7 +84,7 @@ const Products = () => {
                   >
                     <img
                       className="w-[45px] h-[45px]"
-                      src={`http://localhost:3000/images/category/${d}.jpg`}
+                      src={product?.images[0]}
                       alt=""
                     />
                   </td>
@@ -78,37 +92,39 @@ const Products = () => {
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    Men Full Sleeve
+                    {product?.name?.slice(0, 20)}...
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    Tshirt
+                    {product?.category}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    Veirdo{" "}
+                    {product?.brand}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    $232
+                    ${product?.price}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    10%
+                    {product?.discount === 0
+                      ? "No Discount"
+                      : product?.discount}
                   </td>
                   <td
                     scope="row"
                     className="px-4 py-1 font-medium whitespace-nowrap"
                   >
-                    20
+                    {product?.stock}
                   </td>
 
                   <td
@@ -117,7 +133,7 @@ const Products = () => {
                   >
                     <div className="flex items-center justify-start gap-4">
                       <Link
-                        to="/seller/dashboard/edit-product/32"
+                        to={`/seller/dashboard/edit-product/${product?._id}`}
                         className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
                       >
                         {" "}
@@ -139,15 +155,19 @@ const Products = () => {
           </table>
         </div>
 
-        <div className="flex justify-end w-full mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={50}
-            parPage={parPage}
-            showItem={3}
-          />
-        </div>
+        {totalProduct <= parPage ? (
+          ""
+        ) : (
+          <div className="flex justify-end w-full mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={50}
+              parPage={parPage}
+              showItem={3}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

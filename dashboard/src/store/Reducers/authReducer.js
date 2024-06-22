@@ -6,7 +6,7 @@ const returnRole = (token) => {
   if (token) {
     const decodeToken = jwtDecode(token);
     const expiresTime = new Date(decodeToken.exp * 1000);
-    if (expiresTime < new Date()) {
+    if (new Date() > expiresTime) {
       localStorage.removeItem("accessToken");
       return "";
     } else {
@@ -55,6 +55,20 @@ export const seller_login = createAsyncThunk(
         withCredentials: true,
       });
       localStorage.setItem("accessToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const ProfileUploadImage = createAsyncThunk(
+  "auth/ProfileUploadImage",
+  async (image, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/profile-image-upload", image, {
+        withCredentials: true,
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -135,6 +149,18 @@ export const AuthReducer = createSlice({
       })
       .addCase(get_user_info.fulfilled, (state, { payload }) => {
         state.loader = false;
+        state.userInfo = payload.userInfo;
+      })
+      .addCase(ProfileUploadImage.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(ProfileUploadImage.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(ProfileUploadImage.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
         state.userInfo = payload.userInfo;
       });
   },

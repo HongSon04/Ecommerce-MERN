@@ -8,7 +8,7 @@ require("dotenv").config();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:3001"],
     credentials: true, // ? Cho phép gửi cookie từ client
   })
 );
@@ -18,6 +18,7 @@ app.use(cookieParser());
 
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/dashboard/categoryRoutes"));
+app.use("/api", require("./routes/dashboard/productRoutes"));
 
 // ? Port
 const port = process.env.PORT || 5000;

@@ -19,8 +19,10 @@ function App() {
   useEffect(() => {
     if (token) {
       dispatch(get_user_info());
+    } else {
+      dispatch(get_user_info());
     }
-  }, [token, dispatch]);
+  }, [token]);
 
   return <Router allRoutes={allRoutes} />;
 }

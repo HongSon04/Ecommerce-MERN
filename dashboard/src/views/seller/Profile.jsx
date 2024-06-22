@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaImages } from "react-icons/fa6";
 import { FadeLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import {
+  clearMessage,
+  ProfileUploadImage,
+} from "../../store/Reducers/AuthReducer";
 const Profile = () => {
-  const image = true;
-  const loader = true;
-  const status = "active";
-  const userInfo = true;
+  const dispatch = useDispatch();
+  const { userInfo, loader, errorMessage, successMessage } = useSelector(
+    (state) => state.auth
+  );
+
+  const addImage = (e) => {
+    if (e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      dispatch(ProfileUploadImage(formData));
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+
+    dispatch(clearMessage());
+  }, [errorMessage, successMessage, dispatch]);
+
   return (
     <div className="px-2 py-5 lg:px-7">
       <div className="flex flex-wrap w-full">
         <div className="w-full md:w-6/12">
           <div className="w-full p-4 bg-[#6a5fdf] rounded-md text-[#d0d2d6]">
             <div className="flex items-center justify-center py-3">
-              {image ? (
+              {userInfo.image ? (
                 <label
                   htmlFor="img"
                   className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden"
                 >
-                  <img src="http://localhost:3000/images/demo.jpg" alt="" />
-                  {!loader && (
+                  <img src={userInfo.image} alt="" />
+                  {loader && (
                     <div className="absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full bg-slate-600 opacity-70">
                       <span>
                         <FadeLoader />
@@ -45,7 +71,12 @@ const Profile = () => {
                   )}
                 </label>
               )}
-              <input type="file" className="hidden" id="img" />
+              <input
+                onChange={addImage}
+                type="file"
+                className="hidden"
+                id="img"
+              />
             </div>
             <div className="px-0 py-2 md:px-5">
               <div className="relative flex flex-col justify-between gap-2 p-4 text-sm rounded-md bg-slate-800">
@@ -54,26 +85,26 @@ const Profile = () => {
                 </span>
                 <div className="flex gap-2">
                   <span>Name : </span>
-                  <span>Ariyan Khan</span>
+                  <span>{userInfo.name}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Email : </span>
-                  <span>ariyan@gmail.com</span>
+                  <span>{userInfo.email}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Role : </span>
-                  <span>Seller</span>
+                  <span>{userInfo.role}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Status : </span>
-                  <span>Active</span>
+                  <span>{userInfo.status}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Payment Account : </span>
                   <p>
-                    {status === "active" ? (
+                    {userInfo.status === "active" ? (
                       <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                        Pending
+                        Active
                       </span>
                     ) : (
                       <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
@@ -86,7 +117,7 @@ const Profile = () => {
             </div>
 
             <div className="px-0 py-2 md:px-5">
-              {!userInfo ? (
+              {!userInfo?.shopInfo ? (
                 <form>
                   <div className="flex flex-col w-full gap-1 mb-2">
                     <label htmlFor="Shop">Shop Name</label>
@@ -105,7 +136,7 @@ const Profile = () => {
                       type="text"
                       name="division"
                       id="division"
-                      placeholder="division Name"
+                      placeholder="Division Name"
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1 mb-2">
