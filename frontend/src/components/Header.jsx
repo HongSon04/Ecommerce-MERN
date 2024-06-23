@@ -11,6 +11,7 @@ import { FaHeart } from "react-icons/fa6";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
+
 const Header = () => {
   const { pathname } = useLocation();
 
