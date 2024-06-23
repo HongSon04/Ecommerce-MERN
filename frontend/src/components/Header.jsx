@@ -137,6 +137,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/shop"
                       className={`p-2 block ${
                         pathname === "/shop"
                           ? "text-[#059473]"
@@ -271,6 +272,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
+                  to="/shop"
                   className={`py-2 block ${
                     pathname === "/shop" ? "text-[#059473]" : "text-slate-600"
                   } `}
