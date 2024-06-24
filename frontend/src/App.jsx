@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Shipping from "./pages/Shipping";
+import Details from "./pages/Details";
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/shop" element={<Shop />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/shipping" element={<Shipping />}></Route>
+        <Route path="/product/details/:slug" element={<Details />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
-import { IoMdPhonePortrait } from "react-icons/io";
-import { FaFacebookF, FaList, FaLock, FaUser } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
+import {
+  IoMdPhonePortrait,
+  IoMdArrowDropdown,
+  IoIosArrowDown,
+} from "react-icons/io";
+import {
+  FaFacebookF,
+  FaList,
+  FaLock,
+  FaUser,
+  FaLinkedin,
+  FaPhoneAlt,
+  FaGithub,
+} from "react-icons/fa";
+import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
-import { FaHeart } from "react-icons/fa6";
-import { FaCartShopping } from "react-icons/fa6";
-import { FaPhoneAlt } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
 
 const Header = () => {
   const { pathname } = useLocation();
