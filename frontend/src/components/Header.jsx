@@ -17,23 +17,13 @@ import {
 import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ categories }) => {
   const { pathname } = useLocation();
-
   const [showSidebar, setShowSidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
   const user = true;
   const wishlist_count = 3;
-  const categorys = [
-    "Mobiles",
-    "Laptops",
-    "Speakers",
-    "Top wear",
-    "Footwear",
-    "Watches",
-    "Home Decor",
-    "Smart Watches",
-  ];
+
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   return (
@@ -134,6 +124,7 @@ const Header = () => {
                 <ul className="flex items-start justify-start gap-8 text-sm font-bold uppercase md-lg:hidden">
                   <li>
                     <Link
+                      to="/"
                       className={`p-2 block ${
                         pathname === "/" ? "text-[#059473]" : "text-slate-600"
                       } `}
@@ -155,6 +146,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/blog"
                       className={`p-2 block ${
                         pathname === "/blog"
                           ? "text-[#059473]"
@@ -166,6 +158,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/about"
                       className={`p-2 block ${
                         pathname === "/about"
                           ? "text-[#059473]"
@@ -177,6 +170,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/contact"
                       className={`p-2 block ${
                         pathname === "/contact"
                           ? "text-[#059473]"
@@ -378,13 +372,18 @@ const Header = () => {
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] bg-[#dbf3ed] w-full border-x`}
               >
                 <ul className="py-2 font-medium text-slate-600">
-                  {categorys.map((c, i) => {
+                  {categories.map((category, i) => {
                     return (
                       <li
                         key={i}
                         className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
                       >
-                        <Link className="block text-sm">{c}</Link>
+                        <img
+                          className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                          src={category.image}
+                          alt=""
+                        />
+                        <Link className="block text-sm">{category.name}</Link>
                       </li>
                     );
                   })}
@@ -404,8 +403,10 @@ const Header = () => {
                       id=""
                     >
                       <option value="">Select Category</option>
-                      {categorys.map((c, i) => (
-                        <option value={c}>{c}</option>
+                      {categories.map((category, i) => (
+                        <option key={i} value={category.name}>
+                          {category.name}
+                        </option>
                       ))}
                     </select>
                   </div>

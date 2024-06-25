@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const Products = ({ title }) => {
-  const products = [
-    [1, 2, 3],
-    [4, 5, 6],
-  ];
+const Products = ({ title, products }) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -61,19 +57,19 @@ const Products = ({ title }) => {
         renderButtonGroupOutside={true}
         customButtonGroup={<ButtonGroup />}
       >
-        {products.map((p, i) => {
+        {products.map((product, i) => {
           return (
-            <div className="flex flex-col justify-start gap-2">
-              {p.map((pl, j) => (
-                <Link className="flex items-start justify-start" to="#">
-                  <img
-                    className="w-[110px] h-[110px]"
-                    src={`http://localhost:3000/images/products/${pl}.webp`}
-                    alt=""
-                  />
+            <div key={i} className="flex flex-col justify-start gap-2">
+              {product.map((pl, j) => (
+                <Link
+                  key={j}
+                  className="flex items-start justify-start"
+                  to={`product/details/${pl.slug}`}
+                >
+                  <img className="w-[110px] h-[110px]" src={pl.image} alt="" />
                   <div className="flex flex-col items-start justify-start gap-1 px-3 text-slate-600">
-                    <h2>Product Name </h2>
-                    <span className="text-lg font-bold">$434</span>
+                    <h2>{pl.name} </h2>
+                    <span className="text-lg font-bold">${pl.price}</span>
                   </div>
                 </Link>
               ))}
