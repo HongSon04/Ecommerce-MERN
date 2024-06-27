@@ -23,12 +23,13 @@ const Header = () => {
   const { pathname } = useLocation();
   const [showSidebar, setShowSidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const user = true;
-  const wishlist_count = 3;
-
-  const { categories } = useSelector((state) => state.home);
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+  const { cart_product_count } = useSelector((state) => state.cart);
+  const { categories } = useSelector((state) => state.home);
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const wishlist_count = 3;
 
   const search = () => {
     if (searchValue) {
@@ -39,6 +40,14 @@ const Header = () => {
       }
     } else if (category) {
       navigate(`/products?category=${category}`);
+    }
+  };
+
+  const redirect_cart_page = () => {
+    if (userInfo) {
+      navigate("/cart");
+    } else {
+      navigate("/login");
     }
   };
   return (
@@ -84,9 +93,10 @@ const Header = () => {
                   <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
                     <li>Hindi</li>
                     <li>English</li>
+                    <li>Tiếng Việt</li>
                   </ul>
                 </div>
-                {user ? (
+                {userInfo ? (
                   <Link
                     className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                     to="/dashboard"
@@ -95,7 +105,7 @@ const Header = () => {
                       {" "}
                       <FaUser />{" "}
                     </span>
-                    <span>Kazi Ariyan </span>
+                    <span>{userInfo.name} </span>
                   </Link>
                 ) : (
                   <Link
@@ -206,13 +216,18 @@ const Header = () => {
                         {wishlist_count}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirect_cart_page}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-green-500">
                         <FaCartShopping />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] ">
-                        {wishlist_count}
-                      </div>
+                      {cart_product_count > 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] ">
+                          {cart_product_count}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -251,7 +266,7 @@ const Header = () => {
                   <li>Tiếng Việt</li>
                 </ul>
               </div>
-              {user ? (
+              {userInfo ? (
                 <Link
                   className="flex items-center justify-center gap-2 text-sm text-black cursor-pointer"
                   to="/dashboard"
@@ -260,7 +275,7 @@ const Header = () => {
                     {" "}
                     <FaUser />{" "}
                   </span>
-                  <span>ChuBe </span>
+                  <span>{userInfo.name} </span>
                 </Link>
               ) : (
                 <Link

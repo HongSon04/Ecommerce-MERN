@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearMessage, CustomerLogin } from "../store/reducers/AuthReducer";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../utils/utils";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     email: "",
     password: "",
   });
+
+  const { loader, errorMessage, successMessage, userInfo } = useSelector(
+    (state) => state.auth
+  );
 
   const inputHandle = (e) => {
     setState({
@@ -19,8 +30,25 @@ const Login = () => {
 
   const login = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(CustomerLogin(state));
   };
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+    setState({
+      email: "",
+      password: "",
+    });
+    dispatch(clearMessage());
+
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [errorMessage, successMessage, dispatch, userInfo, navigate]);
 
   return (
     <div>
@@ -63,8 +91,18 @@ const Login = () => {
                     />
                   </div>
 
-                  <button className="px-8 w-full py-2 bg-[#059473] shadow-lg hover:shadow-green-500/40 text-white rounded-md">
-                    Login
+                  <button
+                    disabled={loader ? true : false}
+                    className="px-8 w-full py-2 bg-[#059473] shadow-lg hover:shadow-green-500/40 text-white rounded-md"
+                  >
+                    {loader ? (
+                      <PropagateLoader
+                        color="#fff"
+                        cssOverride={overrideStyle}
+                      />
+                    ) : (
+                      "Login"
+                    )}
                   </button>
                 </form>
                 <div className="flex items-center justify-center py-2">

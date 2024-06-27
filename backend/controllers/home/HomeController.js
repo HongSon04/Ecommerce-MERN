@@ -26,7 +26,7 @@ class HomeController {
       const categories = await CategoryModel.find({});
       responseReturn(res, 200, categories);
     } catch (error) {
-      responseReturn(res, 500, error.message);
+      responseReturn(res, 500, { error: error.message });
     }
   };
 
@@ -58,7 +58,7 @@ class HomeController {
         discount_products: DiscountProduct,
       });
     } catch (error) {
-      responseReturn(res, 500, error.message);
+      responseReturn(res, 500, { error: error.message });
     }
   };
 
@@ -83,7 +83,7 @@ class HomeController {
         price_range: PriceRange,
       });
     } catch (error) {
-      responseReturn(res, 500, error.message);
+      responseReturn(res, 500, { error: error.message });
     }
   };
 

@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { CustomerRegister, clearMessage } from "../store/reducers/AuthReducer";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../utils/utils";
+import toast from "react-hot-toast";
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loader, errorMessage, successMessage, userInfo } = useSelector(
+    (state) => state.auth
+  );
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -20,8 +29,26 @@ const Register = () => {
 
   const register = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(CustomerRegister(state));
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+    }
+    setState({
+      name: "",
+      email: "",
+      password: "",
+    });
+    dispatch(clearMessage());
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [errorMessage, successMessage, dispatch, navigate, userInfo]);
 
   return (
     <div>
@@ -77,9 +104,18 @@ const Register = () => {
                       required
                     />
                   </div>
-
-                  <button className="px-8 w-full py-2 bg-[#059473] shadow-lg hover:shadow-green-500/40 text-white rounded-md">
-                    Register
+                  <button
+                    disabled={loader ? true : false}
+                    className="px-8 w-full py-2 bg-[#059473] shadow-lg hover:shadow-green-500/40 text-white rounded-md"
+                  >
+                    {loader ? (
+                      <PropagateLoader
+                        color="#fff"
+                        cssOverride={overrideStyle}
+                      />
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </form>
                 <div className="flex items-center justify-center py-2">
@@ -102,7 +138,7 @@ const Register = () => {
               </div>
               <div className="pt-1 text-center text-slate-600">
                 <p>
-                  You Have No Account?{" "}
+                  You Have An Account?{" "}
                   <Link className="text-blue-500" to="/login">
                     {" "}
                     Login

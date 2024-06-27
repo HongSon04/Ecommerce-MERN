@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCartProducts } from "../store/cartReducer";
 const Cart = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cart_products = [1, 2];
   const outOfStockProduct = [1, 2];
+
+  const { userInfo } = useSelector((state) => state.auth);
+
   const redirect = () => {
     navigate("/shipping", {
       state: {
@@ -17,6 +23,10 @@ const Cart = () => {
       },
     });
   };
+
+  useEffect(() => {
+    dispatch(GetCartProducts(userInfo.id));
+  }, [dispatch, userInfo]);
   return (
     <div>
       <Header />
