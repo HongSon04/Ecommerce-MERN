@@ -8,7 +8,18 @@ import Shipping from "./pages/Shipping";
 import Details from "./pages/Details";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { GetCategories } from "./store/reducers/HomeReducer";
+import CategoryShop from "./components/CategoryShop";
+import SearchProducts from "./components/SearchProducts";
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(GetCategories());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -16,6 +27,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/shop" element={<Shop />}></Route>
+        <Route path="/products?" element={<CategoryShop />}></Route>
+        <Route path="/search?" element={<SearchProducts />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/shipping" element={<Shipping />}></Route>
         <Route path="/product/details/:slug" element={<Details />} />

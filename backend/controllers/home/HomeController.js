@@ -1,7 +1,7 @@
 const CategoryModel = require("../../models/CategoryModel");
 const ProductModel = require("../../models/ProductModel");
 const { responseReturn } = require("../../utils/response");
-
+const QueryProducts = require("../../utils/QueryProducts");
 class HomeController {
   fomatProducts = (products) => {
     const productArray = [];
@@ -29,6 +29,7 @@ class HomeController {
       responseReturn(res, 500, error.message);
     }
   };
+
   GetProducts = async (req, res) => {
     try {
       const products = await ProductModel.find({})
@@ -55,6 +56,65 @@ class HomeController {
         lastest_products: LastestProducts,
         top_rated_products: TopRatedProducts,
         discount_products: DiscountProduct,
+      });
+    } catch (error) {
+      responseReturn(res, 500, error.message);
+    }
+  };
+
+  PriceRangeProduct = async (req, res) => {
+    try {
+      const PriceRange = {
+        low: 0,
+        high: 0,
+      };
+      const products = await ProductModel.find({})
+        .limit(9)
+        .sort({ createdAt: -1 });
+      const LastestProduct = this.fomatProducts(products);
+      const GetForPrice = await ProductModel.find({}).sort({ price: 1 });
+
+      if (GetForPrice.length > 0) {
+        PriceRange.low = GetForPrice[0].price;
+        PriceRange.high = GetForPrice[GetForPrice.length - 1].price;
+      }
+      responseReturn(res, 200, {
+        lastest_products: LastestProduct,
+        price_range: PriceRange,
+      });
+    } catch (error) {
+      responseReturn(res, 500, error.message);
+    }
+  };
+
+  QueryProducts = async (req, res) => {
+    const parPage = 12;
+    req.query.parPage = parPage;
+    try {
+      const products = await ProductModel.find({}).sort({ createdAt: -1 });
+      console.log(req.query);
+      const totalProduct = new QueryProducts(products, req.query)
+        .categoryQuery()
+        .ratingQuery()
+        .searchQuery()
+        .priceQuery()
+        .sortByPrice()
+        .countProducts();
+
+      const result = new QueryProducts(products, req.query)
+        .categoryQuery()
+        .ratingQuery()
+        .searchQuery()
+        .priceQuery()
+        .sortByPrice()
+        .skipPage()
+        .limitPage()
+        .getProducts();
+
+      responseReturn(res, 200, {
+        products: result,
+        totalProduct,
+        parPage,
       });
     } catch (error) {
       responseReturn(res, 500, error.message);

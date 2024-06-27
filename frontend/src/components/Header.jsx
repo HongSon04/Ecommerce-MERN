@@ -15,17 +15,32 @@ import {
   FaGithub,
 } from "react-icons/fa";
 import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Header = ({ categories }) => {
+const Header = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showSidebar, setShowSidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
   const user = true;
   const wishlist_count = 3;
 
+  const { categories } = useSelector((state) => state.home);
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+
+  const search = () => {
+    if (searchValue) {
+      if (category) {
+        navigate(`/search?category=${category}&&value=${searchValue}`);
+      } else {
+        navigate(`/search?value=${searchValue}`);
+      }
+    } else if (category) {
+      navigate(`/products?category=${category}`);
+    }
+  };
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#caddff] md-lg:hidden">
@@ -383,7 +398,12 @@ const Header = ({ categories }) => {
                           src={category.image}
                           alt=""
                         />
-                        <Link className="block text-sm">{category.name}</Link>
+                        <Link
+                          to={`/products?category=${category.name}`}
+                          className="block text-sm"
+                        >
+                          {category.name}
+                        </Link>
                       </li>
                     );
                   })}
@@ -418,7 +438,10 @@ const Header = ({ categories }) => {
                     id=""
                     placeholder="What do you need"
                   />
-                  <button className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button
+                    onClick={search}
+                    className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                  >
                     Search
                   </button>
                 </div>

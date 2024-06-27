@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { Range } from "react-range";
 import { AiFillStar } from "react-icons/ai";
@@ -17,14 +17,16 @@ import {
   QueryProducts,
 } from "../store/reducers/HomeReducer";
 
-const Shops = () => {
+const SearchProducts = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const searchValue = searchParams.get("value") || "";
+  const category = searchParams.get("category") || "";
   const dispatch = useDispatch();
   const [filter, setFilter] = useState(true);
   const [state, setState] = useState({ values: [50, 1500] });
   const [rating, setRating] = useState("");
   const [styles, setStyles] = useState("grid");
   const [pageNumber, setPageNumber] = useState(1);
-  const [categoryName, setCategoryName] = useState("");
   const [sortPrice, setSortPrice] = useState("");
 
   const {
@@ -35,13 +37,6 @@ const Shops = () => {
     totalProduct,
     parPage,
   } = useSelector((state) => state.home);
-  const queryCategory = (e, value) => {
-    if (e.target.checked) {
-      setCategoryName(value);
-    } else {
-      setCategoryName("");
-    }
-  };
 
   const resetRating = () => {
     setRating("");
@@ -49,9 +44,10 @@ const Shops = () => {
       QueryProducts({
         low: state.values[0],
         high: state.values[1],
+        category,
         rating: "",
-        category: categoryName,
         sortPrice,
+        searchValue,
         pageNumber,
       })
     );
@@ -70,15 +66,16 @@ const Shops = () => {
   useEffect(() => {
     dispatch(
       QueryProducts({
-        low: state.values[0],
-        high: state.values[1],
+        low: state.values[0] || 50,
+        high: state.values[1] || 1500,
+        category,
         rating,
-        category: categoryName,
         sortPrice,
         pageNumber,
+        searchValue,
       })
     );
-  }, [dispatch, state, rating, categoryName, sortPrice, pageNumber]);
+  }, [dispatch, state, rating, sortPrice, pageNumber]);
 
   return (
     <div>
@@ -117,30 +114,6 @@ const Shops = () => {
                   : "md:h-auto md:overflow-auto md:mb-0"
               } `}
             >
-              <h2 className="mb-3 text-3xl font-bold text-slate-600">
-                Category{" "}
-              </h2>
-              <div className="py-2">
-                {categories.map((category, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-start gap-2 py-1"
-                  >
-                    <input
-                      checked={categoryName === category.name}
-                      onChange={(e) => queryCategory(e, category.name)}
-                      type="checkbox"
-                      id={category.name}
-                    />
-                    <label
-                      className="block cursor-pointer text-slate-600"
-                      htmlFor={category.name}
-                    >
-                      {category.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
               <div className="flex flex-col gap-5 py-2">
                 <h2 className="mb-3 text-3xl font-bold text-slate-600">
                   Price
@@ -367,4 +340,4 @@ const Shops = () => {
     </div>
   );
 };
-export default Shops;
+export default SearchProducts;
