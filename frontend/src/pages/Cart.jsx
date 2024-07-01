@@ -4,15 +4,30 @@ import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCartProducts } from "../store/cartReducer";
+import {
+  GetCartProducts,
+  DeleteCartProduct,
+  QuantityInc,
+  QuantityDec,
+  clearMessage,
+} from "../store/cartReducer";
+import toast from "react-hot-toast";
+
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cart_products = [1, 2];
-  const outOfStockProduct = [1, 2];
 
   const { userInfo } = useSelector((state) => state.auth);
-
+  const {
+    cart_products,
+    price,
+    buy_product_item,
+    shipping_fee,
+    out_of_stock_products,
+    errorMessage,
+    successMessage,
+  } = useSelector((state) => state.cart);
+  console.log(cart_products);
   const redirect = () => {
     navigate("/shipping", {
       state: {
@@ -23,6 +38,35 @@ const Cart = () => {
       },
     });
   };
+
+  const Inc = (product_quantity, stock, id) => {
+    const temp = product_quantity + 1;
+    if (temp > stock) {
+      toast.error("Stock Limit Reached");
+    } else {
+      dispatch(QuantityInc(id));
+    }
+  };
+  const Dec = (product_quantity, stock, id) => {
+    const temp = product_quantity - 1;
+    if (temp !== 0) {
+      dispatch(QuantityDec(id));
+    } else {
+      toast.error("Stock Limit Reached");
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(GetCartProducts(userInfo.id));
+    }
+
+    dispatch(clearMessage());
+  }, [errorMessage, successMessage, dispatch, userInfo]);
 
   useEffect(() => {
     dispatch(GetCartProducts(userInfo.id));
@@ -48,57 +92,94 @@ const Cart = () => {
       </section>
       <section className="bg-[#eeeeee]">
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16">
-          {cart_products.length > 0 || outOfStockProduct > 0 ? (
+          {cart_products.length > 0 || out_of_stock_products.length > 0 ? (
             <div className="flex flex-wrap">
               <div className="w-[67%] md-lg:w-full">
                 <div className="pr-3 md-lg:pr-0">
                   <div className="flex flex-col gap-3">
-                    <div className="p-4 bg-white">
-                      <h2 className="font-semibold text-green-500 text-md">
-                        Stock Products {cart_products.length}
-                      </h2>
-                    </div>
-                    {cart_products.map((p, i) => (
-                      <div className="flex flex-col gap-2 p-4 bg-white">
+                    {cart_products.length > 0 && (
+                      <div className="p-4 bg-white">
+                        <h2 className="font-semibold text-green-500 text-md">
+                          Stock Products {cart_products.length}
+                        </h2>
+                      </div>
+                    )}
+                    {cart_products.map((cart_product, i) => (
+                      <div key={i} className="flex flex-col gap-2 p-4 bg-white">
                         <div className="flex items-center justify-start">
                           <h2 className="font-bold text-md text-slate-600">
-                            Easy Shop
+                            {cart_product.shopName}
                           </h2>
                         </div>
-                        {[1, 2].map((p, i) => (
-                          <div className="flex flex-wrap w-full">
+                        {cart_product.products.map((product, j) => (
+                          <div key={j} className="flex flex-wrap w-full">
                             <div className="flex w-7/12 gap-2 sm:w-full">
                               <div className="flex items-center justify-start gap-2">
                                 <img
                                   className="w-[80px] h-[80px]"
-                                  src={`http://localhost:3000/images/products/${
-                                    i + 1
-                                  }.webp`}
+                                  src={product.productInfo.images[0]}
                                   alt=""
                                 />
                                 <div className="pr-4 text-slate-600">
                                   <h2 className="font-semibold text-md">
-                                    Product Name{" "}
+                                    {product.productInfo.name}{" "}
                                   </h2>
-                                  <span className="text-sm">Brand: Jara</span>
+                                  <span className="text-sm">
+                                    Brand: {product.productInfo.brand}
+                                  </span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                               <div className="pl-4 sm:pl-0">
                                 <h2 className="text-lg text-orange-500">
-                                  $240
+                                  $
+                                  {product.productInfo.price -
+                                    Math.floor(
+                                      (product.productInfo.price *
+                                        product.productInfo.discount) /
+                                        100
+                                    )}
                                 </h2>
-                                <p className="line-through">$300</p>
-                                <p>-15%</p>
+                                <p className="line-through">
+                                  ${product.productInfo.price}
+                                </p>
+                                <p>-{product.productInfo.discount}%</p>
                               </div>
                               <div className="flex flex-col gap-2">
                                 <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                  <div className="px-3 cursor-pointer">-</div>
-                                  <div className="px-3">2</div>
-                                  <div className="px-3 cursor-pointer">+</div>
+                                  <div
+                                    className="px-3 cursor-pointer"
+                                    onClick={() =>
+                                      Dec(
+                                        product.quantity,
+                                        product.productInfo.stock,
+                                        product._id
+                                      )
+                                    }
+                                  >
+                                    -
+                                  </div>
+                                  <div className="px-3">{product.quantity}</div>
+                                  <div
+                                    className="px-3 cursor-pointer"
+                                    onClick={() =>
+                                      Inc(
+                                        product.quantity,
+                                        product.productInfo.stock,
+                                        product._id
+                                      )
+                                    }
+                                  >
+                                    +
+                                  </div>
                                 </div>
-                                <button className="px-5 py-[3px] bg-red-500 text-white">
+                                <button
+                                  onClick={() =>
+                                    dispatch(DeleteCartProduct(product._id))
+                                  }
+                                  className="px-5 py-[3px] bg-red-500 text-white"
+                                >
                                   Delete
                                 </button>
                               </div>
@@ -107,48 +188,75 @@ const Cart = () => {
                         ))}
                       </div>
                     ))}
-                    {outOfStockProduct.length > 0 && (
+                    {out_of_stock_products.length > 0 && (
                       <div className="flex flex-col gap-3">
                         <div className="p-4 bg-white">
                           <h2 className="font-semibold text-red-500 text-md">
-                            Out of Stock {outOfStockProduct.length}
+                            Out of Stock {out_of_stock_products.length}
                           </h2>
                         </div>
                         <div className="p-4 bg-white">
-                          {[1].map((p, i) => (
+                          {out_of_stock_products.map((p, i) => (
                             <div className="flex flex-wrap w-full">
                               <div className="flex w-7/12 gap-2 sm:w-full">
                                 <div className="flex items-center justify-start gap-2">
                                   <img
                                     className="w-[80px] h-[80px]"
-                                    src={`http://localhost:3000/images/products/${
-                                      i + 1
-                                    }.webp`}
+                                    src={p.products[0].images[0]}
                                     alt=""
                                   />
                                   <div className="pr-4 text-slate-600">
                                     <h2 className="font-semibold text-md">
-                                      Product Name{" "}
+                                      {p.products[0].name}{" "}
                                     </h2>
-                                    <span className="text-sm">Brand: Jara</span>
+                                    <span className="text-sm">
+                                      Brand: {p.products[0].brand}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
                               <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                                 <div className="pl-4 sm:pl-0">
                                   <h2 className="text-lg text-orange-500">
-                                    $240
+                                    $
+                                    {p.products[0].price -
+                                      Math.floor(
+                                        (p.products[0].price *
+                                          p.products[0].discount) /
+                                          100
+                                      )}
                                   </h2>
-                                  <p className="line-through">$300</p>
-                                  <p>-15%</p>
+                                  <p className="line-through">
+                                    ${p.products[0].price}
+                                  </p>
+                                  <p>-{p.products[0].discount}%</p>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                   <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                    <div className="px-3 cursor-pointer">-</div>
-                                    <div className="px-3">2</div>
-                                    <div className="px-3 cursor-pointer">+</div>
+                                    <div
+                                      className="px-3 cursor-pointer"
+                                      onClick={() =>
+                                        Dec(p.quantity, p.stock, p._id)
+                                      }
+                                    >
+                                      -
+                                    </div>
+                                    <div className="px-3">{p.quantity}</div>
+                                    <div
+                                      className="px-3 cursor-pointer"
+                                      onClick={() =>
+                                        Dec(p.quantity, p.stock, p._id)
+                                      }
+                                    >
+                                      +
+                                    </div>
                                   </div>
-                                  <button className="px-5 py-[3px] bg-red-500 text-white">
+                                  <button
+                                    className="px-5 py-[3px] bg-red-500 text-white"
+                                    onClick={() =>
+                                      dispatch(DeleteCartProduct(p._id))
+                                    }
+                                  >
                                     Delete
                                   </button>
                                 </div>
@@ -168,12 +276,12 @@ const Cart = () => {
                     <div className="flex flex-col gap-3 p-3 bg-white text-slate-600">
                       <h2 className="text-xl font-bold">Order Summary</h2>
                       <div className="flex items-center justify-between">
-                        <span>2 Items </span>
-                        <span>$343 </span>
+                        <span>{buy_product_item} Items </span>
+                        <span>${price} </span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Shipping Fee </span>
-                        <span>$40 </span>
+                        <span>${shipping_fee} </span>
                       </div>
                       <div className="flex gap-2">
                         <input
@@ -188,7 +296,9 @@ const Cart = () => {
 
                       <div className="flex items-center justify-between">
                         <span>Total</span>
-                        <span className="text-lg text-[#059473]">$430 </span>
+                        <span className="text-lg text-[#059473]">
+                          ${price + shipping_fee}{" "}
+                        </span>
                       </div>
                       <button
                         onClick={redirect}

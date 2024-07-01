@@ -42,9 +42,10 @@ class CartController {
   };
 
   GetCartProducts = async (req, res) => {
+    const co = 5;
     const { userId } = req.params;
     try {
-      const card_products = await CartModel.aggregate([
+      const cart_products = await CartModel.aggregate([
         {
           $match: {
             userId: {
@@ -63,14 +64,125 @@ class CartController {
         },
       ]);
       let buy_product_item = 0;
-      let calculated_price = 0;
+      let calculatePrice = 0;
       let cart_product_count = 0;
-      const out_of_stock_products = card_products.filter(
-        (product) => product.products[0].stock < product.quantity
+      const out_of_stock_products = cart_products.filter(
+        (p) => p.products[0].stock < p.quantity
       );
       for (let i = 0; i < out_of_stock_products.length; i++) {
         cart_product_count =
           cart_product_count + out_of_stock_products[i].quantity;
+      }
+      const stockProduct = cart_products.filter(
+        (p) => p.products[0].stock >= p.quantity
+      );
+      for (let i = 0; i < stockProduct.length; i++) {
+        const { quantity } = stockProduct[i];
+        cart_product_count = buy_product_item + quantity;
+        buy_product_item = buy_product_item + quantity;
+        const { price, discount } = stockProduct[i].products[0];
+        if (discount !== 0) {
+          calculatePrice =
+            calculatePrice +
+            quantity * (price - Math.floor((price * discount) / 100));
+        } else {
+          calculatePrice = calculatePrice + quantity * price;
+        }
+      } // end for
+      let p = [];
+      let unique = [
+        ...new Set(stockProduct.map((p) => p.products[0].seller_id.toString())),
+      ];
+      for (let i = 0; i < unique.length; i++) {
+        let price = 0;
+        for (let j = 0; j < stockProduct.length; j++) {
+          const tempProduct = stockProduct[j].products[0];
+          if (unique[i] === tempProduct.seller_id.toString()) {
+            let pri = 0;
+            if (tempProduct.discount !== 0) {
+              pri =
+                tempProduct.price -
+                Math.floor((tempProduct.price * tempProduct.discount) / 100);
+            } else {
+              pri = tempProduct.price;
+            }
+            pri = pri - Math.floor((pri * co) / 100);
+            price = price + pri * stockProduct[j].quantity;
+            p[i] = {
+              seller_id: unique[i],
+              shopName: tempProduct.shopName,
+              price,
+              products: p[i]
+                ? [
+                    ...p[i].products,
+                    {
+                      _id: stockProduct[j]._id,
+                      quantity: stockProduct[j].quantity,
+                      productInfo: tempProduct,
+                    },
+                  ]
+                : [
+                    {
+                      _id: stockProduct[j]._id,
+                      quantity: stockProduct[j].quantity,
+                      productInfo: tempProduct,
+                    },
+                  ],
+            };
+          }
+        }
+      }
+      responseReturn(res, 200, {
+        cart_products: p,
+        price: calculatePrice,
+        cart_product_count,
+        shipping_fee: 20 * p.length,
+        out_of_stock_products,
+        buy_product_item,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  DeleteCartProducts = async (req, res) => {
+    const { cart_id } = req.params;
+    try {
+      await CartModel.findByIdAndDelete(cart_id);
+      responseReturn(res, 200, { message: "Product Deleted From Cart" });
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+  QuantityInc = async (req, res) => {
+    const { cart_id } = req.params;
+    try {
+      const CartProduct = await CartModel.findById(cart_id);
+      const { quantity } = CartProduct;
+      const product = await ProductModel.findById(CartProduct.productId);
+      if (product.stock < quantity + 1) {
+        responseReturn(res, 400, { error: "Product Out Of Stock" });
+      } else {
+        await CartModel.findByIdAndUpdate(cart_id, {
+          quantity: quantity + 1,
+        });
+        responseReturn(res, 200, { message: "Quantity Increased" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+  QuantityDec = async (req, res) => {
+    const { cart_id } = req.params;
+    try {
+      const CartProduct = await CartModel.findById(cart_id);
+      const { quantity } = CartProduct;
+      if (quantity - 1 < 1) {
+        responseReturn(res, 400, { error: "Quantity Can't Be Less Than 1" });
+      } else {
+        await CartModel.findByIdAndUpdate(cart_id, {
+          quantity: quantity - 1,
+        });
+        responseReturn(res, 200, { message: "Quantity Decreased" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
@@ -79,5 +191,3 @@ class CartController {
 }
 
 module.exports = new CartController();
-
-//? Hoc lai bai 331
