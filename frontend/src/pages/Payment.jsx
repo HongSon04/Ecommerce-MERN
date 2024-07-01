@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "./../components/Header";
 import Footer from "./../components/Footer";
 import { useLocation } from "react-router-dom";
-// import Stripe from "../components/Stripe";
+import Stripe from "../components/Stripe";
 const Payment = () => {
   const {
     state: { price, items, orderID },
@@ -11,7 +11,7 @@ const Payment = () => {
   return (
     <div>
       <Header />
-      {/* <section className="bg-[#eeeeee]">
+      <section className="bg-[#eeeeee]">
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16 mt-4 ">
           <div className="flex flex-wrap md:flex-col-reverse">
             <div className="w-7/12 md:w-full">
@@ -79,7 +79,7 @@ const Payment = () => {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
       <Footer />
     </div>
   );

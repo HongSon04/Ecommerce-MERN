@@ -14,6 +14,12 @@ import { GetCategories } from "./store/reducers/HomeReducer";
 import CategoryShop from "./components/CategoryShop";
 import SearchProducts from "./components/SearchProducts";
 import Payment from "./pages/Payment";
+import ProtectUser from "./utils/ProtectUser";
+import Dashboard from "./pages/Dashboard";
+import Index from "./components/dashboard/Index";
+import Orders from "./components/dashboard/Orders";
+import ChangePassword from "./components/dashboard/ChangePassword";
+import Wishlist from "./components/dashboard/Wishlist";
 function App() {
   const dispatch = useDispatch();
 
@@ -33,6 +39,14 @@ function App() {
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/payment" element={<Payment />}></Route>
         <Route path="/shipping" element={<Shipping />}></Route>
+        <Route path="/dashboard" element={<ProtectUser />}>
+          <Route path="" element={<Dashboard />}>
+            <Route path="" element={<Index />} />
+            <Route path="my-orders" element={<Orders />} />
+            <Route path="change-password" element={<ChangePassword />} />
+            <Route path="my-wishlist" element={<Wishlist />} />
+          </Route>
+        </Route>
         <Route path="/product/details/:slug" element={<Details />} />
       </Routes>
     </BrowserRouter>

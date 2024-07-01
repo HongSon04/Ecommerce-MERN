@@ -56,7 +56,7 @@ const FeatureProducts = ({ products }) => {
 
               <img
                 className="sm:w-full w-full h-[240px]"
-                src={product.image}
+                src={product.images[0]}
                 alt=""
               />
               <ul className="absolute flex items-center justify-center w-full gap-2 transition-all duration-700 -bottom-10 group-hover:bottom-3">
