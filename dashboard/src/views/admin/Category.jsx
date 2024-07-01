@@ -120,7 +120,7 @@ const Category = () => {
                         scope="row"
                         className="px-4 py-1 font-medium whitespace-nowrap"
                       >
-                        {category.name}
+                        {i + 1}
                       </td>
                       <td
                         scope="row"
@@ -136,7 +136,7 @@ const Category = () => {
                         scope="row"
                         className="px-4 py-1 font-medium whitespace-nowrap"
                       >
-                        Tshirt
+                        {category.name}
                       </td>
 
                       <td

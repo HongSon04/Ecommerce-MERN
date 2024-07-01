@@ -7,6 +7,7 @@ const SellerRouter = require("./dashboard/sellerRoutes");
 const CartRouter = require("./home/CartRoutes");
 const CustomerAuthRouter = require("./home/CustomerAuthRoutes");
 const HomeRouter = require("./home/HomeRoutes");
+const OrderRouter = require("./order/OrderRoutes");
 
 routes.use("/", AuthRouter);
 routes.use("/", CategoryRouter);
@@ -17,5 +18,7 @@ routes.use("/home", HomeRouter);
 routes.use("/home", CartRouter);
 
 routes.use("/customer", CustomerAuthRouter);
+
+routes.use("/order", OrderRouter);
 
 module.exports = routes;
