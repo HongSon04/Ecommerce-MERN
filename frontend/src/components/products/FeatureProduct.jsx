@@ -24,18 +24,22 @@ const FeatureProducts = ({ products }) => {
   };
 
   const add_wishlist = (productInfo) => {
-    dispatch(
-      AddToWishlist({
-        productId: productInfo._id,
-        userId: userInfo.id,
-        name: productInfo.name,
-        price: productInfo.price,
-        image: productInfo.images[0],
-        discount: productInfo.discount,
-        rating: productInfo.rating,
-        slug: productInfo.slug,
-      })
-    );
+    if (userInfo) {
+      dispatch(
+        AddToWishlist({
+          productId: productInfo._id,
+          userId: userInfo.id,
+          name: productInfo.name,
+          price: productInfo.price,
+          image: productInfo.images[0],
+          discount: productInfo.discount,
+          rating: productInfo.rating,
+          slug: productInfo.slug,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
   };
 
   useEffect(() => {

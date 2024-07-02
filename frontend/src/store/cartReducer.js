@@ -81,7 +81,23 @@ export const GetWishlistProducts = createAsyncThunk(
   "wishlist/get_wishlist_products",
   async (userId, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post(`/home/product/get-wishlist-products/${userId}`);
+      const { data } = await api.get(
+        `/home/product/get-wishlist-products/${userId}`
+      );
+      return fulfillWithValue(data);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const RemoveWishlist = createAsyncThunk(
+  "wishlist/remove_wishlist",
+  async (wishlistId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(
+        `/home/product/remove-wishlist-products/${wishlistId}`
+      );
       return fulfillWithValue(data);
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -120,6 +136,8 @@ export const CartReducer = createSlice({
       })
       .addCase(AddToCart.fulfilled, (state, { payload }) => {
         state.loader = false;
+
+        state.cart_product_count += 1;
         state.successMessage = payload.message;
       })
       .addCase(DeleteCartProduct.fulfilled, (state, { payload }) => {
@@ -153,7 +171,20 @@ export const CartReducer = createSlice({
       .addCase(AddToWishlist.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.successMessage = payload.message;
-        state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1;
+        state.wishlist_count =
+          state.wishlist_count > 0 ? state.wishlist_count + 1 : 1;
+      })
+      .addCase(GetWishlistProducts.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+        state.wishlist_products = payload.wishlist_products;
+      })
+      .addCase(RemoveWishlist.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.wishlist_products = state.wishlist_products.filter(
+          (product) => product._id !== payload.wishlistId
+        );
+        state.successMessage = payload.message;
       });
   },
 });

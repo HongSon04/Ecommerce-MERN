@@ -18,4 +18,13 @@ CartRouter.put("/product/quantity-dec/:cart_id", CartController.QuantityDec);
 
 CartRouter.post("/product/add-to-wishlist", CartController.AddToWishlist);
 
+CartRouter.get(
+  "/product/get-wishlist-products/:userId",
+  CartController.GetWishlistProducts
+);
+CartRouter.delete(
+  "/product/remove-wishlist-products/:wishlistId",
+  CartController.RemoveWishlistProducts
+);
+
 module.exports = CartRouter;

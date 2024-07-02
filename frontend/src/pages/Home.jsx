@@ -7,6 +7,7 @@ import Products from "../components/products/Products";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducts } from "../store/reducers/HomeReducer";
+import { GetCartProducts } from "../store/cartReducer";
 
 const Home = () => {
   const dispatch = useDispatch();

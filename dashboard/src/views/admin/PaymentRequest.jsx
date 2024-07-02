@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { FixedSizeList as List } from "react-window";
 function handleOnWheel({ deltaY }) {
-  console.log("handleOnWheel", deltaY);
+  // console.log("handleOnWheel", deltaY);
 }
 const outerElementType = forwardRef((props, ref) => (
   <div ref={ref} onWheel={handleOnWheel} {...props} />

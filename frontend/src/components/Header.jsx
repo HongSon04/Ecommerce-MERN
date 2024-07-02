@@ -45,10 +45,6 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(GetCartProducts(userInfo.id));
-  }, [dispatch, userInfo]);
-
   const redirect_cart_page = () => {
     if (userInfo) {
       navigate("/cart");

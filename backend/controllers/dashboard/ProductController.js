@@ -54,7 +54,6 @@ class ProductController {
   };
 
   AddProduct = async (req, res) => {
-    console.log("AddProduct");
     const { id } = req;
     const form = formidable({ multiples: true });
     form.parse(req, async (err, field, files) => {
@@ -68,7 +67,6 @@ class ProductController {
         shopName,
         brand,
       } = field;
-      console.log(field);
       const { images } = files;
 
       cloudinary.config({
@@ -99,7 +97,6 @@ class ProductController {
           images: allImageUrl,
           brand: brand.trim(),
         });
-        console.log("Product added successfully");
         responseReturn(res, 201, { message: "Product added successfully" });
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
@@ -146,6 +143,11 @@ class ProductController {
 
           const result = await cloudinary.uploader.upload(newImage.filepath, {
             folder: "products",
+            transformation: [
+              { width: 500, crop: "scale" },
+              { quality: 35 },
+              { fetch_format: "auto" },
+            ],
           });
           if (result) {
             let { images } = await ProductModel.findById(productId);

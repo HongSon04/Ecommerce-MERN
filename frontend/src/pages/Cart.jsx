@@ -56,12 +56,17 @@ const Cart = () => {
   };
 
   useEffect(() => {
+    dispatch(GetCartProducts(userInfo.id));
+  }, [dispatch, userInfo]);
+
+  useEffect(() => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
     if (successMessage) {
       toast.success(successMessage);
     }
+    dispatch(GetCartProducts(userInfo.id));
 
     dispatch(clearMessage());
   }, [errorMessage, successMessage, dispatch, userInfo]);

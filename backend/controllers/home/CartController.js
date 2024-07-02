@@ -8,6 +8,7 @@ const { responseReturn } = require("../../utils/response");
 class CartController {
   AddToCart = async (req, res) => {
     const { product_id, userId, quantity } = req.body;
+
     try {
       const product = await CartModel.findOne({
         $and: [
@@ -26,12 +27,11 @@ class CartController {
       if (product) {
         responseReturn(res, 400, { error: "Product Already In Cart" });
       } else {
-        const product = new CartModel({
-          userId,
+        const product = await CartModel.create({
           productId: product_id,
+          userId,
           quantity,
         });
-        await product.save();
         responseReturn(res, 200, {
           product,
           message: "Product Added To Cart Successfully",
@@ -210,6 +210,27 @@ class CartController {
         });
       }
       responseReturn(res, 200, { message: "Product Added To Wishlist" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  GetWishlistProducts = async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const wishlist_products = await WishlistModel.find({ userId });
+      responseReturn(res, 200, { wishlist_products });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  RemoveWishlistProducts = async (req, res) => {
+    const { wishlistId } = req.params;
+    try {
+      const wishlist = await WishlistModel.findByIdAndDelete(wishlistId);
+      responseReturn(res, 200, {
+        message: "Product Removed From Wishlist",
+        wishlistId,
+      });
     } catch (error) {
       console.log(error.message);
     }

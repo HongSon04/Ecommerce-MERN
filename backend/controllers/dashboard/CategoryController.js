@@ -77,6 +77,12 @@ class CategoryController {
         try {
           const result = await cloudinary.uploader.upload(image.filepath, {
             folder: "categories",
+
+            transformation: [
+              { width: 250, crop: "scale" },
+              { quality: 35 },
+              { fetch_format: "auto" },
+            ],
           });
           if (result) {
             const category = await CategoryModel.create({
