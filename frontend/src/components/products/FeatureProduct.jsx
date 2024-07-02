@@ -4,7 +4,11 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Rating from "../Rating";
-import { AddToCart, clearMessage } from "../../store/cartReducer";
+import {
+  AddToCart,
+  AddToWishlist,
+  clearMessage,
+} from "../../store/cartReducer";
 import { toast } from "react-hot-toast";
 const FeatureProducts = ({ products }) => {
   const dispatch = useDispatch();
@@ -17,6 +21,21 @@ const FeatureProducts = ({ products }) => {
     } else {
       navigate("/login");
     }
+  };
+
+  const add_wishlist = (productInfo) => {
+    dispatch(
+      AddToWishlist({
+        productId: productInfo._id,
+        userId: userInfo.id,
+        name: productInfo.name,
+        price: productInfo.price,
+        image: productInfo.images[0],
+        discount: productInfo.discount,
+        rating: productInfo.rating,
+        slug: productInfo.slug,
+      })
+    );
   };
 
   useEffect(() => {
@@ -60,7 +79,10 @@ const FeatureProducts = ({ products }) => {
                 alt=""
               />
               <ul className="absolute flex items-center justify-center w-full gap-2 transition-all duration-700 -bottom-10 group-hover:bottom-3">
-                <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
+                <li
+                  onClick={() => add_wishlist(product)}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <FaRegHeart />
                 </li>
                 <Link

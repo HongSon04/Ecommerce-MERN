@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdEmail } from "react-icons/md";
 import {
   IoMdPhonePortrait,
@@ -16,20 +16,22 @@ import {
 } from "react-icons/fa";
 import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCartProducts } from "../store/cartReducer";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showSidebar, setShowSidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
-  const { cart_product_count } = useSelector((state) => state.cart);
+  const { cart_product_count, wishlist_count } = useSelector(
+    (state) => state.cart
+  );
   const { categories } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
-
-  const wishlist_count = 3;
 
   const search = () => {
     if (searchValue) {
@@ -42,6 +44,10 @@ const Header = () => {
       navigate(`/products?category=${category}`);
     }
   };
+
+  useEffect(() => {
+    dispatch(GetCartProducts(userInfo.id));
+  }, [dispatch, userInfo]);
 
   const redirect_cart_page = () => {
     if (userInfo) {
@@ -212,9 +218,11 @@ const Header = () => {
                       <span className="text-xl text-green-500">
                         <FaHeart />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] ">
-                        {wishlist_count}
-                      </div>
+                      {wishlist_count > 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] ">
+                          {wishlist_count}
+                        </div>
+                      )}
                     </div>
                     <div
                       onClick={redirect_cart_page}

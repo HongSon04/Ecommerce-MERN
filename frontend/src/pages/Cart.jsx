@@ -27,7 +27,6 @@ const Cart = () => {
     errorMessage,
     successMessage,
   } = useSelector((state) => state.cart);
-  console.log(cart_products);
   const redirect = () => {
     navigate("/shipping", {
       state: {
@@ -62,15 +61,11 @@ const Cart = () => {
     }
     if (successMessage) {
       toast.success(successMessage);
-      dispatch(GetCartProducts(userInfo.id));
     }
 
     dispatch(clearMessage());
   }, [errorMessage, successMessage, dispatch, userInfo]);
 
-  useEffect(() => {
-    dispatch(GetCartProducts(userInfo.id));
-  }, [dispatch, userInfo]);
   return (
     <div>
       <Header />

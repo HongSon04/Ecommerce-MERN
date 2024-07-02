@@ -16,4 +16,6 @@ CartRouter.put("/product/quantity-inc/:cart_id", CartController.QuantityInc);
 
 CartRouter.put("/product/quantity-dec/:cart_id", CartController.QuantityDec);
 
+CartRouter.post("/product/add-to-wishlist", CartController.AddToWishlist);
+
 module.exports = CartRouter;

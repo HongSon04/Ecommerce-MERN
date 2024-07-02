@@ -65,13 +65,37 @@ export const QuantityDec = createAsyncThunk(
   }
 );
 
+export const AddToWishlist = createAsyncThunk(
+  "wishlist/add_to_wishlist",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/home/product/add-to-wishlist", info);
+      return fulfillWithValue(data);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const GetWishlistProducts = createAsyncThunk(
+  "wishlist/get_wishlist_products",
+  async (userId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post(`/home/product/get-wishlist-products/${userId}`);
+      return fulfillWithValue(data);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const CartReducer = createSlice({
   name: "cart",
   initialState: {
     cart_products: [],
     cart_product_count: 0,
     wishlist_products: [],
-    wishlist_product_count: 0,
+    wishlist_count: 0,
     price: 0,
     loader: false,
     errorMessage: "",
@@ -118,6 +142,18 @@ export const CartReducer = createSlice({
         state.shipping_fee = payload.shipping_fee;
         state.out_of_stock_products = payload.out_of_stock_products;
         state.buy_product_item = payload.buy_product_item;
+      })
+      .addCase(AddToWishlist.pending, (state, { payload }) => {
+        state.loader = true;
+      })
+      .addCase(AddToWishlist.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.error;
+      })
+      .addCase(AddToWishlist.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.successMessage = payload.message;
+        state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1;
       });
   },
 });

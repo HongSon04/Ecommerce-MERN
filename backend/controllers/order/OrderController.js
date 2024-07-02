@@ -144,6 +144,19 @@ class OrderController {
       console.log(error.message);
     }
   };
+  GetOrderDetails = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await CustomerOrderModel.findById(orderId);
+      if (!order) {
+        responseReturn(res, 404, { message: "Order Not Found" });
+      } else {
+        responseReturn(res, 200, { order });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
 module.exports = new OrderController();

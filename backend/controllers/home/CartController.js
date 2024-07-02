@@ -1,5 +1,6 @@
 const CartModel = require("../../models/CartModel");
 const ProductModel = require("../../models/ProductModel");
+const WishlistModel = require("../../models/WishlistModel");
 const { responseReturn } = require("../../utils/response");
 /* const {
   mongo: { ObjectId },
@@ -186,6 +187,31 @@ class CartController {
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  AddToWishlist = async (req, res) => {
+    const { productId, userId, name, price, image, discount, rating, slug } =
+      req.body;
+    try {
+      const product = await WishlistModel.findOne({ slug });
+      if (product) {
+        responseReturn(res, 400, { error: "Product Already In Wishlist" });
+      } else {
+        await WishlistModel.create({
+          productId,
+          userId,
+          name,
+          price,
+          image,
+          discount,
+          rating,
+          slug,
+        });
+      }
+      responseReturn(res, 200, { message: "Product Added To Wishlist" });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }

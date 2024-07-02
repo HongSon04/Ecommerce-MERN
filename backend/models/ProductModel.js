@@ -76,4 +76,6 @@ ProductSchema.index(
   }
 );
 
-module.exports = model("products", ProductSchema);
+const ProductModel = model("products", ProductSchema);
+
+module.exports = ProductModel;
