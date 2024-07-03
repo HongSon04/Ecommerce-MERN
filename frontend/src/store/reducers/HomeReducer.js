@@ -73,6 +73,34 @@ export const GetProductDetails = createAsyncThunk(
   }
 );
 
+export const CustomerReview = createAsyncThunk(
+  "product/customer_review",
+  async (info, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/home/customer/submit-review", info);
+      return fulfillWithValue(data);
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+);
+
+export const GetReviews = createAsyncThunk(
+  "product/get_reviews",
+  async ({ productId, pageNumber }, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-reviews/${productId}/${pageNumber}`
+      );
+      return fulfillWithValue(data);
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+);
+
 export const HomeReducer = createSlice({
   name: "home",
   initialState: {
@@ -90,8 +118,18 @@ export const HomeReducer = createSlice({
     product: {},
     relatedProducts: [],
     moreProducts: [],
+    errorMessage: "",
+    successMessage: "",
+    totalReview: 0,
+    rating_review: [],
+    reviews: [],
   },
-  reducers: {},
+  reducers: {
+    clearMessage: (state) => {
+      state.successMessage = "";
+      state.errorMessage = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(GetCategories.fulfilled, (state, { payload }) => {
@@ -116,8 +154,18 @@ export const HomeReducer = createSlice({
         state.product = payload.product;
         state.relatedProducts = payload.relatedProducts;
         state.moreProducts = payload.moreProducts;
+      })
+      .addCase(CustomerReview.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
+      })
+      .addCase(GetReviews.fulfilled, (state, { payload }) => {
+        state.reviews = payload.reviews;
+        state.totalReview = payload.total;
+        state.rating_review = payload.rating_review;
       });
   },
 });
+
+export const { clearMessage } = HomeReducer.actions;
 
 export default HomeReducer.reducer;

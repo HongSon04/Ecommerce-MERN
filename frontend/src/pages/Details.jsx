@@ -95,17 +95,17 @@ const Details = () => {
 
   const buynow = () => {
     let price = 0;
-    if (product.discount !== 0) {
+    if (product?.discount !== 0) {
       price =
-        product.price - Math.floor((product.price * product.discount) / 100);
+        product?.price - Math.floor((product?.price * product?.discount) / 100);
     } else {
-      price = product.price;
+      price = product?.price;
     }
 
     const obj = [
       {
-        sellerId: product.sellerId,
-        shopName: product.shopName,
+        sellerId: product?.sellerId,
+        shopName: product?.shopName,
         price: quantity * (price - Math.floor((price * 5) / 100)),
         products: [
           {
@@ -188,13 +188,13 @@ const Details = () => {
               <span className="pt-1">
                 <IoIosArrowForward />
               </span>
-              <Link to={`/products?category=${product.category}`}>
-                {product.category}
+              <Link to={`/products?category=${product?.category}`}>
+                {product?.category}
               </Link>
               <span className="pt-1">
                 <IoIosArrowForward />
               </span>
-              <span>{product.name} </span>
+              <span>{product?.name} </span>
             </div>
           </div>
         </div>
@@ -206,19 +206,19 @@ const Details = () => {
               <div className="p-5 border">
                 <img
                   className="h-[400px] w-full"
-                  src={image ? image : product.images?.[0]}
+                  src={image ? image : product?.images?.[0]}
                   alt=""
                 />
               </div>
               <div className="py-3">
-                {product.images && (
+                {product?.images && (
                   <Carousel
                     autoPlay={true}
                     infinite={true}
                     responsive={responsive}
                     transitionDuration={500}
                   >
-                    {product.images.map((img, i) => {
+                    {product?.images.map((img, i) => {
                       return (
                         <div key={i} onClick={() => setImage(img)}>
                           <img
@@ -235,37 +235,37 @@ const Details = () => {
             </div>
             <div className="flex flex-col gap-5">
               <div className="text-3xl font-bold text-slate-600">
-                <h3>{product.name} </h3>
+                <h3>{product?.name} </h3>
               </div>
               <div className="flex items-center justify-start gap-4">
                 <div className="flex text-xl">
-                  <Rating ratings={product.rating} />
+                  <Rating ratings={product?.rating} />
                 </div>
                 <span className="text-green-500">(24 reviews)</span>
               </div>
               <div className="flex gap-3 text-2xl font-bold text-red-500">
-                {product.discount !== 0 ? (
+                {product?.discount !== 0 ? (
                   <>
-                    Price : <h2 className="line-through">${product.price}</h2>
+                    Price : <h2 className="line-through">${product?.price}</h2>
                     <h2>
                       $
-                      {product.price -
+                      {product?.price -
                         Math.floor(
-                          (product.price * product.discount) / 100
+                          (product?.price * product?.discount) / 100
                         )}{" "}
                       (-
-                      {product.discount}%){" "}
+                      {product?.discount}%){" "}
                     </h2>
                   </>
                 ) : (
-                  <h2> Price : ${product.price} </h2>
+                  <h2> Price : ${product?.price} </h2>
                 )}
               </div>
               <div className="text-slate-600">
                 <p>{product?.description?.slice(0, 100)}...</p>
               </div>
               <div className="flex gap-3 pb-10 border-b">
-                {product.stock ? (
+                {product?.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
                       <div onClick={dec} className="px-6 cursor-pointer">
@@ -278,7 +278,7 @@ const Details = () => {
                     </div>
                     <div>
                       <button
-                        onClick={() => add_to_cart(product._id)}
+                        onClick={() => add_to_cart(product?._id)}
                         className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#059473] text-white"
                       >
                         Add To Cart
@@ -299,17 +299,21 @@ const Details = () => {
               </div>
               <div className="flex gap-5 py-5">
                 <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
+                  <span>Shop Name</span>
                   <span>Availability</span>
                   <span>Share On</span>
                 </div>
                 <div className="flex flex-col gap-5">
+                  <span className="text-xl font-bold text-black">
+                    {product?.shopName}
+                  </span>
                   <span
                     className={`text-${
-                      product.stock > 0 ? "green" : "red"
+                      product?.stock > 0 ? "green" : "red"
                     }-500`}
                   >
-                    {product.stock
-                      ? `In Stock(${product.stock})`
+                    {product?.stock
+                      ? `In Stock(${product?.stock})`
                       : "Out Of Stock"}
                   </span>
                   <ul className="flex items-center justify-start gap-3">
@@ -353,7 +357,7 @@ const Details = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                {product.stock ? (
+                {product?.stock ? (
                   <button
                     onClick={() => buynow()}
                     className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#247462] text-white"
@@ -364,7 +368,7 @@ const Details = () => {
                   ""
                 )}
                 <Link
-                  to="#"
+                  to={`/dashboard/chat/${product?.seller_id}`}
                   className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-red-500/40 bg-red-500 text-white"
                 >
                   Chat Seller
@@ -404,20 +408,10 @@ const Details = () => {
                 </div>
                 <div>
                   {state === "reviews" ? (
-                    <Reviews />
+                    <Reviews product={product} />
                   ) : (
                     <p className="py-5 text-slate-600">
-                      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of
-                      the printing and typesetting industry. Lorem Ipsum has
-                      been the industry's standard dummy text ever since the
-                      1500s, when an unknown printer took a galley of type and
-                      scrambled it to make a type specimen book. It has survived
-                      not only five centuries, but also the leap into electronic
-                      typesetting, remaining essentially unchanged. It was
-                      popularised in the 1960s with the release of Letraset
-                      sheets containing Lorem Ipsum passages, and more recently
-                      with desktop publishing software like Aldus PageMaker
-                      including versions of Lorem Ipsum.
+                      {product?.description}
                     </p>
                   )}
                 </div>
@@ -426,7 +420,7 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2 className="font-bold">From Easy Shop</h2>
+                  <h2 className="font-bold">From {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 p-3 mt-3 border">
                   {moreProducts.map((product, i) => {
@@ -434,7 +428,7 @@ const Details = () => {
                       <Link
                         className="block"
                         key={i}
-                        to={`/product/details/${product.slug}`}
+                        to={`/product/details/${product?.slug}`}
                       >
                         <div className="relative h-[270px]">
                           <img
@@ -453,7 +447,7 @@ const Details = () => {
                         </h2>
                         <div className="flex gap-2">
                           <h2 className="text-lg font-bold text-slate-600">
-                            ${product.price}
+                            ${product?.price}
                           </h2>
                           <div className="flex items-center gap-2">
                             <Rating ratings={product?.rating} />
@@ -496,7 +490,7 @@ const Details = () => {
                   <SwiperSlide key={i}>
                     <Link
                       className="block"
-                      to={`/product/details/${product.slug}`}
+                      to={`/product/details/${product?.slug}`}
                     >
                       <div className="relative h-[270px]">
                         <div className="w-full h-full">

@@ -18,7 +18,7 @@ const AddProduct = () => {
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.product
   );
-
+  const { userInfo } = useSelector((state) => state.auth);
   const [state, setState] = useState({
     name: "",
     description: "",
@@ -98,7 +98,7 @@ const AddProduct = () => {
     formData.append("brand", state.brand);
     formData.append("stock", state.stock);
     formData.append("category", category);
-    formData.append("shopName", "EasyShop");
+    formData.append("shopName", userInfo.name);
     images.forEach((img) => {
       formData.append("images", img);
     });

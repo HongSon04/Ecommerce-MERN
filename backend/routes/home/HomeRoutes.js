@@ -11,4 +11,7 @@ HomeRouter.get(
 HomeRouter.get("/query-products", HomeController.QueryProducts);
 HomeRouter.get("/get-product-details/:slug", HomeController.GetProductDetails);
 
+HomeRouter.post("/customer/submit-review", HomeController.SubmitReview);
+HomeRouter.get("/customer/get-reviews/:productId/:pageNumber", HomeController.GetReviews);
+
 module.exports = HomeRouter;
