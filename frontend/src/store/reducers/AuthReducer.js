@@ -15,7 +15,9 @@ export const CustomerRegister = createAsyncThunk(
   "product/customer_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post("/customer/customer-register", info);
+      const { data } = await api.post("/customer/customer-register", info, {
+        withCredentials: true,
+      });
       localStorage.setItem("customerToken", data.token);
       return fulfillWithValue(data);
     } catch (err) {
@@ -28,7 +30,9 @@ export const CustomerLogin = createAsyncThunk(
   "product/customer_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post("/customer/customer-login", info);
+      const { data } = await api.post("/customer/customer-login", info, {
+        withCredentials: true,
+      });
       localStorage.setItem("customerToken", data.token);
       return fulfillWithValue(data);
     } catch (err) {
