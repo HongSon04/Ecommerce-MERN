@@ -81,6 +81,12 @@ class ProductController {
         for (let i = 0; i < images.length; i++) {
           const result = await cloudinary.uploader.upload(images[i].filepath, {
             folder: "products",
+
+            transformation: [
+              { width: 500, crop: "scale" },
+              { quality: 35 },
+              { fetch_format: "auto" },
+            ],
           });
           allImageUrl.push(result.secure_url);
         }

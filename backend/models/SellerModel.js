@@ -49,4 +49,6 @@ const SellerSchema = new Schema(
   }
 );
 
-module.exports = model("sellers", SellerSchema);
+const SellerModel = model("sellers", SellerSchema);
+
+module.exports = SellerModel;

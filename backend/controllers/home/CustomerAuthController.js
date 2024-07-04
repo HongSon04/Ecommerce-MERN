@@ -30,6 +30,7 @@ class CustomerAuthController {
         res.cookie("customerToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
+       
         responseReturn(res, 201, {
           token,
           message: "User Register successfully",
@@ -68,6 +69,14 @@ class CustomerAuthController {
           });
         }
       }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+  CustomerLogout = async (req, res) => {
+    try {
+      res.clearCookie("customerToken");
+      responseReturn(res, 200, { message: "Logout Successfully" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }

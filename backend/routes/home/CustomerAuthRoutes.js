@@ -11,4 +11,6 @@ CustomerAuthRouter.post(
   CustomerAuthController.CustomerLogin
 );
 
+CustomerAuthRouter.get('/logout', CustomerAuthController.CustomerLogout)
+
 module.exports = CustomerAuthRouter;

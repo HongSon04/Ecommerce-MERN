@@ -15,5 +15,6 @@ const SellerCustomerSchema = new Schema(
     timestamps: true,
   }
 );
+const SellerCustomerModel = model("seller_customers", SellerCustomerSchema);
 
-module.exports = model("seller_customers", SellerCustomerSchema);
+module.exports = SellerCustomerModel;

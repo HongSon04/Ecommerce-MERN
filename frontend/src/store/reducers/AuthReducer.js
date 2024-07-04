@@ -50,6 +50,9 @@ export const AuthReducer = createSlice({
       state.successMessage = "";
       state.errorMessage = "";
     },
+    UserReset: (state) => {
+      state.userInfo = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(CustomerRegister.pending, (state, { payload }) => {
@@ -79,6 +82,6 @@ export const AuthReducer = createSlice({
   },
 });
 
-export const { clearMessage } = AuthReducer.actions;
+export const { clearMessage, UserReset } = AuthReducer.actions;
 
 export default AuthReducer.reducer;

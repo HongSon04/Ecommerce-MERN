@@ -138,6 +138,12 @@ class AuthController {
       try {
         const result = await cloudinary.uploader.upload(image.filepath, {
           folder: "profile",
+
+          transformation: [
+            { width: 250, crop: "scale" },
+            { quality: 35 },
+            { fetch_format: "auto" },
+          ],
         });
         if (result) {
           await SellerModel.findByIdAndUpdate(id, {
