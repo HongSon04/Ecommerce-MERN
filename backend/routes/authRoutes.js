@@ -18,4 +18,6 @@ AuthRouter.post(
   AuthController.ProfileInfoAdd
 );
 
+AuthRouter.get("/logout", AuthController.Logout);
+
 module.exports = AuthRouter;

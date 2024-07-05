@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const returnRole = (token) => {
   if (token) {
@@ -97,6 +98,26 @@ export const get_user_info = createAsyncThunk(
       const { data } = await api.get("/get-user", {
         withCredentials: true,
       });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const Logout = createAsyncThunk(
+  "auth/log_out",
+  async ({ navigate, role }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get("/logout", {
+        withCredentials: true,
+      });
+      localStorage.removeItem("accessToken");
+      if (role === "admin") {
+        navigate("/admin/login");
+      } else {
+        navigate("/login");
+      }
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
