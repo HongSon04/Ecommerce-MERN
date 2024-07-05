@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { GetOrders } from "../../store/OrderReducer";
+import ChangeLangue from "../../utils/ChangeLangue";
 
 const Orders = () => {
+  const { t } = ChangeLangue();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { orderId } = useParams();
@@ -38,11 +40,11 @@ const Orders = () => {
           value={state}
           onChange={(e) => setState(e.target.value)}
         >
-          <option value="all">All</option>
-          <option value="placed">Placed</option>
-          <option value="pending">Pending</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="warehouse">Warehouse</option>
+          <option value="all">{t("dashboard.all")}</option>
+          <option value="placed">{t("dashboard.placed")}</option>
+          <option value="pending">{t("dashboard.pending")}</option>
+          <option value="cancelled">{t("dashboard.cancelled")}</option>
+          <option value="warehouse">{t("dashboard.warehouse")}</option>
         </select>
       </div>
 
@@ -52,19 +54,19 @@ const Orders = () => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-200">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Order Id
+                  {t("dashboard.order-id")}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
+                  {t("dashboard.price")}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Payment Status
+                  {t("dashboard.payment-status")}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Order Status
+                  {t("dashboard.order-status")}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Action
+                  {t("dashboard.action")}
                 </th>
               </tr>
             </thead>

@@ -8,7 +8,9 @@ import { CustomerRegister, clearMessage } from "../store/reducers/AuthReducer";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../utils/utils";
 import toast from "react-hot-toast";
+import ChangeLangue from "../utils/ChangeLangue";
 const Register = () => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loader, errorMessage, successMessage, userInfo } = useSelector(
@@ -58,13 +60,13 @@ const Register = () => {
           <div className="grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md">
             <div className="px-8 py-8">
               <h2 className="w-full text-xl font-bold text-center text-slate-600">
-                Register{" "}
+                {t("auth.register")}{" "}
               </h2>
 
               <div>
                 <form onSubmit={register} className="text-slate-600">
                   <div className="flex flex-col gap-1 mb-2">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">{t("auth.name")}</label>
                     <input
                       onChange={inputHandle}
                       value={state.name}
@@ -72,7 +74,7 @@ const Register = () => {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Name"
+                      placeholder={t("auth.name")}
                       required
                     />
                   </div>
@@ -92,7 +94,7 @@ const Register = () => {
                   </div>
 
                   <div className="flex flex-col gap-1 mb-2">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t("auth.password")}</label>
                     <input
                       onChange={inputHandle}
                       value={state.password}
@@ -100,7 +102,7 @@ const Register = () => {
                       type="password"
                       name="password"
                       id="password"
-                      placeholder="Password"
+                      placeholder={t("auth.password")}
                       required
                     />
                   </div>
@@ -114,34 +116,34 @@ const Register = () => {
                         cssOverride={overrideStyle}
                       />
                     ) : (
-                      "Register"
+                      t("auth.register")
                     )}
                   </button>
                 </form>
                 <div className="flex items-center justify-center py-2">
                   <div className="h-[1px] bg-slate-300 w-[95%]"> </div>
-                  <span className="px-3 text-slate-600">Or</span>
+                  <span className="px-3 text-slate-600">{t("auth.or")}</span>
                   <div className="h-[1px] bg-slate-300 w-[95%]"> </div>
                 </div>
                 <button className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-indigo-500 rounded-md shadow hover:shadow-indigo-500/50">
                   <span>
                     <FaFacebookF />{" "}
                   </span>
-                  <span>Login With Facebook </span>
+                  <span>{t("auth.registerWFb")} </span>
                 </button>
                 <button className="flex items-center justify-center w-full gap-2 px-8 py-2 mb-3 text-white bg-red-500 rounded-md shadow hover:shadow-red-500/50">
                   <span>
                     <FaGoogle />
                   </span>
-                  <span>Login With Google </span>
+                  <span>{t("auth.registerWGg")} </span>
                 </button>
               </div>
               <div className="pt-1 text-center text-slate-600">
                 <p>
-                  You Have An Account?{" "}
+                  {t("auth.alreadyHaveAccount")}{" "}
                   <Link className="text-blue-500" to="/login">
                     {" "}
-                    Login
+                    {t("auth.login")}
                   </Link>{" "}
                 </p>
               </div>

@@ -16,10 +16,10 @@ import {
 } from "react-icons/fa";
 import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { GetCartProducts } from "../store/cartReducer";
+import { useSelector } from "react-redux";
+import ChangeLangue from "../utils/ChangeLangue";
 const Header = () => {
-  const dispatch = useDispatch();
+  const { lang, t, changeLang } = ChangeLangue();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [showSidebar, setShowSidebar] = useState(true);
@@ -31,7 +31,6 @@ const Header = () => {
   );
   const { categories } = useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
-
   const search = () => {
     if (searchValue) {
       if (category) {
@@ -88,14 +87,26 @@ const Header = () => {
                   </a>
                 </div>
                 <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
-                  <img src="http://localhost:3000/images/language.png" alt="" />
+                  <img
+                    src={`http://localhost:3000/images/${lang}.png`}
+                    alt=""
+                  />
                   <span>
                     <IoMdArrowDropdown />
                   </span>
                   <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                    <li>Hindi</li>
-                    <li>English</li>
-                    <li>Tiếng Việt</li>
+                    <li
+                      onClick={() => changeLang("en")}
+                      className={`${lang === "en" ? "text-green-500" : ""}`}
+                    >
+                      English
+                    </li>
+                    <li
+                      onClick={() => changeLang("vi")}
+                      className={`${lang === "vi" ? "text-green-500" : ""}`}
+                    >
+                      Tiếng Việt
+                    </li>
                   </ul>
                 </div>
                 {userInfo ? (
@@ -118,7 +129,7 @@ const Header = () => {
                       {" "}
                       <FaLock />{" "}
                     </span>
-                    <span>Login </span>
+                    <span> {t("common.header.login")} </span>
                   </Link>
                 )}
               </div>
@@ -156,7 +167,7 @@ const Header = () => {
                         pathname === "/" ? "text-[#059473]" : "text-slate-600"
                       } `}
                     >
-                      Home
+                      {t("common.header.home")}
                     </Link>
                   </li>
                   <li>
@@ -168,7 +179,7 @@ const Header = () => {
                           : "text-slate-600"
                       } `}
                     >
-                      Shop
+                      {t("common.header.shop")}
                     </Link>
                   </li>
                   <li>
@@ -180,7 +191,7 @@ const Header = () => {
                           : "text-slate-600"
                       } `}
                     >
-                      Blog
+                      {t("common.header.blog")}
                     </Link>
                   </li>
                   <li>
@@ -192,7 +203,7 @@ const Header = () => {
                           : "text-slate-600"
                       } `}
                     >
-                      About Us
+                      {t("common.header.about")}
                     </Link>
                   </li>
                   <li>
@@ -204,7 +215,7 @@ const Header = () => {
                           : "text-slate-600"
                       } `}
                     >
-                      Contact Us
+                      {t("common.header.contact")}
                     </Link>
                   </li>
                 </ul>
@@ -265,9 +276,18 @@ const Header = () => {
                   <IoMdArrowDropdown />
                 </span>
                 <ul className="absolute invisible transition-all top-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10 text-center">
-                  <li>Hindi</li>
-                  <li>English</li>
-                  <li>Tiếng Việt</li>
+                  <li
+                    onClick={() => changeLang("en")}
+                    className={`${lang === "en" ? "text-green-500" : ""}`}
+                  >
+                    English
+                  </li>
+                  <li
+                    onClick={() => changeLang("vi")}
+                    className={`${lang === "vi" ? "text-green-500" : ""}`}
+                  >
+                    Tiếng Việt
+                  </li>
                 </ul>
               </div>
               {userInfo ? (
@@ -290,7 +310,7 @@ const Header = () => {
                     {" "}
                     <FaLock />{" "}
                   </span>
-                  <span>Login </span>
+                  <span> {t("common.header.login")} </span>
                 </Link>
               )}
             </div>
@@ -301,7 +321,7 @@ const Header = () => {
                     pathname === "/" ? "text-[#059473]" : "text-slate-600"
                   } `}
                 >
-                  Home
+                  {t("common.header.home")}
                 </Link>
               </li>
               <li>
@@ -311,7 +331,7 @@ const Header = () => {
                     pathname === "/shop" ? "text-[#059473]" : "text-slate-600"
                   } `}
                 >
-                  Shop
+                  {t("common.header.shop")}
                 </Link>
               </li>
               <li>
@@ -320,7 +340,7 @@ const Header = () => {
                     pathname === "/blog" ? "text-[#059473]" : "text-slate-600"
                   } `}
                 >
-                  Blog
+                  {t("common.header.blog")}
                 </Link>
               </li>
               <li>
@@ -329,7 +349,7 @@ const Header = () => {
                     pathname === "/about" ? "text-[#059473]" : "text-slate-600"
                   } `}
                 >
-                  About Us
+                  {t("common.header.about")}
                 </Link>
               </li>
               <li>
@@ -340,7 +360,7 @@ const Header = () => {
                       : "text-slate-600"
                   } `}
                 >
-                  Contact Us
+                  {t("common.header.contact")}
                 </Link>
               </li>
             </ul>
@@ -368,7 +388,7 @@ const Header = () => {
                 <h2 className="text-sm font-medium text-slate-700">
                   +134343455
                 </h2>
-                <span className="text-xs">Support 24/7</span>
+                <span className="text-xs"> {t("common.header.support")}</span>
               </div>
             </div>
             <ul className="flex flex-col justify-start items-start gap-3 text-[#1c1c1c]">
@@ -394,7 +414,7 @@ const Header = () => {
                   <span>
                     <FaList />
                   </span>
-                  <span>All Category </span>
+                  <span> {t("common.header.all-category")} </span>
                 </div>
                 <span className="pt-1">
                   <IoIosArrowDown />
@@ -441,7 +461,10 @@ const Header = () => {
                       name=""
                       id=""
                     >
-                      <option value="">Select Category</option>
+                      <option value="">
+                        {" "}
+                        {t("common.header.select-category")}
+                      </option>
                       {categories.map((category, i) => (
                         <option key={i} value={category.name}>
                           {category.name}
@@ -455,13 +478,13 @@ const Header = () => {
                     type="text"
                     name=""
                     id=""
-                    placeholder="What do you need"
+                    placeholder={t("common.header.search-for")}
                   />
                   <button
                     onClick={search}
                     className="bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white"
                   >
-                    Search
+                    {t("common.header.search")}
                   </button>
                 </div>
               </div>
@@ -477,7 +500,10 @@ const Header = () => {
                     <h2 className="font-medium text-md text-slate-700">
                       +1343-43233455
                     </h2>
-                    <span className="text-sm">Support 24/7</span>
+                    <span className="text-sm">
+                      {" "}
+                      {t("common.header.support")}
+                    </span>
                   </div>
                 </div>
               </div>

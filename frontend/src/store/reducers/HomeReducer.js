@@ -123,6 +123,7 @@ export const HomeReducer = createSlice({
     totalReview: 0,
     rating_review: [],
     reviews: [],
+    lang: "en",
   },
   reducers: {
     clearMessage: (state) => {

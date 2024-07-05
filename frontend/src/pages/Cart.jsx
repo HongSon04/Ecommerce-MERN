@@ -12,8 +12,10 @@ import {
   clearMessage,
 } from "../store/cartReducer";
 import toast from "react-hot-toast";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Cart = () => {
+  const { t } = ChangeLangue();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -78,13 +80,15 @@ const Cart = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col items-center justify-center w-full h-full gap-1 text-white">
-              <h2 className="text-3xl font-bold">Cart Page </h2>
+              <h2 className="text-3xl font-bold">
+                {t("common.page.cart-page")}
+              </h2>
               <div className="flex items-center justify-center w-full gap-2 text-2xl">
-                <Link to="/">Home</Link>
+                <Link to="/">{t("common.page.home")}</Link>
                 <span className="pt-1">
                   <IoIosArrowForward />
                 </span>
-                <span>Cart </span>
+                <span>{t("common.page.cart")} </span>
               </div>
             </div>
           </div>
@@ -100,7 +104,7 @@ const Cart = () => {
                     {cart_products.length > 0 && (
                       <div className="p-4 bg-white">
                         <h2 className="font-semibold text-green-500 text-md">
-                          Stock Products {cart_products.length}
+                          {t("cart.stock-products")} {cart_products.length}
                         </h2>
                       </div>
                     )}
@@ -125,7 +129,8 @@ const Cart = () => {
                                     {product.productInfo.name}{" "}
                                   </h2>
                                   <span className="text-sm">
-                                    Brand: {product.productInfo.brand}
+                                    {t("text.brand")}:{" "}
+                                    {product.productInfo.brand}
                                   </span>
                                 </div>
                               </div>
@@ -180,7 +185,7 @@ const Cart = () => {
                                   }
                                   className="px-5 py-[3px] bg-red-500 text-white"
                                 >
-                                  Delete
+                                  {t("cart.delete")}
                                 </button>
                               </div>
                             </div>
@@ -192,7 +197,8 @@ const Cart = () => {
                       <div className="flex flex-col gap-3">
                         <div className="p-4 bg-white">
                           <h2 className="font-semibold text-red-500 text-md">
-                            Out of Stock {out_of_stock_products.length}
+                            {t("cart.out-of-stock")}{" "}
+                            {out_of_stock_products.length}
                           </h2>
                         </div>
                         <div className="p-4 bg-white">
@@ -274,29 +280,33 @@ const Cart = () => {
                 <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
                   {cart_products.length > 0 && (
                     <div className="flex flex-col gap-3 p-3 bg-white text-slate-600">
-                      <h2 className="text-xl font-bold">Order Summary</h2>
+                      <h2 className="text-xl font-bold">
+                        {t("cart.order-summary")}
+                      </h2>
                       <div className="flex items-center justify-between">
-                        <span>{buy_product_item} Items </span>
+                        <span>
+                          {buy_product_item} {t("cart.items")}{" "}
+                        </span>
                         <span>${price} </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span>Shipping Fee </span>
+                        <span>{t("cart.shipping-fee")} </span>
                         <span>${shipping_fee} </span>
                       </div>
                       <div className="flex gap-2">
                         <input
                           className="w-full px-3 py-2 border rounded-sm border-slate-200 outline-0 focus:border-green-500"
                           type="text"
-                          placeholder="Input Voucher Coupon"
+                          placeholder={t("cart.input-voucher")}
                         />
-                        <button className="px-5 py-[1px] bg-[#059473] text-white rounded-sm uppercase text-sm">
-                          Apply
+                        <button className="px-5 py-[3px] w-[150px] bg-[#059473] text-white rounded-sm uppercase text-sm">
+                          {t("cart.apply")}
                         </button>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span>Total</span>
-                        <span className="text-lg text-[#059473]">
+                        <span>{t("cart.total")}</span>
+                        <span className="text-lg text-[#059473] ">
                           ${price + shipping_fee}{" "}
                         </span>
                       </div>
@@ -304,7 +314,7 @@ const Cart = () => {
                         onClick={redirect}
                         className="px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg bg-red-500 text-sm text-white uppercase "
                       >
-                        Process to Checkout
+                        {t("cart.proccess-to-checkout")}
                       </button>
                     </div>
                   )}

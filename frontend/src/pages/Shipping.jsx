@@ -5,7 +5,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { PlaceOrder } from "../store/OrderReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 const Shipping = () => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [res, setRes] = useState(false);
@@ -59,13 +61,15 @@ const Shipping = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col items-center justify-center w-full h-full gap-1 text-white">
-              <h2 className="text-3xl font-bold">Shipping Page </h2>
+              <h2 className="text-3xl font-bold">
+                {t("common.page.shipping-page")}{" "}
+              </h2>
               <div className="flex items-center justify-center w-full gap-2 text-2xl">
-                <Link to="/">Home</Link>
+                <Link to="/">{t("common.page.home")}</Link>
                 <span className="pt-1">
                   <IoIosArrowForward />
                 </span>
-                <span>Shipping </span>
+                <span>{t("common.page.shipping")} </span>
               </div>
             </div>
           </div>
@@ -78,14 +82,14 @@ const Shipping = () => {
               <div className="flex flex-col gap-3">
                 <div className="p-6 bg-white rounded-md shadow-sm">
                   <h2 className="pb-3 font-bold text-slate-600">
-                    Shipping Information{" "}
+                    {t("shipping.shipping-information")}
                   </h2>
                   {!res && (
                     <>
                       <form onSubmit={save}>
                         <div className="flex w-full gap-5 md:flex-col md:gap-2 text-slate-600">
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="name"> Name </label>
+                            <label htmlFor="name">{t("text.name")}</label>
                             <input
                               onChange={inputHandle}
                               value={state.name}
@@ -93,11 +97,14 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="name"
                               id="name"
-                              placeholder="Name"
+                              placeholder={t("text.name")}
                             />
                           </div>
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="address"> Address </label>
+                            <label htmlFor="address">
+                              {" "}
+                              {t("text.address")}{" "}
+                            </label>
                             <input
                               onChange={inputHandle}
                               value={state.address}
@@ -105,13 +112,13 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="address"
                               id="address"
-                              placeholder="Address"
+                              placeholder={t("text.address")}
                             />
                           </div>
                         </div>
                         <div className="flex w-full gap-5 md:flex-col md:gap-2 text-slate-600">
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="phone"> Phone </label>
+                            <label htmlFor="phone"> {t("text.phone")} </label>
                             <input
                               onChange={inputHandle}
                               value={state.phone}
@@ -119,11 +126,11 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="phone"
                               id="phone"
-                              placeholder="Phone"
+                              placeholder={t("text.phone")}
                             />
                           </div>
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="post"> Post </label>
+                            <label htmlFor="post"> {t("text.post")} </label>
                             <input
                               onChange={inputHandle}
                               value={state.post}
@@ -131,13 +138,16 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="post"
                               id="post"
-                              placeholder="Post"
+                              placeholder={t("text.post")}
                             />
                           </div>
                         </div>
                         <div className="flex w-full gap-5 md:flex-col md:gap-2 text-slate-600">
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="province"> Province </label>
+                            <label htmlFor="province">
+                              {" "}
+                              {t("text.province")}{" "}
+                            </label>
                             <input
                               onChange={inputHandle}
                               value={state.province}
@@ -145,11 +155,11 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="province"
                               id="province"
-                              placeholder="Province"
+                              placeholder={t("text.province")}
                             />
                           </div>
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="city"> City </label>
+                            <label htmlFor="city"> {t("text.city")} </label>
                             <input
                               onChange={inputHandle}
                               value={state.city}
@@ -157,13 +167,13 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="city"
                               id="city"
-                              placeholder="City"
+                              placeholder={t("text.city")}
                             />
                           </div>
                         </div>
                         <div className="flex w-full gap-5 md:flex-col md:gap-2 text-slate-600">
                           <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="area"> Area </label>
+                            <label htmlFor="area"> {t("text.area")} </label>
                             <input
                               onChange={inputHandle}
                               value={state.area}
@@ -171,12 +181,12 @@ const Shipping = () => {
                               className="w-full px-3 py-2 border rounded-md outline-none border-slate-200 focus:border-green-500"
                               name="area"
                               id="area"
-                              placeholder="Area"
+                              placeholder={t("text.area")}
                             />
                           </div>
                           <div className="flex flex-col w-full gap-1 mb-2 mt-7">
                             <button className="px-3 py-[6px] rounded-sm hover:shadow-green-500/50 hover:shadow-lg bg-green-500 text-white">
-                              Save Change{" "}
+                              {t("text.save-changes")}
                             </button>
                           </div>
                         </div>
@@ -266,23 +276,27 @@ const Shipping = () => {
             <div className="w-[33%] md-lg:w-full">
               <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
                 <div className="flex flex-col gap-3 p-3 bg-white text-slate-600">
-                  <h2 className="text-xl font-bold">Order Summary</h2>
+                  <h2 className="text-xl font-bold">
+                    {t("cart.order-summary")}
+                  </h2>
                   <div className="flex items-center justify-between">
-                    <span>Items Total ({items}) </span>
+                    <span>
+                      {t("cart.total-items")} ({items}){" "}
+                    </span>
                     <span>${price} </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Delivery Fee </span>
+                    <span>{t("shipping.delivery-fees")} </span>
                     <span>${shipping_fee} </span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span>Total Payment </span>
+                    <span>{t("shipping.total-payment")} </span>
                     <span>${price + shipping_fee} </span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span>Total</span>
+                    <span>{t("shipping.total")}</span>
                     <span className="text-lg text-[#059473]">
                       ${price + shipping_fee}{" "}
                     </span>
@@ -294,7 +308,7 @@ const Shipping = () => {
                       res ? "bg-red-500" : "bg-red-300"
                     }  text-sm text-white uppercase`}
                   >
-                    Place Order
+                    {t("shipping.place-order")}
                   </button>
                 </div>
               </div>

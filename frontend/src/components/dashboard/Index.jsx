@@ -3,7 +3,9 @@ import { RiShoppingCart2Fill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetDashboardIndexData } from "../../store/DashboardReducer";
+import ChangeLangue from "../../utils/ChangeLangue";
 const Index = () => {
+  const { t } = ChangeLangue();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -39,7 +41,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col items-start justify-start text-slate-600">
             <h2 className="text-3xl font-bold">{totalOrder}</h2>
-            <span>Orders </span>
+            <span>{t("dashboard.orders")} </span>
           </div>
         </div>
         <div className="flex items-center justify-center gap-5 p-5 bg-white rounded-md">
@@ -50,7 +52,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col items-start justify-start text-slate-600">
             <h2 className="text-3xl font-bold">{pendingOrder}</h2>
-            <span>Pending Orders </span>
+            <span>{t("dashboard.pending-orders")} </span>
           </div>
         </div>
         <div className="flex items-center justify-center gap-5 p-5 bg-white rounded-md">
@@ -61,31 +63,31 @@ const Index = () => {
           </div>
           <div className="flex flex-col items-start justify-start text-slate-600">
             <h2 className="text-3xl font-bold">{cancelledOrder}</h2>
-            <span>Cancelled Orders </span>
+            <span>{t("dashboard.cancelled-orders")} </span>
           </div>
         </div>
       </div>
       <div className="p-5 mt-5 bg-white rounded-md">
-        <h2>Recent Orders</h2>
+        <h2>{t("dashboard.recent-orders")}</h2>
         <div className="pt-4">
           <div className="relative overflow-x-auto rounded-md">
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Order Id
+                    {t("dashboard.order-id")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Price
+                    {t("dashboard.price")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Payment Status
+                    {t("dashboard.payment-status")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Order Status
+                    {t("dashboard.order-status")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Action
+                    {t("dashboard.action")}
                   </th>
                 </tr>
               </thead>
@@ -122,7 +124,7 @@ const Index = () => {
                     >
                       <Link to={`/dashboard/order/details/${order._id}`}>
                         <span className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded">
-                          View
+                          {t("dashboard.view")}
                         </span>
                       </Link>
 
@@ -131,7 +133,7 @@ const Index = () => {
                           onClick={() => redirectPage(order)}
                           className="bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded cursor-pointer"
                         >
-                          Pay Now
+                          {t("dashboard.pay-now")}
                         </span>
                       )}
                     </td>

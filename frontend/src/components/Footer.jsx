@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaLinkedin, FaGithub } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Footer = () => {
+  const { lang, t, changeLang } = ChangeLangue();
+
   return (
     <footer className="bg-[#f3f6fa]">
       <div className="w-[85%] flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6">
@@ -16,50 +20,44 @@ const Footer = () => {
             />
             <ul className="flex flex-col gap-2 text-slate-600">
               <li>
-                Address : 2504 Ivins Avenue, Egg Harbor Township, NJ 08234,
+                {t("text.address")} : 2504 Ivins Avenue, Egg Harbor Township, NJ
+                08234,
               </li>
-              <li>Phone : 4343434344</li>
-              <li>Email : support@easylearingbd.com</li>
+              <li>{t("text.phone")} : 4343434344</li>
+              <li>{t("text.email")} : support@easylearingbd.com</li>
             </ul>
           </div>
         </div>
         <div className="w-5/12 lg:w-8/12 sm:w-full">
           <div className="flex justify-center w-full sm:justify-start sm:mt-6">
             <div>
-              <h2 className="mb-2 text-lg font-bold">Usefull Links </h2>
+              <h2 className="mb-2 text-lg font-bold">
+                {t("text.usefull-link")}{" "}
+              </h2>
               <div className="flex justify-between gap-[80px] lg:gap-[40px]">
                 <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-600">
                   <li>
-                    <Link>About Us </Link>
+                    <Link>{t("text.about-us")} </Link>
                   </li>
                   <li>
-                    <Link>About Our Shop </Link>
+                    <Link>{t("text.about-our-shop")} </Link>
                   </li>
                   <li>
-                    <Link>Delivery Information </Link>
+                    <Link>{t("text.delivery-information")} </Link>
                   </li>
                   <li>
-                    <Link>Privacy Policy </Link>
+                    <Link>{t("text.privacy-policy")} </Link>
                   </li>
                   <li>
-                    <Link>Blogs </Link>
+                    <Link>{t("text.blogs")} </Link>
                   </li>
                 </ul>
                 <ul className="flex flex-col gap-2 text-sm font-semibold text-slate-600">
                   <li>
-                    <Link>Our Service </Link>
+                    <Link>{t("text.our-services")} </Link>
                   </li>
                   <li>
-                    <Link>Company Profile</Link>
-                  </li>
-                  <li>
-                    <Link>Delivery Information </Link>
-                  </li>
-                  <li>
-                    <Link>Privacy Policy </Link>
-                  </li>
-                  <li>
-                    <Link>Blogs </Link>
+                    <Link>{t("text.company-profile")}</Link>
                   </li>
                 </ul>
               </div>
@@ -68,19 +66,19 @@ const Footer = () => {
         </div>
         <div className="w-4/12 lg:w-full lg:mt-6">
           <div className="flex flex-col justify-start w-full gap-5">
-            <h2 className="mb-2 text-lg font-bold">Join Our Shop</h2>
-            <span>
-              Get Email updates about tour latest and shop specials offers
-            </span>
+            <h2 className="mb-2 text-lg font-bold">
+              {t("text.join-our-newsletter")}
+            </h2>
+            <span>{t("text.get-email-updates")}</span>
             <div className="h-[50px] w-full bg-white border relative">
               <input
                 className="w-full h-full px-3 bg-transparent outline-0"
                 type="text"
-                placeholder="Enter Your Email"
+                placeholder={t("text.enter-your-email")}
               />
 
               <button className="h-full absolute right-0 bg-[#059473] text-white uppercase px-4 font-bold text-sm">
-                Subscribe
+                {t("text.subscribe")}
               </button>
             </div>
             <ul className="flex items-center justify-start gap-3">

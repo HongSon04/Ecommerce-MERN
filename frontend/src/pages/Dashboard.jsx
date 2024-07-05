@@ -13,8 +13,11 @@ import api from "../api/api";
 import { useDispatch } from "react-redux";
 import { UserReset } from "../store/reducers/AuthReducer";
 import { ResetCountCart } from "../store/cartReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Dashboard = () => {
+  const { t } = ChangeLangue();
+
   const [filterShow, setFilterShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,7 +61,7 @@ const Dashboard = () => {
                     <IoIosHome />
                   </span>
                   <Link to="/dashboard" className="block">
-                    Dashboard{" "}
+                    {t("dashboard.dashboard")}{" "}
                   </Link>
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
@@ -66,7 +69,7 @@ const Dashboard = () => {
                     <FaBorderAll />
                   </span>
                   <Link to="/dashboard/my-orders" className="block">
-                    My Orders{" "}
+                    {t("dashboard.my-orders")}{" "}
                   </Link>
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
@@ -74,7 +77,7 @@ const Dashboard = () => {
                     <FaHeart />
                   </span>
                   <Link to="/dashboard/my-wishlist" className="block">
-                    Wishlist{" "}
+                    {t("dashboard.wishlist")}{" "}
                   </Link>
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
@@ -82,7 +85,7 @@ const Dashboard = () => {
                     <IoChatbubbleEllipsesSharp />
                   </span>
                   <Link to="/dashboard/chat" className="block">
-                    Chat{" "}
+                    {t("dashboard.chat")}{" "}
                   </Link>
                 </li>
                 <li className="flex items-center justify-start gap-2 py-2">
@@ -90,7 +93,7 @@ const Dashboard = () => {
                     <RiLockPasswordLine />
                   </span>
                   <Link to="/dashboard/change-password" className="block">
-                    Change Password{" "}
+                    {t("dashboard.change-password")}{" "}
                   </Link>
                 </li>
                 <li
@@ -100,7 +103,7 @@ const Dashboard = () => {
                   <span className="text-xl">
                     <IoMdLogOut />
                   </span>
-                  <div className="block">Logout </div>
+                  <div className="block">{t("dashboard.log-out")} </div>
                 </li>
               </ul>
             </div>

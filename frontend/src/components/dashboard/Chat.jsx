@@ -12,7 +12,9 @@ import {
 } from "../../store/reducers/ChatReducer";
 import { toast } from "react-hot-toast";
 import { socket } from "../../utils/utils";
+import ChangeLangue from "../../utils/ChangeLangue";
 const Chat = () => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const scrollRef = useRef();
   const { sellerId } = useParams();
@@ -86,7 +88,7 @@ const Chat = () => {
             <span>
               <AiOutlineMessage />
             </span>
-            <span>Message</span>
+            <span>{t("dashboard.message1")}</span>
           </div>
           <div className="w-full flex flex-col text-slate-600 py-4 h-[400px] pr-3">
             {my_friends.map((fd, i) => (
@@ -183,7 +185,7 @@ const Chat = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     type="text"
-                    placeholder="Message"
+                    placeholder={t("dashboard.message1")}
                     className="w-full h-full p-3 rounded-full outline-none"
                   />
                   <div className="absolute text-2xl cursor-auto right-2 top-2">
@@ -201,7 +203,7 @@ const Chat = () => {
             </div>
           ) : (
             <div className="flex items-center justify-center w-full h-full text-lg ont-bold text-slate-600">
-              <span>Select Seller</span>
+              <span>{t("dashboard.select-seller")}</span>
             </div>
           )}
         </div>
