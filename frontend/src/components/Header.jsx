@@ -18,7 +18,6 @@ import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCartProducts } from "../store/cartReducer";
-
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,6 +51,7 @@ const Header = () => {
       navigate("/login");
     }
   };
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#caddff] md-lg:hidden">

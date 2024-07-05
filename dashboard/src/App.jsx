@@ -22,7 +22,7 @@ function App() {
     } else {
       dispatch(get_user_info());
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   return <Router allRoutes={allRoutes} />;
 }

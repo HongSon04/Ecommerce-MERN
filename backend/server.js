@@ -24,22 +24,65 @@ const io = socket(server, {
 });
 
 var allCustomer = [];
+var allSeller = [];
 const addUser = (customerId, userInfo, socketId) => {
   const checkUser = allCustomer.some((user) => user.customerId === customerId);
   if (!checkUser) {
     allCustomer.push({ customerId, userInfo, socketId });
-  } else {
-    allCustomer = allCustomer.map((user) =>
-      user.customerId === customerId ? { customerId, userInfo, socketId } : user
-    );
   }
 };
 
-io.on("connection", (socket) => {
-  console.log("Socket connected: ", socket.id);
+const addSeller = (sellerId, userInfo, socketId) => {
+  const checkUser = allSeller.some((user) => user.sellerId === sellerId);
+  if (!checkUser) {
+    allSeller.push({ sellerId, userInfo, socketId });
+  }
+};
 
+const findCustomer = (customerId) => {
+  return allCustomer.find((customer) => customer.customerId === customerId);
+};
+
+const findSeller = (sellerId) => {
+  return allSeller.find((seller) => seller.sellerId === sellerId);
+};
+
+const remove = (socketId) => {
+  allCustomer = allCustomer.filter(
+    (customer) => customer.socketId !== socketId
+  );
+  allSeller = allSeller.filter((seller) => seller.socketId !== socketId);
+};
+
+io.on("connection", (socket) => {
   socket.on("add_user", (customerId, userInfo) => {
     addUser(customerId, userInfo, socket.id);
+    io.emit("activeSeller", allSeller);
+    io.emit("activeCustomer", allCustomer);
+  });
+
+  socket.on("add_seller", (sellerId, userInfo) => {
+    addSeller(sellerId, userInfo, socket.id);
+    io.emit("activeSeller", allSeller);
+    io.emit("activeCustomer", allCustomer);
+  });
+  socket.on("send_seller_message", (msg) => {
+    const customer = findCustomer(msg.receverId);
+    if (customer !== undefined) {
+      socket.to(customer.socketId).emit("seller_message", msg);
+    }
+  });
+  socket.on("send_customer_message", (msg) => {
+    const seller = findSeller(msg.receverId);
+    if (seller !== undefined) {
+      socket.to(seller.socketId).emit("customer_message", msg);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    remove(socket.id);
+    io.emit("activeSeller", allSeller);
+    io.emit("activeCustomer", allCustomer);
   });
 });
 
