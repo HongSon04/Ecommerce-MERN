@@ -144,6 +144,7 @@ class OrderController {
       console.log(error.message);
     }
   };
+
   GetOrderDetails = async (req, res) => {
     const { orderId } = req.params;
     try {
@@ -157,6 +158,7 @@ class OrderController {
       console.log(error.message);
     }
   };
+
   GetAdminOrders = async (req, res) => {
     let { page, searchValue, parPage } = req.query;
     page = parseInt(page);
@@ -198,6 +200,102 @@ class OrderController {
       }
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  GetAdminOrder = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await CustomerOrderModel.aggregate([
+        {
+          $match: {
+            _id: new ObjectId(orderId),
+          },
+        },
+        {
+          $lookup: {
+            from: "auth_orders",
+            localField: "_id",
+            foreignField: "orderId",
+            as: "subOrders",
+          },
+        },
+      ]);
+      responseReturn(res, 200, { order: order[0] });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  AdminOrderUpdateStatus = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    try {
+      await CustomerOrderModel.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+      // await AuthOrderModel.updateMany(
+      //   { orderId: orderId },
+      //   { delivery_status: status }
+      // );
+      responseReturn(res, 200, {
+        message: "Order Status Updated Successfully",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { message: error.message });
+    }
+  };
+
+  GetSellerOrders = async (req, res) => {
+    const { sellerId } = req.params;
+    let { page, searchValue, parPage } = req.query;
+    page = parseInt(page);
+    parPage = parseInt(parPage);
+
+    const skipPage = parPage * (page - 1);
+    try {
+      if (searchValue) {
+      } else {
+        const orders = await AuthOrderModel.find({
+          sellerId,
+        })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const totalOrder = await AuthOrderModel.find({
+          sellerId,
+        }).countDocuments();
+        responseReturn(res, 200, { orders, totalOrder });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  GetSellerOrder = async (req, res) => {
+    const { orderId } = req.params;
+    console.log(orderId);
+    try {
+      const order = await AuthOrderModel.findById(orderId);
+      responseReturn(res, 200, { order });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  SellerOrderUpdateStatus = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    try {
+      await AuthOrderModel.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+
+      responseReturn(res, 200, {
+        message: "Order Status Updated Successfully",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { message: error.message });
     }
   };
 }

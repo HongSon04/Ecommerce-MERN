@@ -11,6 +11,7 @@ import {
   ProfileInfoAdd,
   ProfileUploadImage,
 } from "../../store/Reducers/AuthReducer";
+import { CreateStripeConnectAccount } from "../../store/Reducers/SellerReducer";
 const Profile = () => {
   const dispatch = useDispatch();
   const { userInfo, loader, errorMessage, successMessage } = useSelector(
@@ -112,22 +113,27 @@ const Profile = () => {
                 </div>
                 <div className="flex gap-2">
                   <span>Role : </span>
-                  <span>{userInfo.role}</span>
+                  <span>{userInfo?.role?.toUpperCase()}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Status : </span>
-                  <span>{userInfo.status}</span>
+                  <span>{userInfo?.status?.toUpperCase()}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Payment Account : </span>
                   <p>
-                    {userInfo.status === "active" ? (
+                    {userInfo.payment === "active" ? (
                       <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
                         Active
                       </span>
                     ) : (
-                      <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">
-                        Click Active
+                      <span
+                        onClick={() =>
+                          dispatch(CreateStripeConnectAccount(userInfo.id))
+                        }
+                        className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded"
+                      >
+                        CLICK TO ACTIVE
                       </span>
                     )}
                   </p>

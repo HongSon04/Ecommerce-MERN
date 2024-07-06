@@ -69,6 +69,21 @@ export const GetActiveSellers = createAsyncThunk(
   }
 );
 
+export const CreateStripeConnectAccount = createAsyncThunk(
+  "product/create_stripe_connect_account",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/payment/create-stripe-connect-account`, {
+        withCredentials: true,
+      });
+      window.location.href = data.url;
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const GetDeactiveSellers = createAsyncThunk(
   "product/get_deactive_sellers",
   async (

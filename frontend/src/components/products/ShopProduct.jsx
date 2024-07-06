@@ -1,9 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { RiShoppingCartLine } from "react-icons/ri";
 import Rating from "../Rating";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AddToCart,
+  AddToWishlist,
+  clearMessage,
+} from "../../store/cartReducer";
+import { toast } from "react-hot-toast";
 
 const ShopProduct = ({ styles, products }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { errorMessage, successMessage } = useSelector((state) => state.cart);
+  const add_to_cart = (product_id) => {
+    if (userInfo) {
+      dispatch(AddToCart({ product_id, userId: userInfo.id, quantity: 1 }));
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const add_wishlist = (productInfo) => {
+    if (userInfo) {
+      dispatch(
+        AddToWishlist({
+          productId: productInfo._id,
+          userId: userInfo.id,
+          name: productInfo.name,
+          price: productInfo.price,
+          image: productInfo.images[0],
+          discount: productInfo.discount,
+          rating: productInfo.rating,
+          slug: productInfo.slug,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(clearMessage());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(clearMessage());
+    }
+  }, [dispatch, errorMessage, successMessage]);
   return (
     <div
       className={`w-full grid ${
@@ -35,13 +84,22 @@ const ShopProduct = ({ styles, products }) => {
             />
 
             <ul className="absolute flex items-center justify-center w-full gap-2 transition-all duration-700 -bottom-10 group-hover:bottom-3">
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
+              <li
+                onClick={() => add_wishlist(product)}
+                className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+              >
                 <FaRegHeart />
               </li>
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
+              <Link
+                to={`/product/details/${product.slug}`}
+                className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+              >
                 <FaEye />
-              </li>
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all">
+              </Link>
+              <li
+                onClick={() => add_to_cart(product._id)}
+                className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all"
+              >
                 <RiShoppingCartLine />
               </li>
             </ul>

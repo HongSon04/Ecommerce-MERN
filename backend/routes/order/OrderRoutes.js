@@ -11,5 +11,23 @@ OrderRouter.post("/place-order", OrderController.PlaceOrder);
 
 // ? Admin
 OrderRouter.get("/get-admin-orders", OrderController.GetAdminOrders);
+OrderRouter.get("/get-admin-order/:orderId", OrderController.GetAdminOrder);
+OrderRouter.put(
+  "/admin/order-status/:orderId",
+  OrderController.AdminOrderUpdateStatus
+);
 
+// ? Seller
+OrderRouter.get(
+  "/seller/get-seller-orders/:sellerId",
+  OrderController.GetSellerOrders
+);
+OrderRouter.get(
+  "/seller/get-seller-order/:orderId",
+  OrderController.GetSellerOrder
+);
+OrderRouter.put(
+  "/seller/order-status/:orderId",
+  OrderController.SellerOrderUpdateStatus
+);
 module.exports = OrderRouter;

@@ -66,7 +66,11 @@ const Products = ({ title, products }) => {
                   className="flex items-start justify-start"
                   to={`product/details/${pl.slug}`}
                 >
-                  <img className="w-[110px] h-[110px]" src={pl.images[0]} alt="" />
+                  <img
+                    className="w-[110px] h-[110px]"
+                    src={pl.images[0]}
+                    alt=""
+                  />
                   <div className="flex flex-col items-start justify-start gap-1 px-3 text-slate-600">
                     <h2>{pl.name} </h2>
                     <span className="text-lg font-bold">${pl.price}</span>

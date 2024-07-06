@@ -9,6 +9,7 @@ const CartRouter = require("./home/CartRoutes");
 const CustomerAuthRouter = require("./home/CustomerAuthRoutes");
 const HomeRouter = require("./home/HomeRoutes");
 const OrderRouter = require("./order/OrderRoutes");
+const PaymentRouter = require("./PaymentRoutes");
 
 routes.use("/", AuthRouter);
 routes.use("/", CategoryRouter);
@@ -22,6 +23,6 @@ routes.use("/customer", CustomerAuthRouter);
 
 routes.use("/order", OrderRouter);
 routes.use("/chat", ChatRouter);
-
+routes.use("/payment", PaymentRouter);
 
 module.exports = routes;
