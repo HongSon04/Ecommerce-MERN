@@ -49,6 +49,19 @@ const SellerSchema = new Schema(
   }
 );
 
+SellerSchema.index(
+  {
+    name: "text",
+    email: "text",
+  },
+  {
+    weights: {
+      name: 5,
+      email: 4,
+    },
+  }
+);
+
 const SellerModel = model("sellers", SellerSchema);
 
 module.exports = SellerModel;

@@ -16,8 +16,10 @@ import {
   PriceRangeProduct,
   QueryProducts,
 } from "../store/reducers/HomeReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Shops = () => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const [filter, setFilter] = useState(true);
   const [state, setState] = useState({ values: [50, 1500] });
@@ -87,13 +89,15 @@ const Shops = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col items-center justify-center w-full h-full gap-1 text-white">
-              <h2 className="text-3xl font-bold">Shop Page </h2>
+              <h2 className="text-3xl font-bold">
+                {t("common.page.shop-page")}{" "}
+              </h2>
               <div className="flex items-center justify-center w-full gap-2 text-2xl">
-                <Link to="/">Home</Link>
+                <Link to="/"> {t("common.page.home")}</Link>
                 <span className="pt-1">
                   <IoIosArrowForward />
                 </span>
-                <span>Shop </span>
+                <span> {t("common.page.shop")} </span>
               </div>
             </div>
           </div>
@@ -106,7 +110,7 @@ const Shops = () => {
               onClick={() => setFilter(!filter)}
               className="w-full px-3 py-2 text-center text-white bg-indigo-500"
             >
-              Filter Product
+              {t("text.filter-product")}
             </button>
           </div>
           <div className="flex flex-wrap w-full">
@@ -118,7 +122,7 @@ const Shops = () => {
               } `}
             >
               <h2 className="mb-3 text-3xl font-bold text-slate-600">
-                Category{" "}
+                {t("text.category")}{" "}
               </h2>
               <div className="py-2">
                 {categories.map((category, i) => (
@@ -143,7 +147,7 @@ const Shops = () => {
               </div>
               <div className="flex flex-col gap-5 py-2">
                 <h2 className="mb-3 text-3xl font-bold text-slate-600">
-                  Price
+                  {t("text.price")}
                 </h2>
 
                 <Range
@@ -176,7 +180,7 @@ const Shops = () => {
               </div>
               <div className="flex flex-col gap-4 py-3">
                 <h2 className="mb-3 text-3xl font-bold text-slate-600">
-                  Rating{" "}
+                  {t("text.rating")}{" "}
                 </h2>
                 <div className="flex flex-col gap-3">
                   <div
@@ -303,14 +307,17 @@ const Shops = () => {
               </div>
 
               <div className="flex flex-col gap-4 py-5 md:hidden">
-                <Products title="Latest Product" products={lastest_products} />
+                <Products
+                  title={t("text.lastest-products")}
+                  products={lastest_products}
+                />
               </div>
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
               <div className="pl-8 md:pl-0">
                 <div className="flex items-start justify-between px-3 py-4 mb-10 bg-white border rounded-md">
                   <h2 className="text-lg font-medium text-slate-600">
-                    ({totalProduct}) Products{" "}
+                    ({totalProduct}) {t("text.products")}{" "}
                   </h2>
                   <div className="flex items-center justify-center gap-3">
                     <select
@@ -319,9 +326,13 @@ const Shops = () => {
                       name=""
                       id=""
                     >
-                      <option value="">Sort By</option>
-                      <option value="low-to-high">Low to High Price</option>
-                      <option value="high-to-low">High to Low Price </option>
+                      <option value="">{t("text.sort-by")}</option>
+                      <option value="low-to-high">
+                        {t("text.low-to-high")}
+                      </option>
+                      <option value="high-to-low">
+                        {t("text.high-to-low")}{" "}
+                      </option>
                     </select>
                     <div className="flex items-start justify-center gap-4 md-lg:hidden">
                       <div

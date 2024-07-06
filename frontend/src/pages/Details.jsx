@@ -22,7 +22,9 @@ import {
   clearMessage,
   GetCartProducts,
 } from "../store/cartReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 const Details = () => {
+  const { t } = ChangeLangue();
   const { slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -168,13 +170,15 @@ const Details = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col items-center justify-center w-full h-full gap-1 text-white">
-              <h2 className="text-3xl font-bold">Product Details </h2>
+              <h2 className="text-3xl font-bold">
+                {t("common.page.product-details-page")}{" "}
+              </h2>
               <div className="flex items-center justify-center w-full gap-2 text-2xl">
-                <Link to="/">Home</Link>
+                <Link to="/">{t("common.page.home")}</Link>
                 <span className="pt-1">
                   <IoIosArrowForward />
                 </span>
-                <span>Product Details </span>
+                <span>{t("common.page.product-details")} </span>
               </div>
             </div>
           </div>
@@ -184,7 +188,7 @@ const Details = () => {
         <div className="py-5 mb-5 bg-slate-100">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex items-center justify-start w-full text-md text-slate-600">
-              <Link to="/">Home</Link>
+              <Link to="/">{t("common.page.home")}</Link>
               <span className="pt-1">
                 <IoIosArrowForward />
               </span>
@@ -241,12 +245,15 @@ const Details = () => {
                 <div className="flex text-xl">
                   <Rating ratings={product?.rating} />
                 </div>
-                <span className="text-green-500">(24 reviews)</span>
+                <span className="text-green-500">
+                  (24 {t("product-detail.reviews")})
+                </span>
               </div>
               <div className="flex gap-3 text-2xl font-bold text-red-500">
                 {product?.discount !== 0 ? (
                   <>
-                    Price : <h2 className="line-through">${product?.price}</h2>
+                    {t("product-detail.price")} :{" "}
+                    <h2 className="line-through">${product?.price}</h2>
                     <h2>
                       $
                       {product?.price -
@@ -258,7 +265,10 @@ const Details = () => {
                     </h2>
                   </>
                 ) : (
-                  <h2> Price : ${product?.price} </h2>
+                  <h2>
+                    {" "}
+                    {t("product-detail.price")} : ${product?.price}{" "}
+                  </h2>
                 )}
               </div>
               <div className="text-slate-600">
@@ -281,7 +291,7 @@ const Details = () => {
                         onClick={() => add_to_cart(product?._id)}
                         className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#059473] text-white"
                       >
-                        Add To Cart
+                        {t("product-detail.add-to-cart")}
                       </button>
                     </div>
                   </>
@@ -299,9 +309,9 @@ const Details = () => {
               </div>
               <div className="flex gap-5 py-5">
                 <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
-                  <span>Shop Name</span>
-                  <span>Availability</span>
-                  <span>Share On</span>
+                  <span>{t("product-detail.shop-name")}</span>
+                  <span>{t("product-detail.availability")}</span>
+                  <span>{t("product-detail.share-on")}</span>
                 </div>
                 <div className="flex flex-col gap-5">
                   <span className="text-xl font-bold text-black">
@@ -313,8 +323,8 @@ const Details = () => {
                     }-500`}
                   >
                     {product?.stock
-                      ? `In Stock(${product?.stock})`
-                      : "Out Of Stock"}
+                      ? `${t("product-detail.in-stock")} (${product?.stock})`
+                      : t("product-detail.out-of-stock")}
                   </span>
                   <ul className="flex items-center justify-start gap-3">
                     <li>
@@ -362,7 +372,7 @@ const Details = () => {
                     onClick={() => buynow()}
                     className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#247462] text-white"
                   >
-                    Buy Now
+                    {t("product-detail.buynow")}
                   </button>
                 ) : (
                   ""
@@ -371,7 +381,7 @@ const Details = () => {
                   to={`/dashboard/chat/${product?.seller_id}`}
                   className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-red-500/40 bg-red-500 text-white"
                 >
-                  Chat Seller
+                  {t("product-detail.chat-seller")}
                 </Link>
               </div>
             </div>
@@ -392,7 +402,7 @@ const Details = () => {
                         : "bg-slate-200 text-slate-700"
                     } rounded-sm`}
                   >
-                    Reviews{" "}
+                    {t("product-detail.reviews")}{" "}
                   </button>
 
                   <button
@@ -403,7 +413,7 @@ const Details = () => {
                         : "bg-slate-200 text-slate-700"
                     } rounded-sm`}
                   >
-                    Description{" "}
+                    {t("product-detail.description")}{" "}
                   </button>
                 </div>
                 <div>
@@ -420,7 +430,9 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2 className="font-bold">From {product.shopName}</h2>
+                  <h2 className="font-bold">
+                    {t("product-detail.from")} {product.shopName}
+                  </h2>
                 </div>
                 <div className="flex flex-col gap-5 p-3 mt-3 border">
                   {moreProducts.map((product, i) => {
@@ -464,7 +476,9 @@ const Details = () => {
       </section>
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
-          <h2 className="py-8 text-2xl text-slate-600">Related Products </h2>
+          <h2 className="py-8 text-2xl text-slate-600">
+            {t("product-detail.related-products")}{" "}
+          </h2>
           <div>
             <Swiper
               slidesPerView="auto"

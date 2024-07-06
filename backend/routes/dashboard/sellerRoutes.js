@@ -21,4 +21,16 @@ SellerRouter.post(
   SellerController.SellerStatusUpdate
 );
 
+SellerRouter.get(
+  "/get-active-sellers",
+  AuthMiddleware,
+  SellerController.GetActiveSellers
+);
+
+SellerRouter.get(
+  "/get-deactive-sellers",
+  AuthMiddleware,
+  SellerController.GetDeactiveSellers
+);
+
 module.exports = SellerRouter;

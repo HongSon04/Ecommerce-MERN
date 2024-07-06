@@ -3,8 +3,10 @@ import Carousel from "react-multi-carousel";
 import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector } from "react-redux";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Categories = () => {
+  const { t } = ChangeLangue();
   const { categories } = useSelector((state) => state.home);
 
   const responsive = {
@@ -42,7 +44,7 @@ const Categories = () => {
     <div className="w-[87%] mx-auto relative">
       <div className="w-full">
         <div className="text-center flex justify-center items-center flex-col text-4xl to-slate-600 font-bold relative pb-[45px]">
-          <h2>Top Category</h2>
+          <h2>{t("text.top-category")}</h2>
           <div className="w-[100px] h-[2px] bg-[#059473] mt-4"></div>
         </div>
       </div>

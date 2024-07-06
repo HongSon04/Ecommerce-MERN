@@ -8,8 +8,10 @@ import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducts } from "../store/reducers/HomeReducer";
 import { GetCartProducts } from "../store/cartReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 
 const Home = () => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const { products, lastest_products, top_rated_products, discount_products } =
     useSelector((state) => state.home);
@@ -30,16 +32,22 @@ const Home = () => {
         <div className="w-[85%] flex flex-wrap mx-auto">
           <div className="grid w-full grid-cols-3 md-lg:grid-cols-2 md:grid-cols-1 gap-7">
             <div className="overflow-hidden">
-              <Products products={lastest_products} title="Lastest Product" />
+              <Products
+                products={lastest_products}
+                title={t("text.lastest-products")}
+              />
             </div>
             <div className="overflow-hidden">
               <Products
                 products={top_rated_products}
-                title="Top Rated Product"
+                title={t("text.top-rated-products")}
               />
             </div>
             <div className="overflow-hidden">
-              <Products products={discount_products} title="Discount Product" />
+              <Products
+                products={discount_products}
+                title={t("text.discount-products")}
+              />
             </div>
           </div>
         </div>

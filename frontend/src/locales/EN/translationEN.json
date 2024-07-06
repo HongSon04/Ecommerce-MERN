@@ -19,7 +19,10 @@
       "cart": "Cart",
       "cart-page": "Cart Page",
       "Shipping": "Shipping",
-      "shipping-page": "Shipping Page"
+      "shipping-page": "Shipping Page",
+      "product-details": "Product Details",
+      "product-details-page": "Product Details Page",
+      "shop-page": "Shop Page"
     }
   },
   "text": {
@@ -55,7 +58,15 @@
     "city": "City",
     "area": "Area",
     "save-changes": "Save Changes",
-    "brand": "Brand"
+    "brand": "Brand",
+    "products": "Products",
+    "category": "Category",
+    "filter-products": "Filter Products",
+    "price": "Price",
+    "rating": "Rating",
+    "sort-by": "Sort By",
+    "low-to-high": "Low to High Price",
+    "high-to-low": "High to Low Price"
   },
   "auth": {
     "password": "Password",
@@ -126,5 +137,22 @@
     "total-payment": "Total Payment",
     "total": "Total",
     "place-order": "Place Order"
+  },
+  "product-detail": {
+    "price": "Price",
+    "reviews": "Reviews",
+    "add-to-cart": "Add to Cart",
+    "shop-name": "Shop Name",
+    "availability": "Availability",
+    "in-stock": "In Stock",
+    "out-of-stock": "Out of Stock",
+    "share-on": "Share on",
+    "description": "Description",
+    "product-review": "Product Review",
+    "submit": "Submit",
+    "buynow": "Buy Now",
+    "chat-seller": "Chat Seller",
+    "from": "From",
+    "related-products": "Related Products"
   }
 }

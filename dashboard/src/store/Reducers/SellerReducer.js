@@ -49,6 +49,46 @@ export const UpdateSellerStatus = createAsyncThunk(
   }
 );
 
+export const GetActiveSellers = createAsyncThunk(
+  "product/get_active_sellers",
+  async (
+    { parPage, searchValue, currentPage },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/get-active-sellers?page=${currentPage}&&searchValue=${searchValue}&parPage=${parPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const GetDeactiveSellers = createAsyncThunk(
+  "product/get_deactive_sellers",
+  async (
+    { parPage, searchValue, currentPage },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/get-deactive-sellers?page=${currentPage}&&searchValue=${searchValue}&parPage=${parPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const SellerReducer = createSlice({
   name: "seller",
   initialState: {
@@ -102,6 +142,16 @@ export const SellerReducer = createSlice({
         state.loader = false;
         state.successMessage = payload.message;
         state.seller = payload.seller;
+      })
+      .addCase(GetActiveSellers.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
+        state.sellers = payload.sellers;
+        state.totalSeller = payload.totalSeller;
+      })
+      .addCase(GetDeactiveSellers.fulfilled, (state, { payload }) => {
+        state.successMessage = payload.message;
+        state.sellers = payload.sellers;
+        state.totalSeller = payload.totalSeller;
       });
   },
 });

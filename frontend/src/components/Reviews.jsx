@@ -14,7 +14,9 @@ import {
   GetProductDetails,
   GetReviews,
 } from "../store/reducers/HomeReducer";
+import ChangeLangue from "../utils/ChangeLangue";
 const Reviews = ({ product }) => {
+  const { t } = ChangeLangue();
   const dispatch = useDispatch();
   const { slug } = useParams();
   const [parPage, setParPage] = useState(10);
@@ -66,7 +68,9 @@ const Reviews = ({ product }) => {
           <div className="flex text-3xl">
             <Rating ratings={product.rating} />
           </div>
-          <p className="text-sm text-slate-600">{totalReview} Reviews</p>
+          <p className="text-sm text-slate-600">
+            {totalReview} {t("product-detail.reviews")}
+          </p>
         </div>
         <div className="flex flex-col gap-2 py-4">
           <div className="flex items-center justify-start gap-5">
@@ -168,7 +172,7 @@ const Reviews = ({ product }) => {
         </div>
       </div>
       <h2 className="py-5 text-xl font-bold text-slate-600">
-        Product Review ({totalReview})
+        {t("product-detail.product-review")} ({totalReview})
       </h2>
       <div className="flex flex-col gap-8 pt-4 pb-10">
         {reviews.map((review, i) => (
@@ -228,7 +232,7 @@ const Reviews = ({ product }) => {
               ></textarea>
               <div className="mt-2">
                 <button className="px-5 py-1 text-white bg-indigo-500 rounded-sm">
-                  Submit
+                  {t("product-detail.submit")}
                 </button>
               </div>
             </form>

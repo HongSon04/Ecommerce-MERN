@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEye } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { GetActiveSellers } from "../../store/Reducers/SellerReducer";
 const Sellers = () => {
+  const dispatch = useDispatch();
+  const { sellers, totalSeller } = useSelector((state) => state.seller);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const [show, setShow] = useState(false);
-
+  useEffect(() => {
+    dispatch(
+      GetActiveSellers({
+        parPage: parseInt(parPage),
+        searchValue,
+        currentPage: parseInt(currentPage),
+      })
+    );
+  }, [dispatch, parPage, searchValue, currentPage]);
   return (
     <div className="px-2 pt-5 lg:px-7">
       <h1 className="text-[20px] font-bold mb-3">Seller </h1>
@@ -22,6 +34,8 @@ const Sellers = () => {
             <option value="20">20</option>
           </select>
           <input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]"
             type="text"
             placeholder="search"
@@ -50,7 +64,7 @@ const Sellers = () => {
                   Email
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  Devision
+                  Status
                 </th>
                 <th scope="col" className="px-4 py-3">
                   District
@@ -61,58 +75,43 @@ const Sellers = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {sellers.map((seller, i) => (
                 <tr key={i}>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    {d}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {i + 1}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     <img
                       className="w-[45px] h-[45px]"
-                      src={`http://localhost:3000/images/category/${d}.jpg`}
+                      src={seller?.image}
                       alt=""
                     />
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    Kazi Ariyan{" "}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {seller?.name}{" "}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    Easy Shop
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {seller?.shopInfo?.shopName}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    <span>Pending</span>{" "}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    <span>{seller?.payment}</span>{" "}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    ariyan@gmail.com{" "}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {seller?.email}{" "}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    Dhaka{" "}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {seller?.status}{" "}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
-                    Paltan{" "}
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
+                    {seller?.shopInfo?.district}{" "}
                   </td>
 
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     <div className="flex items-center justify-start gap-4">
-                      <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
+                      <Link
+                        to={`/admin/dashboard/seller-details/${seller._id}`}
+                        className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                      >
                         {" "}
                         <FaEye />{" "}
                       </Link>
@@ -123,15 +122,17 @@ const Sellers = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end w-full mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={50}
-            parPage={parPage}
-            showItem={3}
-          />
-        </div>
+        {totalSeller >= parPage && (
+          <div className="flex justify-end w-full mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={totalSeller}
+              parPage={parPage}
+              showItem={3}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,7 +19,10 @@
       "cart": "Giỏ hàng",
       "cart-page": "Trang giỏ hàng",
       "shipping": "Giao hàng",
-      "shipping-page": "Trang giao hàng"
+      "shipping-page": "Trang giao hàng",
+      "product-details": "Chi tiết sản phẩm",
+      "product-details-page": "Trang chi tiết sản phẩm",
+      "shop-page": "Trang sản phẩm"
     }
   },
   "text": {
@@ -55,7 +58,15 @@
     "city": "Thành phố",
     "area": "Quận",
     "save-changes": "Lưu thay đổi",
-    "brand": "Hãng"
+    "brand": "Hãng",
+    "products": "Sản phẩm",
+    "category": "Danh mục",
+    "filter-products": "Lọc sản phẩm",
+    "price": "Giá",
+    "rating": "Đánh giá",
+    "sort-by": "Sắp xếp theo",
+    "low-to-high": "Giá từ Thấp đến Cao",
+    "high-to-low": "Giá từ Cao đến Thấp"
   },
   "auth": {
     "password": "Mật khẩu",
@@ -126,5 +137,22 @@
     "total-payment": "Tổng thanh toán",
     "total": "Tổng cộng",
     "place-order": "Đặt hàng"
+  },
+  "product-detail": {
+    "price": "Giá",
+    "reviews": "Đánh giá",
+    "add-to-cart": "Thêm vào giỏ hàng",
+    "shop-name": "Tên cửa hàng",
+    "availability": "Tình trạng",
+    "in-stock": "Còn hàng",
+    "out-of-stock": "Hết hàng",
+    "share-on": "Chia sẻ trên",
+    "description": "Mô tả",
+    "product-review": "Đánh giá sản phẩm",
+    "submit": "Gửi",
+    "buynow": "Mua ngay",
+    "chat-seller": "Trò chuyện với người bán",
+    "from": "Từ",
+    "related-products": "Sản phẩm liên quan"
   }
 }
