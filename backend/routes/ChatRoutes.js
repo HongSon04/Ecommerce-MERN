@@ -26,4 +26,24 @@ ChatRouter.post(
   ChatController.SellerMessageToCustomer
 );
 
+ChatRouter.get("/admin/get-sellers", AuthMiddleware, ChatController.GetSellers);
+
+ChatRouter.post(
+  "/message-send-to-admin",
+  AuthMiddleware,
+  ChatController.SellerAdminMessage
+);
+
+ChatRouter.get(
+  "/get-admin-message/:receverId",
+  AuthMiddleware,
+  ChatController.GetAdminMessages
+);
+
+ChatRouter.get(
+  "/get-seller-message",
+  AuthMiddleware,
+  ChatController.GetSellerMessage
+);
+
 module.exports = ChatRouter;

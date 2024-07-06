@@ -1,4 +1,5 @@
-const SellerCustomerMessageModel = require("../../models/chat/SellerCustomerMessage");
+const AdminSellerMessageModel = require("../../models/chat/AdminSellerMessageModel");
+const SellerCustomerMessageModel = require("../../models/chat/SellerCustomerMessageModel");
 const SellerCustomerModel = require("../../models/chat/SellerCustomerModel");
 const CustomerModel = require("../../models/CustomerModel");
 const SellerModel = require("../../models/SellerModel");
@@ -137,6 +138,7 @@ class ChatController {
       console.log(error.message);
     }
   };
+
   SendMessageToSeller = async (req, res) => {
     const { sellerId, userId, text, name } = req.body;
     try {
@@ -177,6 +179,7 @@ class ChatController {
       console.log(error.message);
     }
   };
+
   GetCustomers = async (req, res) => {
     const { sellerId } = req.params;
     try {
@@ -188,6 +191,7 @@ class ChatController {
       console.log(error.message);
     }
   };
+
   GetCustomersSellerMessage = async (req, res) => {
     const { customerId } = req.params;
     const { id } = req;
@@ -227,6 +231,7 @@ class ChatController {
       console.log(error.message);
     }
   };
+
   SellerMessageToCustomer = async (req, res) => {
     const { senderId, receverId, text, name } = req.body;
     try {
@@ -263,6 +268,106 @@ class ChatController {
       await SellerCustomerModel.updateOne({ myId: receverId }, { myFriends2 });
 
       responseReturn(res, 200, { message });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  GetSellers = async (req, res) => {
+    try {
+      const sellers = await SellerModel.find();
+      responseReturn(res, 200, { sellers });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  SellerAdminMessage = async (req, res) => {
+    const { senderId, receverId, message, senderName } = req.body;
+    try {
+      const messageData = await AdminSellerMessageModel.create({
+        senderId,
+        receverId,
+        message,
+        senderName,
+      });
+      responseReturn(res, 200, { message: messageData });
+    } catch (error) {}
+  };
+  GetAdminMessages = async (req, res) => {
+    const { receverId } = req.params;
+    const id = "";
+    try {
+      const messages = await AdminSellerMessageModel.find({
+        $or: [
+          {
+            $and: [
+              {
+                receverId: receverId,
+              },
+              {
+                senderId: {
+                  $eq: id,
+                },
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                receverId: id,
+              },
+              {
+                senderId: {
+                  $eq: receverId,
+                },
+              },
+            ],
+          },
+        ],
+      });
+      let currentSeller = {};
+      if (receverId) {
+        currentSeller = await SellerModel.findById(receverId);
+      }
+
+      responseReturn(res, 200, { messages, currentSeller });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  GetSellerMessage = async (req, res) => {
+    const receverId = "";
+    const { id } = req;
+    try {
+      const messages = await AdminSellerMessageModel.find({
+        $or: [
+          {
+            $and: [
+              {
+                receverId: { $eq: receverId },
+              },
+              {
+                senderId: {
+                  $eq: id,
+                },
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                receverId: { $eq: id },
+              },
+              {
+                senderId: {
+                  $eq: receverId,
+                },
+              },
+            ],
+          },
+        ],
+      });
+      responseReturn(res, 200, { messages });
     } catch (error) {
       console.log(error.message);
     }
