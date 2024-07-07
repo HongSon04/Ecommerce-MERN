@@ -1,11 +1,16 @@
 const moment = require("moment");
 const CustomerOrderModel = require("../../models/CustomerOrderModel");
+const SellerWalletModel = require("../../models/SellerWalletModel");
 const AuthOrderModel = require("../../models/AuthOrderModel");
 const CartModel = require("../../models/CartModel");
 const { responseReturn } = require("../../utils/response");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const MyShopWalletModel = require("../../models/MyShopWalletModel");
+const Stripe = require("stripe")(
+  "sk_test_51PObsyRrE4qmG8gzn2IXTiCMCSh7VbmmwFhEJ9ZoWo5tNVPl0qWDcLvLkktSS9mIvgYCig6L91kkEnwtC62MZndp00swkGIfLa"
+);
 class OrderController {
   PaymentCheck = async (id) => {
     try {
@@ -283,6 +288,7 @@ class OrderController {
       console.log(error.message);
     }
   };
+
   SellerOrderUpdateStatus = async (req, res) => {
     const { orderId } = req.params;
     const { status } = req.body;
@@ -296,6 +302,60 @@ class OrderController {
       });
     } catch (error) {
       responseReturn(res, 500, { message: error.message });
+    }
+  };
+
+  CreatePayment = async (req, res) => {
+    const { price } = req.body;
+    console.log(price);
+    try {
+      const payment = await Stripe.paymentIntents.create({
+        amount: price * 100,
+        currency: "usd",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      responseReturn(res, 200, { clientSecret: payment.client_secret });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  OrderConfirm = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      await CustomerOrderModel.findByIdAndUpdate(orderId, {
+        payment_status: "paid",
+      });
+      await AuthOrderModel.updateMany(
+        { orderId: orderId },
+        { payment_status: "paid" }
+      );
+      const CustomerOrder = await CustomerOrderModel.findById(orderId);
+      const AuthOrder = await AuthOrderModel.find({ orderId: orderId });
+
+      const time = moment(Date.now()).format("l");
+      const splitTime = time.split("/");
+
+      await MyShopWalletModel.create({
+        ammount: CustomerOrder.price,
+        month: splitTime[0],
+        year: splitTime[2],
+      });
+
+      for (let i = 0; i < AuthOrder.length; i++) {
+        await SellerWalletModel.create({
+          sellerId: AuthOrder[i].sellerId.toString(),
+          ammount: AuthOrder[i].price,
+          month: splitTime[0],
+          year: splitTime[2],
+        });
+      }
+
+      responseReturn(res, 200, { message: "Order Confirmed" });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }

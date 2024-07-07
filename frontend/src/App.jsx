@@ -22,6 +22,7 @@ import ChangePassword from "./components/dashboard/ChangePassword";
 import Wishlist from "./components/dashboard/Wishlist";
 import OrderDetail from "./components/dashboard/OrderDetail";
 import Chat from "./components/dashboard/Chat";
+import ConfirmOrder from "./pages/ConfirmOrder";
 function App() {
   const dispatch = useDispatch();
 
@@ -37,6 +38,8 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/shop" element={<Shop />}></Route>
         <Route path="/products?" element={<CategoryShop />}></Route>
+        <Route path="/product/details/:slug" element={<Details />} />
+        <Route path="/order/confirm/?" element={<ConfirmOrder />} />
         <Route path="/search?" element={<SearchProducts />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/payment" element={<Payment />}></Route>
@@ -52,7 +55,6 @@ function App() {
             <Route path="order/details/:orderId" element={<OrderDetail />} />
           </Route>
         </Route>
-        <Route path="/product/details/:slug" element={<Details />} />
       </Routes>
     </BrowserRouter>
   );

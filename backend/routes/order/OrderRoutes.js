@@ -9,6 +9,9 @@ OrderRouter.get("/get-orders/:customerId/:status", OrderController.GetOrders);
 OrderRouter.get("/get-order-details/:orderId", OrderController.GetOrderDetails);
 OrderRouter.post("/place-order", OrderController.PlaceOrder);
 
+OrderRouter.post("/create-payment", OrderController.CreatePayment);
+OrderRouter.get("/confirm/:orderId", OrderController.OrderConfirm);
+
 // ? Admin
 OrderRouter.get("/get-admin-orders", OrderController.GetAdminOrders);
 OrderRouter.get("/get-admin-order/:orderId", OrderController.GetAdminOrder);
