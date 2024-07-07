@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getNav } from "../navigation/index";
 import { BiLogOutCircle } from "react-icons/bi";
 // import { logout } from "../store/Reducers/AuthReducer";
-import logo from "../logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../store/Reducers/AuthReducer";
+import logo from "../assets/logo.png";
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

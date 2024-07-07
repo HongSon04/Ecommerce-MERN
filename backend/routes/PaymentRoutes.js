@@ -8,4 +8,10 @@ PaymentRouter.get(
   PaymentController.CreateStripeConnectAccount
 );
 
+PaymentRouter.put(
+  "/active-stripe-connect-account/:activeCode",
+  AuthMiddleware,
+  PaymentController.ActiveStripeConnectAccount
+);
+
 module.exports = PaymentRouter;

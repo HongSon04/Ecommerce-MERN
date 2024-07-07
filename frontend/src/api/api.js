@@ -5,6 +5,7 @@ const production = "https://api.myapp.com";
 
 const api = axios.create({
   baseURL: `${local}/api`,
+  withCredentials: true,
 });
 
 export default api;

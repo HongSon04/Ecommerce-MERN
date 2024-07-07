@@ -10,12 +10,6 @@ function App() {
 
   const { token } = useSelector((state) => state.auth);
   const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
-
-  useEffect(() => {
-    const routes = getRoutes();
-    setAllRoutes([...allRoutes, routes]);
-  }, []);
-
   useEffect(() => {
     if (token) {
       dispatch(get_user_info());
@@ -23,6 +17,11 @@ function App() {
       dispatch(get_user_info());
     }
   }, [token, dispatch]);
+
+  useEffect(() => {
+    const routes = getRoutes();
+    setAllRoutes([...allRoutes, routes]);
+  }, []);
 
   return <Router allRoutes={allRoutes} />;
 }
