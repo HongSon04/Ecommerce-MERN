@@ -14,4 +14,28 @@ PaymentRouter.put(
   PaymentController.ActiveStripeConnectAccount
 );
 
+PaymentRouter.get(
+  "/seller-payment-details/:sellerId",
+  AuthMiddleware,
+  PaymentController.GetSellerPaymentDetails
+);
+
+PaymentRouter.post(
+  "/withdraw-request",
+  AuthMiddleware,
+  PaymentController.SendWithDrawRequest
+);
+
+PaymentRouter.get(
+  "/request",
+  AuthMiddleware,
+  PaymentController.GetPaymentRequest
+);
+
+PaymentRouter.put(
+  "/request-confirm/:paymentId",
+  AuthMiddleware,
+  PaymentController.ConfirmPaymentRequest
+);
+
 module.exports = PaymentRouter;

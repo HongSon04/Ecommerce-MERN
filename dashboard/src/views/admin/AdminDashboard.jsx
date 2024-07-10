@@ -285,29 +285,19 @@ const AdminDashboard = () => {
             <tbody>
               {[1, 2, 3, 4, 5].map((item, id) => (
                 <tr key={id}>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
                     #343434
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
                     $454
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
                     Pending
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
                     Pending
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
                     <Link>View</Link>
                   </td>
                 </tr>

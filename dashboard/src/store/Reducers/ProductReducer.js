@@ -59,7 +59,6 @@ export const UpdateProduct = createAsyncThunk(
       const { data } = await api.post("/product-update", product, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

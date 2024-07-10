@@ -41,8 +41,6 @@ class AuthController {
       if (role === "admin") {
         const user = await AdminModel.findById(id).select("-password");
         if (user) {
-          const token = await createToken({ id: admin._id, role: admin.role });
-         
           responseReturn(res, 200, { userInfo: user });
         } else {
           responseReturn(res, 400, { error: "User not found" });

@@ -35,7 +35,6 @@ const SellerDetails = () => {
   }, [errorMessage, successMessage, dispatch]);
 
   useEffect(() => {
-    console.log(seller);
     if (seller) {
       setStatus(seller.status);
     }

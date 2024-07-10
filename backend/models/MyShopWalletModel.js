@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const MyShopWalletSchema = new Schema(
   {
-    ammount: {
+    amount: {
       type: Number,
       required: true,
     },

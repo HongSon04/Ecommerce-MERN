@@ -95,7 +95,8 @@ class OrderController {
         this.PaymentCheck(order._id);
       }, 15000);
 
-      responseReturn(res, 200, "Order Placed Successfully", {
+      responseReturn(res, 200, {
+        message: "Order Placed Successfully",
         orderID: order._id,
       });
     } catch (error) {
@@ -280,7 +281,6 @@ class OrderController {
 
   GetSellerOrder = async (req, res) => {
     const { orderId } = req.params;
-    console.log(orderId);
     try {
       const order = await AuthOrderModel.findById(orderId);
       responseReturn(res, 200, { order });
@@ -307,7 +307,6 @@ class OrderController {
 
   CreatePayment = async (req, res) => {
     const { price } = req.body;
-    console.log(price);
     try {
       const payment = await Stripe.paymentIntents.create({
         amount: price * 100,
@@ -328,6 +327,7 @@ class OrderController {
       await CustomerOrderModel.findByIdAndUpdate(orderId, {
         payment_status: "paid",
       });
+
       await AuthOrderModel.updateMany(
         { orderId: orderId },
         { payment_status: "paid" }
@@ -339,7 +339,7 @@ class OrderController {
       const splitTime = time.split("/");
 
       await MyShopWalletModel.create({
-        ammount: CustomerOrder.price,
+        amount: CustomerOrder.price,
         month: splitTime[0],
         year: splitTime[2],
       });
@@ -347,7 +347,7 @@ class OrderController {
       for (let i = 0; i < AuthOrder.length; i++) {
         await SellerWalletModel.create({
           sellerId: AuthOrder[i].sellerId.toString(),
-          ammount: AuthOrder[i].price,
+          amount: AuthOrder[i].price,
           month: splitTime[0],
           year: splitTime[2],
         });

@@ -53,7 +53,7 @@ const ConfirmOrder = () => {
 
   const update_payment = async () => {
     const orderId = localStorage.getItem("orderId");
-    if (orderId) {
+    if (orderId !== null && orderId !== undefined) {
       try {
         await axios.get(`http://localhost:5000/api/order/confirm/${orderId}`);
         localStorage.removeItem("orderId");

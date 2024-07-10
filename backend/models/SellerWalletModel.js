@@ -6,7 +6,7 @@ const SellerWalletSchema = new Schema(
       type: String,
       required: true,
     },
-    ammount: {
+    amount: {
       type: Number,
       required: true,
     },
