@@ -27,6 +27,6 @@ DashboardRouter.get(
   DashboardController.GetBanner
 );
 
-router.get("/banners", DashboardController.GetBanners);
+DashboardRouter.get("/banners", DashboardController.GetBanners);
 
 module.exports = DashboardRouter;
