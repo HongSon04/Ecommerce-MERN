@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { GetBanners } from "../store/reducers/HomeReducer";
 
 const Banner = () => {
+  const dispatch = useDispatch();
+  const { banners } = useSelector((state) => state.home);
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -22,7 +26,10 @@ const Banner = () => {
       items: 1,
     },
   };
-
+  useEffect(() => {
+    dispatch(GetBanners());
+  }, [dispatch]);
+  
   return (
     <div className="w-full md-lg:mt-6">
       <div className="w-[85%] lg:w-[90%] mx-auto">

@@ -3,6 +3,7 @@ const routes = require("express").Router();
 const AuthRouter = require("./authRoutes");
 const ChatRouter = require("./ChatRoutes");
 const CategoryRouter = require("./dashboard/categoryRoutes");
+const DashboardRouter = require("./dashboard/DashboardRoutes");
 const ProductRouter = require("./dashboard/productRoutes");
 const SellerRouter = require("./dashboard/sellerRoutes");
 const CartRouter = require("./home/CartRoutes");
@@ -24,5 +25,7 @@ routes.use("/customer", CustomerAuthRouter);
 routes.use("/order", OrderRouter);
 routes.use("/chat", ChatRouter);
 routes.use("/payment", PaymentRouter);
+
+routes.use("/", DashboardRouter);
 
 module.exports = routes;

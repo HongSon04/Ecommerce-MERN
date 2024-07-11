@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdCurrencyExchange, MdProductionQuantityLimits } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { GetSellerDashboardData } from "../../store/Reducers/SellerReducer";
+import sellerImage from "../../assets/seller.png";
 
 const SellerDashboard = () => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const {
+    totalSale,
+    totalOrder,
+    totalProduct,
+    recentOrders,
+    recentMessage,
+    totalPendingOrder,
+  } = useSelector((state) => state.dashboard);
   const state = {
     series: [
       {
@@ -93,6 +107,9 @@ const SellerDashboard = () => {
       ],
     },
   };
+  useEffect(() => {
+    dispatch(GetSellerDashboardData());
+  }, [dispatch]);
   return (
     <div className="px-2 py-5 md:px-7">
       {/* Dashboard */}
@@ -100,7 +117,7 @@ const SellerDashboard = () => {
         {/* Items */}
         <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-            <h2 className="text-3xl font-bold">$4356</h2>
+            <h2 className="text-3xl font-bold">${totalSale}</h2>
             <span className="font-medium text-md">Total Salse</span>
           </div>
 
@@ -112,7 +129,7 @@ const SellerDashboard = () => {
 
         <div className="flex justify-between items-center p-5 bg-[#fde2ff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-            <h2 className="text-3xl font-bold">100</h2>
+            <h2 className="text-3xl font-bold">{totalProduct}</h2>
             <span className="font-medium text-md">Products</span>
           </div>
 
@@ -124,7 +141,7 @@ const SellerDashboard = () => {
 
         <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-            <h2 className="text-3xl font-bold">1000</h2>
+            <h2 className="text-3xl font-bold">{totalOrder}</h2>
             <span className="font-medium text-md">Orders</span>
           </div>
 
@@ -136,7 +153,7 @@ const SellerDashboard = () => {
 
         <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-            <h2 className="text-3xl font-bold">20</h2>
+            <h2 className="text-3xl font-bold">{totalPendingOrder}</h2>
             <span className="font-medium text-md">Pending Orders</span>
           </div>
 
@@ -178,74 +195,41 @@ const SellerDashboard = () => {
             <div className="flex flex-col gap-2 pt-6 text-[#d0d2d6]">
               <ol className="relative ml-4 border-1 border-slate-600">
                 {/* Item Message Seller */}
-                <li className="mb-3 ml-6">
-                  {/* Avatar Seller */}
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4c7fe2] rounded-full z-10">
-                    <img
-                      className="w-full h-full rounded-full shadow-lg"
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                    />
-                  </div>
-                  {/* Message Seller */}
-                  <div className="p-3 border rounded-lg shadow-sm bg-slate-800 border-slate-600">
-                    <div className="flex items-center justify-between mb-2">
-                      <Link className="font-normal text-md"> Admin</Link>
-                      <time className="mb-1 text-sm font-normal sm:order-last sm:mb-0">
-                        2 day ago
-                      </time>
+                {recentMessage?.map((item, i) => (
+                  <li key={i} className="mb-3 ml-6">
+                    {/* Avatar Seller */}
+                    <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4c7fe2] rounded-full z-10">
+                      {item.senderId === userInfo?._id ? (
+                        <img
+                          className="w-full h-full rounded-full shadow-lg"
+                          src={userInfo?.image}
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          className="w-full h-full rounded-full shadow-lg"
+                          src={sellerImage}
+                          alt=""
+                        />
+                      )}
                     </div>
-                    <div className="p-2 text-xs font-normal border rounded-lg bg-slate-700 border-slate-800">
-                      How Are You ?
+                    {/* Message Seller */}
+                    <div className="p-3 border rounded-lg shadow-sm bg-slate-800 border-slate-600">
+                      <div className="flex items-center justify-between mb-2">
+                        <Link className="font-normal text-md">
+                          {" "}
+                          {item.senderName}
+                        </Link>
+                        <time className="mb-1 text-sm font-normal sm:order-last sm:mb-0">
+                          {moment(item.createdAt).startOf("hour").fromNow()}
+                        </time>
+                      </div>
+                      <div className="p-2 text-xs font-normal border rounded-lg bg-slate-700 border-slate-800">
+                        {item.message}
+                      </div>
                     </div>
-                  </div>
-                </li>
-                {/* Item Message Seller */}
-                <li className="mb-3 ml-6">
-                  {/* Avatar Seller */}
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4c7fe2] rounded-full z-10">
-                    <img
-                      className="w-full h-full rounded-full shadow-lg"
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                    />
-                  </div>
-                  {/* Message Seller */}
-                  <div className="p-3 border rounded-lg shadow-sm bg-slate-800 border-slate-600">
-                    <div className="flex items-center justify-between mb-2">
-                      <Link className="font-normal text-md"> Admin</Link>
-                      <time className="mb-1 text-sm font-normal sm:order-last sm:mb-0">
-                        2 day ago
-                      </time>
-                    </div>
-                    <div className="p-2 text-xs font-normal border rounded-lg bg-slate-700 border-slate-800">
-                      How Are You ?
-                    </div>
-                  </div>
-                </li>
-                {/* Item Message Seller */}
-                <li className="mb-3 ml-6">
-                  {/* Avatar Seller */}
-                  <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4c7fe2] rounded-full z-10">
-                    <img
-                      className="w-full h-full rounded-full shadow-lg"
-                      src="http://localhost:3000/images/admin.jpg"
-                      alt=""
-                    />
-                  </div>
-                  {/* Message Seller */}
-                  <div className="p-3 border rounded-lg shadow-sm bg-slate-800 border-slate-600">
-                    <div className="flex items-center justify-between mb-2">
-                      <Link className="font-normal text-md"> Admin</Link>
-                      <time className="mb-1 text-sm font-normal sm:order-last sm:mb-0">
-                        2 day ago
-                      </time>
-                    </div>
-                    <div className="p-2 text-xs font-normal border rounded-lg bg-slate-700 border-slate-800">
-                      How Are You ?
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                ))}
               </ol>
             </div>
           </div>
@@ -283,32 +267,24 @@ const SellerDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((item, id) => (
+              {recentOrders?.map((item, id) => (
                 <tr key={id}>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
-                    #343434
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                    #{item._id}
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
-                    $454
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                    ${item.price}
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
-                    Pending
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                    {item.payment_status}
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
-                    Pending
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                    {item.delivery_status}
                   </td>
-                  <td
-                    className="px-4 py-3 font-medium whitespace-nowrap"
-                  >
-                    <Link>View</Link>
+                  <td className="px-4 py-3 font-medium whitespace-nowrap">
+                    <Link to={`/seller/dashboard/order-details/${item._id}`}>
+                      View
+                    </Link>
                   </td>
                 </tr>
               ))}

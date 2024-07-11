@@ -101,6 +101,18 @@ export const GetReviews = createAsyncThunk(
   }
 );
 
+export const GetBanners = createAsyncThunk(
+  "banner/get_banners",
+  async (_, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/banners`);
+      //  console.log(data)
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.respone);
+    }
+  }
+);
 export const HomeReducer = createSlice({
   name: "home",
   initialState: {
@@ -124,6 +136,7 @@ export const HomeReducer = createSlice({
     rating_review: [],
     reviews: [],
     lang: "en",
+    banners: [],
   },
   reducers: {
     clearMessage: (state) => {
@@ -163,6 +176,9 @@ export const HomeReducer = createSlice({
         state.reviews = payload.reviews;
         state.totalReview = payload.total;
         state.rating_review = payload.rating_review;
+      })
+      .addCase(GetBanners.fulfilled, (state, { payload }) => {
+        state.banners = payload.banners;
       });
   },
 });

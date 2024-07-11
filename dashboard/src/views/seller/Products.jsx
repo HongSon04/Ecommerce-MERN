@@ -5,6 +5,7 @@ import Pagination from "../Pagination";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducts } from "../../store/Reducers/ProductReducer";
+import { LuImageMinus } from "react-icons/lu";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,56 +73,38 @@ const Products = () => {
             <tbody>
               {products.map((product, i) => (
                 <tr key={i}>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {i + 1}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     <img
                       className="w-[45px] h-[45px]"
                       src={product?.images[0]}
                       alt=""
                     />
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {product?.name?.slice(0, 20)}...
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {product?.category}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {product?.brand}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     ${product?.price}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {product?.discount === 0
                       ? "No Discount"
                       : product?.discount}
                   </td>
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     {product?.stock}
                   </td>
 
-                  <td
-                    className="px-4 py-1 font-medium whitespace-nowrap"
-                  >
+                  <td className="px-4 py-1 font-medium whitespace-nowrap">
                     <div className="flex items-center justify-start gap-4">
                       <Link
                         to={`/seller/dashboard/edit-product/${product?._id}`}
@@ -129,6 +112,13 @@ const Products = () => {
                       >
                         {" "}
                         <FaEdit />{" "}
+                      </Link>
+                      <Link
+                        to={`/seller/dashboard/add-banner/${product._id}`}
+                        className="p-[6px] bg-sky-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                      >
+                        {" "}
+                        <LuImageMinus />{" "}
                       </Link>
                       <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
                         {" "}

@@ -17,8 +17,11 @@ import {
 import { FaTwitter, FaHeart, FaCartShopping } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ChangeLangue from "../utils/ChangeLangue";
+import { GetCartProducts, GetWishlistProducts } from "../store/cartReducer";
 const Header = () => {
+  const dispatch = useDispatch();
   const { lang, t, changeLang } = ChangeLangue();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -50,6 +53,13 @@ const Header = () => {
       navigate("/login");
     }
   };
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(GetCartProducts(userInfo.id));
+      dispatch(GetWishlistProducts(userInfo.id));
+    }
+    console.log("userInfo", userInfo);
+  }, [userInfo, dispatch]);
 
   return (
     <div className="w-full bg-white">

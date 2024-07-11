@@ -182,6 +182,7 @@ export const CartReducer = createSlice({
         state.loader = false;
         state.successMessage = payload.message;
         state.wishlist_products = payload.wishlist_products;
+        state.wishlist_count = payload.wishlist_products.length;
       })
       .addCase(RemoveWishlist.fulfilled, (state, { payload }) => {
         state.loader = false;

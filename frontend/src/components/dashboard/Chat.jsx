@@ -13,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import { socket } from "../../utils/utils";
 import ChangeLangue from "../../utils/ChangeLangue";
+import { FaList } from "react-icons/fa";
 const Chat = () => {
   const { t } = ChangeLangue();
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Chat = () => {
   const [text, setText] = useState("");
   const [receverMessage, setReceverMessage] = useState("");
   const [activeSeller, setActiveSeller] = useState([]);
+  const [show, setShow] = useState(false);
   const send = (e) => {
     e.preventDefault();
     if (text) {
@@ -82,8 +84,12 @@ const Chat = () => {
   }, [fd_messages]);
   return (
     <div className="p-3 bg-white rounded-md">
-      <div className="flex w-full">
-        <div className="w-[230px]">
+      <div className="relative flex w-full">
+        <div
+          className={`w-[230px] md-lg:absolute bg-white md-lg:h-full ${
+            show ? "-left-0" : "-left-[350px]"
+          }`}
+        >
           <div className="flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]">
             <span>
               <AiOutlineMessage />
@@ -113,21 +119,30 @@ const Chat = () => {
             ))}
           </div>
         </div>
-        <div className="w-[calc(100%-230px)]">
+        <div className="w-[calc(100%-230px)] md-lg:w-full">
           {currentFd ? (
             <div className="w-full h-full">
-              <div className="flex justify-start gap-3 items-center text-slate-600 text-xl h-[50px]">
-                <div className="w-[30px] h-[30px] rounded-full relative">
-                  {activeSeller.some(
-                    (seller) => seller.sellerId === currentFd.fdId
-                  ) ? (
-                    <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
-                  ) : (
-                    <div className="w-[10px] h-[10px] rounded-full bg-red-500 absolute right-0 bottom-0"></div>
-                  )}
-                  <img src={currentFd.image} alt="" />
+              <div className="flex justify-between gap-3 items-center text-slate-600 text-xl h-[50px]">
+                <div className="flex gap-2">
+                  <div className="w-[30px] h-[30px] rounded-full relative">
+                    {activeSeller.some(
+                      (seller) => seller.sellerId === currentFd.fdId
+                    ) ? (
+                      <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                    ) : (
+                      <div className="w-[10px] h-[10px] rounded-full bg-red-500 absolute right-0 bottom-0"></div>
+                    )}
+                    <img src={currentFd.image} alt="" />
+                  </div>
+                  <span>{currentFd.name}</span>
                 </div>
-                <span>{currentFd.name}</span>
+
+                <div
+                  onClick={() => setShow(!show)}
+                  className="w-[35px] h-[35px] hidden md-lg:flex cursor-pointer rounded-sm justify-center items-center bg-sky-500 text-white"
+                >
+                  <FaList />
+                </div>
               </div>
               <div className="h-[400px] w-full bg-slate-100 p-3 rounded-md">
                 <div className="flex flex-col w-full h-full gap-3 overflow-y-auto">
@@ -202,7 +217,10 @@ const Chat = () => {
               </form>
             </div>
           ) : (
-            <div className="flex items-center justify-center w-full h-full text-lg ont-bold text-slate-600">
+            <div
+              onClick={() => setShow(true)}
+              className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600"
+            >
               <span>{t("dashboard.select-seller")}</span>
             </div>
           )}
